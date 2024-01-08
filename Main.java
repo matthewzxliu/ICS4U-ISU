@@ -13,6 +13,10 @@ public class Main extends JPanel implements MouseListener
     JFrame frame;
     JPanel panel;
 
+    static int xPos;
+    static int yPos;
+    static int gameState = 0;
+
     public Main() {
         frame = new JFrame("BomberMan");
         frame.setPreferredSize(new Dimension(1080, 600));
@@ -33,7 +37,22 @@ public class Main extends JPanel implements MouseListener
      }
 
     public void mousePressed(MouseEvent e) {
-        //
+        xPos = e.getX();
+		yPos = e.getY();
+
+        if(gameState == 0)
+		{
+			if(xPos >= 150 && xPos <= 350 && yPos >= 375 && yPos <= 425)
+			{
+				gameState = 1;
+				repaint();
+			}
+		}
+		else if(gameState == 1)
+		{
+			repaint();
+		}
+		repaint(); // This calls the paintComponent method
 	}
 	
 	public void mouseClicked(MouseEvent e) {		
