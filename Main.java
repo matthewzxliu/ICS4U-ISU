@@ -8,7 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.*;
 
-public class Main extends JPanel
+public class Main extends JPanel implements MouseListener
 {
     JFrame frame;
     JPanel panel;
@@ -31,6 +31,19 @@ public class Main extends JPanel
         g.setColor(new Color(255, 0, 0));
         g.drawRect(50, 50, 100, 50);
      }
+
+    public void mousePressed(MouseEvent e) {
+        //
+	}
+	
+	public void mouseClicked(MouseEvent e) {		
+	}
+	public void mouseReleased(MouseEvent e) {		
+    }
+	public void mouseEntered(MouseEvent e) {		
+	}
+	public void mouseExited(MouseEvent e) {		
+	}
 
     public static void main(String[] args) {
         new Main();
