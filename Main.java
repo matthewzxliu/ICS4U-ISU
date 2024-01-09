@@ -57,6 +57,19 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		{
 			super.paintComponent(g);
 		}
+        else if(gameState == 2)
+        {
+            super.paintComponent(g);
+        }
+        else if(gameState == 3)
+        {
+            super.paintComponent(g);
+            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+        }
+        else if(gameState == 4)
+        {
+            super.paintComponent(g);
+        }
 	}
 
     public void mousePressed(MouseEvent e) {
@@ -73,18 +86,19 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			
 			else if(xPos >= 410 && xPos <= 670 && yPos >= 400 && yPos <= 480)
 			{
-				gameState = 1;
+				gameState = 2;
 				repaint();
 			}
 			
 			else if(xPos >= 410 && xPos <= 570 && yPos >= 490 && yPos <= 570)
 			{
-				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                gameState = 3;
+                repaint();
 			}
 			
 			else if(xPos >= 580 && xPos <= 670 && yPos >= 490 && yPos <= 570)
 			{
-				gameState = 1;
+				gameState = 4;
 				repaint();
 			}
 		}
