@@ -56,6 +56,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		if(gameState == 1)
 		{
 			super.paintComponent(g);
+            g.setColor(new Color(0, 0, 0));
+            for(int i = 0; i < 1080; i += 72)
+            {
+                g.drawRect(i, 0, 72, 72);
+                g.drawRect(i, 528, 72, 72);
+            }
 		}
         else if(gameState == 2)
         {
