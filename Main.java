@@ -11,7 +11,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class Main extends JPanel implements MouseListener, KeyListener
+public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 {
 
     static JFrame frame;
