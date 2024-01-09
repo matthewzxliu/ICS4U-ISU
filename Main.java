@@ -22,7 +22,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 	public Main() throws IOException
 	{
-		setPreferredSize(new Dimension(1080, 600));
+		setPreferredSize(new Dimension(600, 520));
 		setBackground(new Color(252, 177, 3));
 
         setFocusable(true);
@@ -37,6 +37,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	{
 		super.paintComponent(g);
 
+        /*
 		// Play
 		g.setColor(new Color(160, 50, 168));
 		g.fillRect(410, 310, 260, 80);
@@ -52,16 +53,35 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		// Settings
 		g.setColor(new Color(160, 50, 168));
 		g.fillRect(580, 490, 90, 80);
+		*/
+
+        // Play
+		g.setColor(new Color(160, 50, 168));
+		g.fillRect(205, 270, 170, 50);
 		
+		// About
+		g.setColor(new Color(160, 50, 168));
+		g.fillRect(205, 330, 170, 50);
+		
+		// Exit
+		g.setColor(new Color(160, 50, 168));
+		g.fillRect(205, 390, 110, 50);
+		
+		// Settings
+		g.setColor(new Color(160, 50, 168));
+		g.fillRect(325, 390, 50, 50);
+
 		if(gameState == 1)
 		{
 			super.paintComponent(g);
             g.setColor(new Color(0, 0, 0));
-            for(int i = 0; i < 1080; i += 72)
-            {
-                g.drawRect(i, 0, 72, 72);
-                g.drawRect(i, 528, 72, 72);
-            }
+			for(int i = 0; i < 600; i += 40)
+			{
+				for(int j = 0; j < 520; j += 40)
+				{
+					g.drawRect(i, j, 40, 40);
+				}
+			}
 		}
         else if(gameState == 2)
         {
@@ -84,25 +104,25 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		
 		if(gameState == 0)
 		{
-			if(xPos >= 410 && xPos <= 670 && yPos >= 310 && yPos <= 390)
+			if(xPos >= 205 && xPos <= 375 && yPos >= 270 && yPos <= 320)
 			{
 				gameState = 1;
 				repaint();
 			}
 			
-			else if(xPos >= 410 && xPos <= 670 && yPos >= 400 && yPos <= 480)
+			else if(xPos >= 205 && xPos <= 375 && yPos >= 330 && yPos <= 380)
 			{
 				gameState = 2;
 				repaint();
 			}
 			
-			else if(xPos >= 410 && xPos <= 570 && yPos >= 490 && yPos <= 570)
+			else if(xPos >= 205 && xPos <= 315 && yPos >= 390 && yPos <= 440)
 			{
                 gameState = 3;
                 repaint();
 			}
 			
-			else if(xPos >= 580 && xPos <= 670 && yPos >= 490 && yPos <= 570)
+			else if(xPos >= 325 && xPos <= 375 && yPos >= 390 && yPos <= 440)
 			{
 				gameState = 4;
 				repaint();
