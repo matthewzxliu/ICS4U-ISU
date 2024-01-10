@@ -23,7 +23,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	static int gameState = 0;
 
 	static String[][] map = new String[13][15];
-	
+
     public static BufferedImage player;
 
 	public Main() throws IOException
@@ -93,7 +93,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			}
 
 			g.setColor(new Color(255, 0, 0));
-			g.fillOval(xPosPlayer, yPosPlayer, 20, 20);
+			g.fillOval(xPosPlayer, yPosPlayer, 25, 25);
 		}
         else if(gameState == 2)
         {
