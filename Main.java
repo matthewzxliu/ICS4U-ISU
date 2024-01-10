@@ -14,11 +14,16 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 {
 
     static JFrame frame;
+
 	static int xPos, yPos;
 	static int xPosPlayer = 40, yPosPlayer = 40;
-	static int gameState = 0;
 	static boolean up, left, down, right;
+	static int vel = 5;
+
+	static int gameState = 0;
+
 	static String[][] map = new String[13][15];
+	
     public static BufferedImage player;
 
 	public Main() throws IOException
@@ -145,35 +150,81 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 	public void keyPressed(KeyEvent e)
 	{
-		if(e.getKeyChar() == 'w')
+		int key = e.getKeyCode();
+
+		if(key == KeyEvent.VK_A)
 		{
-			yPosPlayer -= 5;
+			left = true;
+			right = false;
 		}
-		else if(e.getKeyChar() == 'a')
+		else if(key == KeyEvent.VK_D)
 		{
-			xPosPlayer -= 5;
+			right = true;
+			left = false;
 		}
-		else if(e.getKeyChar() == 's')
+		else if(key == KeyEvent.VK_W)
 		{
-			yPosPlayer += 5;
+			up = true;
+			down = false;
 		}
-		else if(e.getKeyChar() == 'd')
+		else if(key == KeyEvent.VK_S)
 		{
-			xPosPlayer += 5;
+			down = true;
+			up = false;
 		}
-		else if(e.getKeyChar() == ' ')
+	}
+
+	public void keyReleased(KeyEvent e)
+	{
+		int key = e.getKeyCode();
+
+		if(key == KeyEvent.VK_A)
 		{
-			bomb = true;
+			left = false;
 		}
+		else if(key == KeyEvent.VK_D)
+		{
+			right = false;
+		}
+		else if(key == KeyEvent.VK_W)
+		{
+			up = false;
+		}
+		else if(key == KeyEvent.VK_S)
+		{
+			down = false;
+		}
+	}
+
+	public void move()
+	{
+		if(left)
+			xPosPlayer -= vel;
+		else if(right)
+			xPosPlayer += vel;
+		if(up)
+			yPosPlayer -= vel;
+		else if(down)
+			yPosPlayer += vel;
+	}
+
+	public void run() {
+        while(true) {
+			move();
+            repaint();
+            try {
+                Thread.sleep(17);
+            } catch(Exception e) {}
+        }
     }
 
-	static boolean bomb = false;
     public static void main(String[] args) throws IOException {
         frame = new JFrame("Bomberman");
         Main myPanel = new Main();
         frame.add(myPanel);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
         frame.pack();
 		frame.setVisible(true);
      
@@ -215,15 +266,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         player = ImageIO.read(new File("boy_down_1.png"));
     }
 
-    public void run() {
-        while(true) {
-            repaint();
-            try {
-                Thread.sleep(17);
-            } catch(Exception e) {}
-        }
-    }
-
 
 
 
@@ -249,7 +291,5 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     public void mouseExited(MouseEvent e) {		
     }
     public void keyTyped(KeyEvent e) {
-    }
-    public void keyReleased(KeyEvent e) {
     }
 }
