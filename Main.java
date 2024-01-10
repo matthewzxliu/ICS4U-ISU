@@ -1,14 +1,15 @@
 import java.util.*;
+import java.io.*;
+// import java.io.BufferedReader;
+// import java.io.File;
+// import java.io.FileNotFoundException;
+// import java.io.FileReader;
+// import java.io.IOException;
 import java.awt.*;
 import java.awt.image.*;
 import java.awt.event.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.imageio.ImageIO;
 
 public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 {
@@ -87,6 +88,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 				{
 					if(map[j/40][i/40].equals("x"))
 					{
+						g.setColor(new Color(0, 0, 0));
+						g.fillRect(i, j, 40, 40);
+					}
+					else if(map[j/40][i/40].equals("o"))
+					{
+						g.setColor(new Color(0, 255, 0));
 						g.fillRect(i, j, 40, 40);
 					}
 				}
@@ -233,7 +240,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			// Read Maps
 			BufferedReader br = new BufferedReader(new FileReader("map.txt"));
 
-			int mapNumber = (int)(Math.random()*(3-1+1)) + 1;
+			int mapNumber = (int)(Math.random()*(4-1+1)) + 1;
 
 			int end = 13 * (mapNumber - 1);
 			for(int i = 0; i < end; i++)

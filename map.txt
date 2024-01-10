@@ -37,3 +37,16 @@ x-x---x-x---x-x
 x-x---x-x---x-x
 x-------------x
 xxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxx
+x--ooooooooooox
+x-xoooxoxoooxox
+xoxoooxoxoooxox
+xoxoooxoxoooxox
+xooooooooooooox
+xoxxoxxoxxoxxox
+xooooooooooooox
+xoxoooxoxoooxox
+xoxoooxoxoooxox
+xoxoooxoxoooxox
+xooooooooooooox
+xxxxxxxxxxxxxxx
