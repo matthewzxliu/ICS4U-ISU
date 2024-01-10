@@ -205,13 +205,13 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 	public void move()
 	{
-		if(left)
+		if(left && xPosPlayer > 40)
 			xPosPlayer -= vel;
-		else if(right)
+		else if(right && xPosPlayer < 535)
 			xPosPlayer += vel;
-		if(up)
+		if(up && yPosPlayer > 40)
 			yPosPlayer -= vel;
-		else if(down)
+		else if(down && yPosPlayer < 455)
 			yPosPlayer += vel;
 	}
 
