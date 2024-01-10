@@ -18,6 +18,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 	static int xPos, yPos;
 	static int xPosPlayer = 40, yPosPlayer = 40;
+	// static int xPosEnemy = 535, yPosEnemy = 455;
 	static boolean up, left, down, right;
 	static int vel = 5;
 
@@ -101,6 +102,27 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 			g.setColor(new Color(255, 0, 0));
 			g.fillOval(xPosPlayer, yPosPlayer, 25, 25);
+
+
+
+			// g.setColor(new Color(0, 0, 255));
+			// g.fillOval(xPosEnemy, yPosEnemy, 25, 25);
+			// if(xPosEnemy >= xPosPlayer)
+			// {
+			// 	xPosEnemy -= 2;
+			// }
+			// else if(xPosEnemy <= xPosPlayer)
+			// {
+			// 	xPosEnemy += 2;
+			// }
+			// if(yPosEnemy >= yPosPlayer)
+			// {
+			// 	yPosEnemy -= 2;
+			// }
+			// else if(yPosEnemy <= yPosPlayer)
+			// {
+			// 	yPosEnemy += 2;
+			// }
 		}
         else if(gameState == 2)
         {
@@ -178,6 +200,10 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		{
 			down = true;
 			up = false;
+		}
+		else if(key == KeyEvent.VK_CONTROL)
+		{
+			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 		}
 	}
 
