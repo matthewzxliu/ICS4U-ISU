@@ -147,26 +147,18 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	{
 		if(e.getKeyChar() == 'w')
 		{
-			up = true;
-			down = false;
 			yPosPlayer -= 5;
 		}
 		else if(e.getKeyChar() == 'a')
 		{
-			left = true;
-			right = false;
 			xPosPlayer -= 5;
 		}
 		else if(e.getKeyChar() == 's')
 		{
-			down = true;
-			up = false;
 			yPosPlayer += 5;
 		}
 		else if(e.getKeyChar() == 'd')
 		{
-			right = true;
-			left = false;
 			xPosPlayer += 5;
 		}
 		else if(e.getKeyChar() == ' ')
