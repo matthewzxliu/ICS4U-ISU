@@ -115,18 +115,13 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			// }
 			// else if(left == true)
 			// {
-
 			// }
 			// else if(right == true)
 			// {
-
 			// }
 			// else if(up == true)
 			// {
-
 			// }
-
-
 
 			// g.setColor(new Color(0, 0, 255));
 			// g.fillOval(xPosEnemy, yPosEnemy, 25, 25);
