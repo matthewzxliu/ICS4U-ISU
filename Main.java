@@ -1,5 +1,6 @@
 import java.util.*;
 import java.io.*;
+import java.nio.Buffer;
 // import java.io.BufferedReader;
 // import java.io.File;
 // import java.io.FileNotFoundException;
@@ -27,6 +28,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	static String[][] map = new String[13][15];
 
     public static BufferedImage player;
+
+	static BufferedImage bg;
 
 	public Main() throws IOException
 	{
@@ -92,10 +95,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 						g.setColor(new Color(0, 0, 0));
 						g.fillRect(i, j, 40, 40);
 					}
-					else if(map[j/40][i/40].equals("o"))
+					else if(map[j/40][i/40].equals("-"))
 					{
-						g.setColor(new Color(0, 255, 0));
-						g.fillRect(i, j, 40, 40);
+						// g.setColor(new Color(0, 255, 0));
+						// g.fillRect(i, j, 40, 40);
+						g.drawImage(bg, i, j, null);
 					}
 				}
 			}
@@ -284,6 +288,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 				}
 			}
 			br.close();
+
+			bg = ImageIO.read(new File("wall.png"));
 		}
 		catch(IOException e)
 		{
@@ -299,7 +305,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		// 	System.out.println();
 		// }
 
-        player = ImageIO.read(new File("boy_down_1.png"));
+        player = ImageIO.read(new File("wall.png"));
     }
 
 
