@@ -1,11 +1,6 @@
 import java.util.*;
 import java.io.*;
 import java.nio.Buffer;
-// import java.io.BufferedReader;
-// import java.io.File;
-// import java.io.FileNotFoundException;
-// import java.io.FileReader;
-// import java.io.IOException;
 import java.awt.*;
 import java.awt.image.*;
 import java.awt.event.*;
@@ -30,6 +25,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     public static BufferedImage player;
 
 	static BufferedImage wallImg;
+	static BufferedImage backgroundImg;
 	static BufferedImage[] characterSprites;
 
 	public Main() throws IOException
@@ -68,25 +64,26 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		*/
 
         // Play
-		g.setColor(new Color(160, 50, 168));
-		g.fillRect(205, 270, 170, 50);
+		// g.setColor(new Color(160, 50, 168));
+		// g.fillRect(205, 270, 170, 50);
 		
-		// About
-		g.setColor(new Color(160, 50, 168));
-		g.fillRect(205, 330, 170, 50);
+		// // About
+		// g.setColor(new Color(160, 50, 168));
+		// g.fillRect(205, 330, 170, 50);
 		
-		// Exit
-		g.setColor(new Color(160, 50, 168));
-		g.fillRect(205, 390, 110, 50);
+		// // Exit
+		// g.setColor(new Color(160, 50, 168));
+		// g.fillRect(205, 390, 110, 50);
 		
-		// Settings
-		g.setColor(new Color(160, 50, 168));
-		g.fillRect(325, 390, 50, 50);
+		// // Settings
+		// g.setColor(new Color(160, 50, 168));
+		// g.fillRect(325, 390, 50, 50);
+
+		g.drawImage(backgroundImg, 0, 0, null);
 
 		if(gameState == 1)
 		{
 			super.paintComponent(g);
-            g.setColor(new Color(0, 0, 0));
 			for(int i = 0; i < 600; i += 40)
 			{
 				for(int j = 0; j < 520; j += 40)
@@ -98,8 +95,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 					}
 					else if(map[j/40][i/40].equals("-"))
 					{
-						// g.setColor(new Color(0, 255, 0));
-						// g.fillRect(i, j, 40, 40);
 						g.drawImage(wallImg, i, j, null);
 					}
 				}
@@ -166,25 +161,21 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			if(xPos >= 205 && xPos <= 375 && yPos >= 270 && yPos <= 320)
 			{
 				gameState = 1;
-				repaint();
 			}
 			
 			else if(xPos >= 205 && xPos <= 375 && yPos >= 330 && yPos <= 380)
 			{
 				gameState = 2;
-				repaint();
 			}
 			
 			else if(xPos >= 205 && xPos <= 315 && yPos >= 390 && yPos <= 440)
 			{
                 gameState = 3;
-                repaint();
 			}
 			
 			else if(xPos >= 325 && xPos <= 375 && yPos >= 390 && yPos <= 440)
 			{
 				gameState = 4;
-				repaint();
 			}
 		}
 
@@ -192,6 +183,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		{
 			repaint();
 		}
+
 		repaint();
 	}
 
@@ -219,10 +211,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			down = true;
 			up = false;
 		}
-		else if(key == KeyEvent.VK_CONTROL)
-		{
-			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-		}
 	}
 
 	public void keyReleased(KeyEvent e)
@@ -230,21 +218,13 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		int key = e.getKeyCode();
 
 		if(key == KeyEvent.VK_A)
-		{
 			left = false;
-		}
 		else if(key == KeyEvent.VK_D)
-		{
 			right = false;
-		}
 		else if(key == KeyEvent.VK_W)
-		{
 			up = false;
-		}
 		else if(key == KeyEvent.VK_S)
-		{
 			down = false;
-		}
 	}
 
 	public void move()
@@ -311,16 +291,17 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		try
 		{
 			wallImg = ImageIO.read(new File("Images/wall.png"));
+			backgroundImg = ImageIO.read(new File("Images/Background.png"));
 
 			characterSprites = new BufferedImage[10];
-			characterSprites[0] = ImageIO.read(new File("boy_down_1.png"));
-			characterSprites[1] = ImageIO.read(new File("boy_down_2.png"));
-			characterSprites[2] = ImageIO.read(new File("boy_left_1.png"));
-			characterSprites[3] = ImageIO.read(new File("boy_left_2.png"));
-			characterSprites[4] = ImageIO.read(new File("boy_right_1.png"));
-			characterSprites[5] = ImageIO.read(new File("boy_right_2.png"));
-			characterSprites[6] = ImageIO.read(new File("boy_up_1.png"));
-			characterSprites[7] = ImageIO.read(new File("boy_up_2.png"));
+			characterSprites[0] = ImageIO.read(new File("Images/boy_down_1.png"));
+			characterSprites[1] = ImageIO.read(new File("Images/boy_down_2.png"));
+			characterSprites[2] = ImageIO.read(new File("Images/boy_left_1.png"));
+			characterSprites[3] = ImageIO.read(new File("Images/boy_left_2.png"));
+			characterSprites[4] = ImageIO.read(new File("Images/boy_right_1.png"));
+			characterSprites[5] = ImageIO.read(new File("Images/boy_right_2.png"));
+			characterSprites[6] = ImageIO.read(new File("Images/boy_up_1.png"));
+			characterSprites[7] = ImageIO.read(new File("Images/boy_up_2.png"));
 		}
 		catch(IOException e)
 		{
@@ -335,8 +316,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		// 	}
 		// 	System.out.println();
 		// }
-
-        // player = ImageIO.read(new File("wall.png"));
     }
 
 
