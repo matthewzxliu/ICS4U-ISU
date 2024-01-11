@@ -108,6 +108,24 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			g.setColor(new Color(255, 0, 0));
 			g.fillOval(xPosPlayer, yPosPlayer, 25, 25);
 
+			// if(down == true)
+			// {
+			// 	g.drawImage(characterSprites[0], xPosPlayer, yPosPlayer, null);
+			// 	g.drawImage(characterSprites[1], xPosPlayer, yPosPlayer, null);
+			// }
+			// else if(left == true)
+			// {
+
+			// }
+			// else if(right == true)
+			// {
+
+			// }
+			// else if(up == true)
+			// {
+
+			// }
+
 
 
 			// g.setColor(new Color(0, 0, 255));
@@ -298,7 +316,16 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		try
 		{
 			wallImg = ImageIO.read(new File("wall.png"));
+
 			characterSprites = new BufferedImage[10];
+			characterSprites[0] = ImageIO.read(new File("boy_down_1.png"));
+			characterSprites[1] = ImageIO.read(new File("boy_down_2.png"));
+			characterSprites[2] = ImageIO.read(new File("boy_left_1.png"));
+			characterSprites[3] = ImageIO.read(new File("boy_left_2.png"));
+			characterSprites[4] = ImageIO.read(new File("boy_right_1.png"));
+			characterSprites[5] = ImageIO.read(new File("boy_right_2.png"));
+			characterSprites[6] = ImageIO.read(new File("boy_up_1.png"));
+			characterSprites[7] = ImageIO.read(new File("boy_up_2.png"));
 		}
 		catch(IOException e)
 		{
