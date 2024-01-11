@@ -315,7 +315,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 		try
 		{
-			wallImg = ImageIO.read(new File("wall.png"));
+			wallImg = ImageIO.read(new File("Images/wall.png"));
 
 			characterSprites = new BufferedImage[10];
 			characterSprites[0] = ImageIO.read(new File("boy_down_1.png"));
