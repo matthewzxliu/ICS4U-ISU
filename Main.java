@@ -63,23 +63,25 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		g.fillRect(580, 490, 90, 80);
 		*/
 
-        // Play
-		// g.setColor(new Color(160, 50, 168));
-		// g.fillRect(205, 270, 170, 50);
-		
-		// // About
-		// g.setColor(new Color(160, 50, 168));
-		// g.fillRect(205, 330, 170, 50);
-		
-		// // Exit
-		// g.setColor(new Color(160, 50, 168));
-		// g.fillRect(205, 390, 110, 50);
-		
-		// // Settings
-		// g.setColor(new Color(160, 50, 168));
-		// g.fillRect(325, 390, 50, 50);
-
 		g.drawImage(backgroundImg, 0, 0, null);
+
+		/*
+		// Play
+		g.setColor(new Color(160, 50, 168));
+		g.fillRect(214, 290, 177, 60);
+		
+		// Highscore
+		g.setColor(new Color(160, 50, 168));
+		g.fillRect(214, 369, 179, 48);
+		
+		// Rules
+		g.setColor(new Color(160, 50, 168));
+		g.fillRect(214, 438, 117, 40);
+		
+		// Exit
+		g.setColor(new Color(160, 50, 168));
+		g.fillRect(339, 438, 55, 40);
+		*/
 
 		if(gameState == 1)
 		{
@@ -144,11 +146,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         else if(gameState == 3)
         {
             super.paintComponent(g);
-            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
         }
         else if(gameState == 4)
         {
             super.paintComponent(g);
+			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
         }
 	}
 
@@ -158,22 +160,22 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		
 		if(gameState == 0)
 		{
-			if(xPos >= 205 && xPos <= 375 && yPos >= 270 && yPos <= 320)
+			if(xPos >= 214 && xPos <= 391 && yPos >= 290 && yPos <= 350)
 			{
 				gameState = 1;
 			}
-			
-			else if(xPos >= 205 && xPos <= 375 && yPos >= 330 && yPos <= 380)
+
+			else if(xPos >= 214 && xPos <= 393 && yPos >= 369 && yPos <= 417)
 			{
 				gameState = 2;
 			}
-			
-			else if(xPos >= 205 && xPos <= 315 && yPos >= 390 && yPos <= 440)
+
+			else if(xPos >= 214 && xPos <= 331 && yPos >= 438 && yPos <= 478)
 			{
                 gameState = 3;
 			}
-			
-			else if(xPos >= 325 && xPos <= 375 && yPos >= 390 && yPos <= 440)
+
+			else if(xPos >= 339 && xPos <= 394 && yPos >= 438 && yPos <= 478)
 			{
 				gameState = 4;
 			}
