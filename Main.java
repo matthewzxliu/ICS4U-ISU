@@ -195,6 +195,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		{
 			repaint();
 		}
+		
 		repaint();
 	}
 
