@@ -30,6 +30,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     public static BufferedImage player;
 
 	static BufferedImage wallImg;
+	static BufferedImage[] characterSprites;
 
 	public Main() throws IOException
 	{
@@ -297,6 +298,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		try
 		{
 			wallImg = ImageIO.read(new File("wall.png"));
+			characterSprites = new BufferedImage[10];
 		}
 		catch(IOException e)
 		{
