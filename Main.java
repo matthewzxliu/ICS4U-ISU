@@ -89,7 +89,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		if(gameState == 1)
 		{
 			super.paintComponent(g);
-            g.setColor(new Color(0, 0, 0));
 			for(int i = 0; i < 600; i += 40)
 			{
 				for(int j = 0; j < 520; j += 40)
@@ -101,8 +100,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 					}
 					else if(map[j/40][i/40].equals("-"))
 					{
-						// g.setColor(new Color(0, 255, 0));
-						// g.fillRect(i, j, 40, 40);
 						g.drawImage(wallImg, i, j, null);
 					}
 				}
@@ -195,7 +192,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		{
 			repaint();
 		}
-		
+
 		repaint();
 	}
 
@@ -223,10 +220,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			down = true;
 			up = false;
 		}
-		else if(key == KeyEvent.VK_CONTROL)
-		{
-			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-		}
 	}
 
 	public void keyReleased(KeyEvent e)
@@ -234,21 +227,13 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		int key = e.getKeyCode();
 
 		if(key == KeyEvent.VK_A)
-		{
 			left = false;
-		}
 		else if(key == KeyEvent.VK_D)
-		{
 			right = false;
-		}
 		else if(key == KeyEvent.VK_W)
-		{
 			up = false;
-		}
 		else if(key == KeyEvent.VK_S)
-		{
 			down = false;
-		}
 	}
 
 	public void move()
