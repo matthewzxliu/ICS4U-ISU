@@ -166,25 +166,21 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			if(xPos >= 205 && xPos <= 375 && yPos >= 270 && yPos <= 320)
 			{
 				gameState = 1;
-				repaint();
 			}
 			
 			else if(xPos >= 205 && xPos <= 375 && yPos >= 330 && yPos <= 380)
 			{
 				gameState = 2;
-				repaint();
 			}
 			
 			else if(xPos >= 205 && xPos <= 315 && yPos >= 390 && yPos <= 440)
 			{
                 gameState = 3;
-                repaint();
 			}
 			
 			else if(xPos >= 325 && xPos <= 375 && yPos >= 390 && yPos <= 440)
 			{
 				gameState = 4;
-				repaint();
 			}
 		}
 
