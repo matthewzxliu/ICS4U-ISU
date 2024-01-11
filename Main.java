@@ -26,8 +26,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	static int gameState = 0;
 
 	static String[][] map = new String[13][15];
-	ArrayList<Integer> wallX = new ArrayList<Integer>();
-	ArrayList<Integer> wallY = new ArrayList<Integer>();
 
     public static BufferedImage player;
 
@@ -103,9 +101,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 						// g.setColor(new Color(0, 255, 0));
 						// g.fillRect(i, j, 40, 40);
 						g.drawImage(wallImg, i, j, null);
-
-						wallX.add(i);
-						wallY.add(j);
 					}
 				}
 			}
