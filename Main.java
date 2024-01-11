@@ -339,8 +339,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		// 	}
 		// 	System.out.println();
 		// }
-
-        // player = ImageIO.read(new File("wall.png"));
     }
 
 
