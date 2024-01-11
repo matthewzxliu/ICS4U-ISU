@@ -313,14 +313,14 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			wallImg = ImageIO.read(new File("Images/wall.png"));
 
 			characterSprites = new BufferedImage[10];
-			characterSprites[0] = ImageIO.read(new File("boy_down_1.png"));
-			characterSprites[1] = ImageIO.read(new File("boy_down_2.png"));
-			characterSprites[2] = ImageIO.read(new File("boy_left_1.png"));
-			characterSprites[3] = ImageIO.read(new File("boy_left_2.png"));
-			characterSprites[4] = ImageIO.read(new File("boy_right_1.png"));
-			characterSprites[5] = ImageIO.read(new File("boy_right_2.png"));
-			characterSprites[6] = ImageIO.read(new File("boy_up_1.png"));
-			characterSprites[7] = ImageIO.read(new File("boy_up_2.png"));
+			characterSprites[0] = ImageIO.read(new File("Images/boy_down_1.png"));
+			characterSprites[1] = ImageIO.read(new File("Images/boy_down_2.png"));
+			characterSprites[2] = ImageIO.read(new File("Images/boy_left_1.png"));
+			characterSprites[3] = ImageIO.read(new File("Images/boy_left_2.png"));
+			characterSprites[4] = ImageIO.read(new File("Images/boy_right_1.png"));
+			characterSprites[5] = ImageIO.read(new File("Images/boy_right_2.png"));
+			characterSprites[6] = ImageIO.read(new File("Images/boy_up_1.png"));
+			characterSprites[7] = ImageIO.read(new File("Images/boy_up_2.png"));
 		}
 		catch(IOException e)
 		{
