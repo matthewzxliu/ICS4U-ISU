@@ -25,6 +25,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     public static BufferedImage player;
 
 	static BufferedImage wallImg;
+	static BufferedImage unbreakableWall;
 	static BufferedImage backgroundImg;
 	static BufferedImage[] characterSprites;
 
@@ -98,6 +99,10 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 					else if(map[j/40][i/40].equals("-"))
 					{
 						g.drawImage(wallImg, i, j, null);
+					}
+					else if(map[j/40][i/40].equals("1"))
+					{
+						g.drawImage(unbreakableWall, i, j, null);
 					}
 				}
 			}
@@ -292,8 +297,9 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 		try
 		{
-			wallImg = ImageIO.read(new File("Images/wall.png"));
 			backgroundImg = ImageIO.read(new File("Images/Background.png"));
+			wallImg = ImageIO.read(new File("Images/wall.png"));
+			unbreakableWall = ImageIO.read(new File("Images/unbreakable.png"));
 
 			characterSprites = new BufferedImage[10];
 			characterSprites[0] = ImageIO.read(new File("Images/boy_down_1.png"));
