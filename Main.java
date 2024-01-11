@@ -29,7 +29,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
     public static BufferedImage player;
 
-	static BufferedImage bg;
+	static BufferedImage wallImg;
 
 	public Main() throws IOException
 	{
@@ -99,7 +99,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 					{
 						// g.setColor(new Color(0, 255, 0));
 						// g.fillRect(i, j, 40, 40);
-						g.drawImage(bg, i, j, null);
+						g.drawImage(wallImg, i, j, null);
 					}
 				}
 			}
@@ -288,8 +288,15 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 				}
 			}
 			br.close();
+		}
+		catch(IOException e)
+		{
+			System.out.println("Input / Output Error");
+		}
 
-			bg = ImageIO.read(new File("wall.png"));
+		try
+		{
+			wallImg = ImageIO.read(new File("wall.png"));
 		}
 		catch(IOException e)
 		{
@@ -305,7 +312,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		// 	System.out.println();
 		// }
 
-        player = ImageIO.read(new File("wall.png"));
+        // player = ImageIO.read(new File("wall.png"));
     }
 
 
