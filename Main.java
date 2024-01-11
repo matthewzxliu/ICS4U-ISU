@@ -30,6 +30,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     public static BufferedImage player;
 
 	static BufferedImage wallImg;
+	static BufferedImage backgroundImg;
 	static BufferedImage[] characterSprites;
 
 	public Main() throws IOException
@@ -68,20 +69,22 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		*/
 
         // Play
-		g.setColor(new Color(160, 50, 168));
-		g.fillRect(205, 270, 170, 50);
+		// g.setColor(new Color(160, 50, 168));
+		// g.fillRect(205, 270, 170, 50);
 		
-		// About
-		g.setColor(new Color(160, 50, 168));
-		g.fillRect(205, 330, 170, 50);
+		// // About
+		// g.setColor(new Color(160, 50, 168));
+		// g.fillRect(205, 330, 170, 50);
 		
-		// Exit
-		g.setColor(new Color(160, 50, 168));
-		g.fillRect(205, 390, 110, 50);
+		// // Exit
+		// g.setColor(new Color(160, 50, 168));
+		// g.fillRect(205, 390, 110, 50);
 		
-		// Settings
-		g.setColor(new Color(160, 50, 168));
-		g.fillRect(325, 390, 50, 50);
+		// // Settings
+		// g.setColor(new Color(160, 50, 168));
+		// g.fillRect(325, 390, 50, 50);
+
+		g.drawImage(backgroundImg, 0, 0, null);
 
 		if(gameState == 1)
 		{
@@ -311,6 +314,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		try
 		{
 			wallImg = ImageIO.read(new File("Images/wall.png"));
+			backgroundImg = ImageIO.read(new File("Images/Background.png"));
 
 			characterSprites = new BufferedImage[10];
 			characterSprites[0] = ImageIO.read(new File("Images/boy_down_1.png"));
