@@ -29,10 +29,10 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	// IMAGES
     // public static BufferedImage player;
 	static BufferedImage wallImg;
-	static BufferedImage unbreakableWall;
+	static BufferedImage unbreakableWallImg;
 	static BufferedImage backgroundImg;
 	static BufferedImage[] characterSprites;
-	static BufferedImage player = null;
+	static BufferedImage playerImg;
 	static int spriteNum = 1;
 	static int spriteCounter = 0;
 
@@ -112,42 +112,42 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 					}
 					else if(map[j/40][i/40].equals("1"))
 					{
-						g.drawImage(unbreakableWall, i, j, null);
+						g.drawImage(unbreakableWallImg, i, j, null);
 					}
 				}
 			}
 
-			BufferedImage player = null;
+			playerImg = null;
 			if(direction.equals("down"))
 			{
 				if(spriteNum == 1)
-					player = characterSprites[0];
+					playerImg = characterSprites[0];
 				else
-					player = characterSprites[1];
+					playerImg = characterSprites[1];
 			}
 			else if(direction.equals("left"))
 			{
 				if(spriteNum == 1)
-					player = characterSprites[2];
+					playerImg = characterSprites[2];
 				else
-					player = characterSprites[3];
+					playerImg = characterSprites[3];
 			}
 			else if(direction.equals("right"))
 			{
 				if(spriteNum == 1)
-					player = characterSprites[4];
+					playerImg = characterSprites[4];
 				else
-					player = characterSprites[5];
+					playerImg = characterSprites[5];
 			}
 			else if(direction.equals("up"))
 			{
 				if(spriteNum == 1)
-					player = characterSprites[6];
+					playerImg = characterSprites[6];
 				else
-					player = characterSprites[7];
+					playerImg = characterSprites[7];
 			}
 
-			g.drawImage(player, xPosPlayer, yPosPlayer, null);
+			g.drawImage(playerImg, xPosPlayer, yPosPlayer, null);
 
 			// ENEMY TEST
 			// g.setColor(new Color(0, 0, 255));
@@ -381,7 +381,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		{
 			backgroundImg = ImageIO.read(new File("Images/Background.png"));
 			wallImg = ImageIO.read(new File("Images/wall.png"));
-			unbreakableWall = ImageIO.read(new File("Images/unbreakable.png"));
+			unbreakableWallImg = ImageIO.read(new File("Images/unbreakable.png"));
 
 			characterSprites = new BufferedImage[10];
 			characterSprites[0] = ImageIO.read(new File("Images/boy_down_1.png"));
