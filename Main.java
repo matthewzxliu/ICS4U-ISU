@@ -115,7 +115,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			g.setColor(new Color(255, 0, 0));
 			g.fillOval(xPosPlayer, yPosPlayer, 25, 25);
 
-			g.drawImage(characterSprites[0], xPosPlayer, yPosPlayer, null);
+			if(down == true)
+			{
+				g.drawImage(characterSprites[0], xPosPlayer, yPosPlayer, null);
+				g.drawImage(characterSprites[1], xPosPlayer, yPosPlayer, null);
+			}
 
 			// ENEMY TEST
 			// g.setColor(new Color(0, 0, 255));
