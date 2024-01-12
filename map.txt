@@ -37,16 +37,3 @@ x-1---1-1---1-x
 x-1---1-1---1-x
 x-------------x
 xxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxx
-x-------------x
-x-x---x-x---x-x
-x-x---x-x---x-x
-x-x---x-x---x-x
-x-------------x
-x-xx-xx-xx-xx-x
-x-------------x
-x-x---x-x---x-x
-x-x---x-x---x-x
-x-x---x-x---x-x
-x-------------x
-xxxxxxxxxxxxxxx

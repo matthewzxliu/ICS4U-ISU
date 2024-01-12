@@ -336,7 +336,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			// Read Maps
 			BufferedReader br = new BufferedReader(new FileReader("map.txt"));
 
-			int mapNumber = (int)(Math.random()*(4-1+1)) + 1;
+			int mapNumber = (int)(Math.random()*(3-1+1)) + 1;
 
 			int end = 13 * (mapNumber - 1);
 			for(int i = 0; i < end; i++)
