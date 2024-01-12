@@ -39,8 +39,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	static PowerUps slow = new PowerUps(5, 0);
 
 	static ArrayList<Bomb> bombArray = new ArrayList<Bomb>();
-	static boolean placeBomb;
-	static int bombNum = -1;
 
 	// INITIALIZE
 	public Main() throws IOException
@@ -151,12 +149,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 					playerImg = characterSprites[7];
 			}
 
-			g.drawImage(playerImg, xPosPlayer, yPosPlayer, null);
-
-			if(placeBomb)
+			for(int i = 0; i < bombArray.size(); i++)
 			{
-				bombArray.get(bombNum).draw(g);
+				bombArray.get(i).draw(g);
 			}
+			
+			g.drawImage(playerImg, xPosPlayer, yPosPlayer, null);
 
 			// ENEMY TEST
 			// g.setColor(new Color(0, 0, 255));
@@ -257,15 +255,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		{
 			Bomb bomb = new Bomb(xPosPlayer, yPosPlayer);
 			bombArray.add(bomb);
-			bombNum++;
-			placeBomb = true;
 		}
 
 		else if(key == KeyEvent.VK_CONTROL)
 		{
 			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 		}
-
 		else if(key == KeyEvent.VK_M)
 		{
 			vel += speed.getSpeedPowerUp();
