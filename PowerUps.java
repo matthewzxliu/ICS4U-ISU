@@ -15,6 +15,17 @@ public class PowerUps {
 
     public PowerUps(int playerVel, int enemyVel)
     {
+        this.playerVel = playerVel;
+        this.enemyVel = enemyVel;
+    }
 
+    public int getSpeedPowerUp()
+    {
+        return playerVel += 5;
+    }
+    
+    public int getEnemySpeed()
+    {
+        return enemyVel += 5;
     }
 }

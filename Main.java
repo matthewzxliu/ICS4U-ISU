@@ -36,6 +36,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	static int spriteNum = 1;
 	static int spriteCounter = 0;
 
+	static PowerUps speed = new PowerUps(5, 0);
+
 	// INITIALIZE
 	public Main() throws IOException
 	{
@@ -250,6 +252,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		else if(key == KeyEvent.VK_CONTROL)
 		{
 			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+		}
+
+		else if(key == KeyEvent.VK_M)
+		{
+			vel += speed.getSpeedPowerUp();
 		}
 	}
 
