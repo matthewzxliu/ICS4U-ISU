@@ -52,7 +52,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         t.start();
 	}
 
-    public void paintComponent(Graphics g)
+    public void paintComponent(Graphics g)	
 	{
 		super.paintComponent(g);
 
