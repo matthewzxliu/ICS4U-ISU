@@ -262,6 +262,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         frame.add(myPanel);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
         frame.pack();
 		frame.setVisible(true);
