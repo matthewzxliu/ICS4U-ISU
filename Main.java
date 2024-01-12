@@ -28,15 +28,19 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 	// IMAGES
     // public static BufferedImage player;
-	static BufferedImage wallImg;
-	static BufferedImage unbreakableWallImg;
-	static BufferedImage backgroundImg;
+	static BufferedImage wallImg, unbreakableWallImg;
+	static BufferedImage backgroundImg, highscoreImg, rulesImg;
 	static BufferedImage[] characterSprites;
 	static BufferedImage playerImg;
 	static int spriteNum = 1;
 	static int spriteCounter = 0;
 
 	static PowerUps speed = new PowerUps(5, 0);
+	static PowerUps slow = new PowerUps(5, 0);
+
+	static ArrayList<Bomb> bombArray = new ArrayList<Bomb>();
+	static boolean placeBomb;
+	static int bombNum = -1;
 
 	// INITIALIZE
 	public Main() throws IOException
@@ -149,6 +153,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 			g.drawImage(playerImg, xPosPlayer, yPosPlayer, null);
 
+			if(placeBomb)
+			{
+				bombArray.get(bombNum).draw(g);
+			}
+
 			// ENEMY TEST
 			// g.setColor(new Color(0, 0, 255));
 			// g.fillOval(xPosEnemy, yPosEnemy, 25, 25);
@@ -168,6 +177,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			// {
 			// 	yPosEnemy += 2;
 			// }
+
 		}
         else if(gameState == 2)
         {
@@ -243,12 +253,14 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			down = true;
 			up = false;
 		}
-
-		// FOR CONVINIENCE, DELETE WHEN DONE
 		else if(key == KeyEvent.VK_SPACE)
 		{
-			gameState = 1;
+			Bomb bomb = new Bomb(xPosPlayer, yPosPlayer);
+			bombArray.add(bomb);
+			bombNum++;
+			placeBomb = true;
 		}
+
 		else if(key == KeyEvent.VK_CONTROL)
 		{
 			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
@@ -380,6 +392,9 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		try
 		{
 			backgroundImg = ImageIO.read(new File("Images/Background.png"));
+			// highscoreImg = ImageIO.read(new File("Images/highscore.png"));
+			// rulesImg = ImageIO.read(new File("Images/rulesImg.png"));
+
 			wallImg = ImageIO.read(new File("Images/wall.png"));
 			unbreakableWallImg = ImageIO.read(new File("Images/unbreakable.png"));
 

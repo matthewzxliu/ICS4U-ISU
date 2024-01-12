@@ -21,11 +21,21 @@ public class PowerUps {
 
     public int getSpeedPowerUp()
     {
-        return playerVel += 5;
+        return playerVel += 2;
     }
     
-    public int getEnemySpeed()
+    public int removeSpeedPowerUp()
+    {
+        return playerVel -= 2;
+    }
+    
+    public int getSlowPowerUp()
     {
         return enemyVel += 5;
+    }
+
+    public int removeSlowPowerUp()
+    {
+        return enemyVel -= 2;
     }
 }
