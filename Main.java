@@ -17,8 +17,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	static int xPosPlayer = 40, yPosPlayer = 40;
 	// static int xPosEnemy = 535, yPosEnemy = 455;
 	static boolean up, left, down, right;
-	static int vel = 5;
-	static Player player = new Player(40, 40, 5);
+	static int vel = 3;
+	static String direction = "down";
 
 	// GAME STATE
 	static int gameState = 0;
@@ -32,6 +32,9 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	static BufferedImage unbreakableWall;
 	static BufferedImage backgroundImg;
 	static BufferedImage[] characterSprites;
+	static BufferedImage player = null;
+	static int spriteNum = 1;
+	static int spriteCounter = 0;
 
 	// INITIALIZE
 	public Main() throws IOException
@@ -112,14 +115,37 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 				}
 			}
 
-			g.setColor(new Color(255, 0, 0));
-			g.fillOval(xPosPlayer, yPosPlayer, 25, 25);
-
-			if(down == true)
+			BufferedImage player = null;
+			if(direction.equals("down"))
 			{
-				g.drawImage(characterSprites[0], xPosPlayer, yPosPlayer, null);
-				g.drawImage(characterSprites[1], xPosPlayer, yPosPlayer, null);
+				if(spriteNum == 1)
+					player = characterSprites[0];
+				else
+					player = characterSprites[1];
 			}
+			else if(direction.equals("left"))
+			{
+				if(spriteNum == 1)
+					player = characterSprites[2];
+				else
+					player = characterSprites[3];
+			}
+			else if(direction.equals("right"))
+			{
+				if(spriteNum == 1)
+					player = characterSprites[4];
+				else
+					player = characterSprites[5];
+			}
+			else if(direction.equals("up"))
+			{
+				if(spriteNum == 1)
+					player = characterSprites[6];
+				else
+					player = characterSprites[7];
+			}
+
+			g.drawImage(player, xPosPlayer, yPosPlayer, null);
 
 			// ENEMY TEST
 			// g.setColor(new Color(0, 0, 255));
@@ -233,14 +259,44 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 	public void move()
 	{
-		if(left && xPosPlayer > 40)
-			xPosPlayer -= vel;
-		else if(right && xPosPlayer < 535)
-			xPosPlayer += vel;
-		if(up && yPosPlayer > 40)
-			yPosPlayer -= vel;
-		else if(down && yPosPlayer < 455)
-			yPosPlayer += vel;
+		if(left || right || up || down)
+		{
+			if(left && xPosPlayer > 40)
+			{
+				xPosPlayer -= vel;
+				direction = "left";
+			}
+			else if(right && xPosPlayer < 520)
+			{
+				xPosPlayer += vel;
+				direction = "right";
+			}
+			if(up && yPosPlayer > 40)
+			{
+				yPosPlayer -= vel;
+				direction = "up";
+			}
+			else if(down && yPosPlayer < 440)
+			{
+				yPosPlayer += vel;
+				direction = "down";
+			}
+
+			spriteCounter++;
+
+			if(spriteCounter > 8)
+			{
+				if(spriteNum == 1)
+				{
+					spriteNum = 2;
+				}
+				else if(spriteNum == 2)
+				{
+					spriteNum = 1;
+				}
+				spriteCounter = 0;
+			}
+		}
 	}
 
 
