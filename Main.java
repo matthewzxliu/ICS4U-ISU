@@ -10,25 +10,31 @@ import javax.imageio.ImageIO;
 public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 {
 
+	// GRAPHICS VARIABLES
     static JFrame frame;
 
+	// CHARACTER VARIABLES
 	static int xPos, yPos;
 	static int xPosPlayer = 40, yPosPlayer = 40;
 	// static int xPosEnemy = 535, yPosEnemy = 455;
 	static boolean up, left, down, right;
 	static int vel = 5;
+	static Player player = new Player(40, 40, 5);
 
+	// GAME STATE
 	static int gameState = 0;
 
+	// MAP
 	static String[][] map = new String[13][15];
 
-    public static BufferedImage player;
-
+	// IMAGES
+    // public static BufferedImage player;
 	static BufferedImage wallImg;
 	static BufferedImage unbreakableWall;
 	static BufferedImage backgroundImg;
 	static BufferedImage[] characterSprites;
 
+	// INITIALIZE
 	public Main() throws IOException
 	{
 		setPreferredSize(new Dimension(600, 520));
@@ -46,7 +52,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	{
 		super.paintComponent(g);
 
-        /*
+        /* OLD BUTTONS
 		// Play
 		g.setColor(new Color(160, 50, 168));
 		g.fillRect(410, 310, 260, 80);
@@ -64,9 +70,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		g.fillRect(580, 490, 90, 80);
 		*/
 
-		g.drawImage(backgroundImg, 0, 0, null);
-
-		/*
+		/* BUTTON HITBOXES
 		// Play
 		g.setColor(new Color(160, 50, 168));
 		g.fillRect(214, 290, 177, 60);
@@ -83,6 +87,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		g.setColor(new Color(160, 50, 168));
 		g.fillRect(339, 438, 55, 40);
 		*/
+
+		g.drawImage(backgroundImg, 0, 0, null);
 
 		if(gameState == 1)
 		{
@@ -110,21 +116,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			g.setColor(new Color(255, 0, 0));
 			g.fillOval(xPosPlayer, yPosPlayer, 25, 25);
 
-			// if(down == true)
-			// {
-			// 	g.drawImage(characterSprites[0], xPosPlayer, yPosPlayer, null);
-			// 	g.drawImage(characterSprites[1], xPosPlayer, yPosPlayer, null);
-			// }
-			// else if(left == true)
-			// {
-			// }
-			// else if(right == true)
-			// {
-			// }
-			// else if(up == true)
-			// {
-			// }
-
+			// ENEMY TEST
 			// g.setColor(new Color(0, 0, 255));
 			// g.fillOval(xPosEnemy, yPosEnemy, 25, 25);
 			// if(xPosEnemy >= xPosPlayer)
@@ -246,6 +238,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			yPosPlayer += vel;
 	}
 
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+	// THREADING
 	public void run() {
         while(true) {
 			move();
@@ -256,17 +253,23 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        frame = new JFrame("Bomberman");
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    // MAIN METHOD
+	public static void main(String[] args) throws IOException {
+        // INITIALIZE FRAME
+		frame = new JFrame("Bomberman");
         Main myPanel = new Main();
         frame.add(myPanel);
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
         frame.pack();
 		frame.setVisible(true);
      
+		// LOADING MAPS
 		try
 		{
 			// Read Maps
@@ -296,6 +299,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			System.out.println("Input / Output Error");
 		}
 
+		// LOADING IMAGES
 		try
 		{
 			backgroundImg = ImageIO.read(new File("Images/Background.png"));
