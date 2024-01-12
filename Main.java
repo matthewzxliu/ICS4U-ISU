@@ -241,6 +241,16 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			down = true;
 			up = false;
 		}
+
+		// FOR CONVINIENCE, DELETE WHEN DONE
+		else if(key == KeyEvent.VK_SPACE)
+		{
+			gameState = 1;
+		}
+		else if(key == KeyEvent.VK_CONTROL)
+		{
+			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+		}
 	}
 
 	public void keyReleased(KeyEvent e)
@@ -325,7 +335,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         Main myPanel = new Main();
         frame.add(myPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
         frame.pack();
 		frame.setVisible(true);
