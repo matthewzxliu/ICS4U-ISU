@@ -33,7 +33,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 	// IMAGES
 	static BufferedImage wallImg, unbreakableWallImg;
-	static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg;
+	static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, bombImg;
 	static BufferedImage[] characterSprites;
 	static BufferedImage playerImg;
 	static int spriteNum = 1;
@@ -45,6 +45,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 	// BOMBS
 	static ArrayList<Bomb> bombArray = new ArrayList<Bomb>();
+	static int timer = 0;
 
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -171,8 +172,15 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			for(int i = 0; i < bombArray.size(); i++)
 			{
 				bombArray.get(i).draw(g);
+				timer++;
 			}
-			
+			// Bomb explosion
+			if(timer >= 60 && bombArray.size() >= 1)
+			{
+				bombArray.remove(0);
+				timer = 0;
+			}
+
 			// Draw the player
 			g.drawImage(playerImg, xPosPlayer, yPosPlayer, null);
 
@@ -314,7 +322,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		{
 			if(gameState == 2)
 			{
-				Bomb bomb = new Bomb(xPosPlayer, yPosPlayer);
+				Bomb bomb = new Bomb(bombImg, xPosPlayer, yPosPlayer);
 				bombArray.add(bomb);
 			}
 		}
@@ -479,6 +487,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			characterSprites[5] = ImageIO.read(new File("Images/boy_right_2.png"));
 			characterSprites[6] = ImageIO.read(new File("Images/boy_up_1.png"));
 			characterSprites[7] = ImageIO.read(new File("Images/boy_up_2.png"));
+
+			bombImg = ImageIO.read(new File("Images/bomb.png"));
 		}
 		catch(IOException e)
 		{
