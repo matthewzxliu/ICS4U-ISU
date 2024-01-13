@@ -5,6 +5,8 @@ public class Bomb {
     private int x;
     private int y;
     private int damage;
+    private int timer;
+    private boolean exploded;
 
     public Bomb(int x, int y)
     {

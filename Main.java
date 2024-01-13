@@ -14,7 +14,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 	// INPUT / OUTPUT
 	static int xPos, yPos;
-	
+
 	// CHARACTER VARIABLES
 	static int xPosPlayer = 40, yPosPlayer = 40;
 	// static int xPosEnemy = 535, yPosEnemy = 455;
@@ -31,7 +31,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	// IMAGES
     // public static BufferedImage player;
 	static BufferedImage wallImg, unbreakableWallImg;
-	static BufferedImage backgroundImg, highscoreImg, rulesImg;
+	static BufferedImage backgroundImg, highscoreImg, rulesImg, backImg;
 	static BufferedImage[] characterSprites;
 	static BufferedImage playerImg;
 	static int spriteNum = 1;
@@ -182,10 +182,13 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         else if(gameState == 2)
         {
             super.paintComponent(g);
+			g.drawImage(highscoreImg, 0, 0, null);
+			g.drawImage(backImg, 15, 15, null);
         }
         else if(gameState == 3)
         {
             super.paintComponent(g);
+			g.drawImage(backImg, 15, 15, null);
         }
         else if(gameState == 4)
         {
@@ -220,10 +223,25 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 				gameState = 4;
 			}
 		}
-
 		else if(gameState == 1)
 		{
 			repaint();
+		}
+		else if(gameState == 2)
+		{
+			repaint();
+			if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
+			{
+				gameState = 0;
+			}
+		}
+		else if(gameState == 3)
+		{
+			repaint();
+			if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
+			{
+				gameState = 0;
+			}
 		}
 
 		repaint();
@@ -389,8 +407,9 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		try
 		{
 			backgroundImg = ImageIO.read(new File("Images/Background.png"));
-			// highscoreImg = ImageIO.read(new File("Images/highscore.png"));
+			highscoreImg = ImageIO.read(new File("Images/highscore.png"));
 			// rulesImg = ImageIO.read(new File("Images/rulesImg.png"));
+			backImg = ImageIO.read(new File("Images/back.png"));
 
 			wallImg = ImageIO.read(new File("Images/wall.png"));
 			unbreakableWallImg = ImageIO.read(new File("Images/unbreakable.png"));
