@@ -12,8 +12,10 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	// GRAPHICS VARIABLES
     static JFrame frame;
 
-	// CHARACTER VARIABLES
+	// INPUT / OUTPUT
 	static int xPos, yPos;
+	
+	// CHARACTER VARIABLES
 	static int xPosPlayer = 40, yPosPlayer = 40;
 	// static int xPosEnemy = 535, yPosEnemy = 455;
 	static boolean up, left, down, right;
