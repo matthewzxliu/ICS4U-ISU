@@ -312,8 +312,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		}
 		else if(key == KeyEvent.VK_SPACE)
 		{
-			Bomb bomb = new Bomb(xPosPlayer, yPosPlayer);
-			bombArray.add(bomb);
+			if(gameState == 2)
+			{
+				Bomb bomb = new Bomb(xPosPlayer, yPosPlayer);
+				bombArray.add(bomb);
+			}
 		}
 
 		else if(key == KeyEvent.VK_CONTROL)
@@ -352,42 +355,45 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	// PLAYER MOVEMENT
 	public void move()
 	{
-		if(left || right || up || down)
+		if(gameState == 2)
 		{
-			if(left && xPosPlayer > 40)
+			if(left || right || up || down)
 			{
-				xPosPlayer -= vel;
-				direction = "left";
-			}
-			else if(right && xPosPlayer < 520)
-			{
-				xPosPlayer += vel;
-				direction = "right";
-			}
-			if(up && yPosPlayer > 40)
-			{
-				yPosPlayer -= vel;
-				direction = "up";
-			}
-			else if(down && yPosPlayer < 440)
-			{
-				yPosPlayer += vel;
-				direction = "down";
-			}
-
-			spriteCounter++;
-
-			if(spriteCounter > 8)
-			{
-				if(spriteNum == 1)
+				if(left && xPosPlayer > 40)
 				{
-					spriteNum = 2;
+					xPosPlayer -= vel;
+					direction = "left";
 				}
-				else if(spriteNum == 2)
+				else if(right && xPosPlayer < 520)
 				{
-					spriteNum = 1;
+					xPosPlayer += vel;
+					direction = "right";
 				}
-				spriteCounter = 0;
+				if(up && yPosPlayer > 40)
+				{
+					yPosPlayer -= vel;
+					direction = "up";
+				}
+				else if(down && yPosPlayer < 440)
+				{
+					yPosPlayer += vel;
+					direction = "down";
+				}
+
+				spriteCounter++;
+
+				if(spriteCounter > 8)
+				{
+					if(spriteNum == 1)
+					{
+						spriteNum = 2;
+					}
+					else if(spriteNum == 2)
+					{
+						spriteNum = 1;
+					}
+					spriteCounter = 0;
+				}
 			}
 		}
 	}
