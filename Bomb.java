@@ -16,6 +16,7 @@ public class Bomb {
 
     public void draw(Graphics g)
     {
+        // Round
         g.setColor(new Color(255, 0, 0));
         g.fillOval(x, y, 25, 25);
     }

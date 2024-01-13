@@ -15,7 +15,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	// GRAPHICS VARIABLES
     static JFrame frame;
 
-	// INPUT / OUTPUT
+	// MOUSE INPUT
 	static int xPos, yPos;
 
 	// CHARACTER VARIABLES
@@ -53,9 +53,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	// INITIALIZE
 	public Main() throws IOException
 	{
+		// Set the size and colour of the game window
 		setPreferredSize(new Dimension(600, 520));
 		setBackground(new Color(252, 177, 3));
 
+		// 
         setFocusable(true);
         addKeyListener(this);
 		addMouseListener(this);
@@ -98,11 +100,15 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		// Game state 1, main game
 		if(gameState == 1)
 		{
+			// CLEAR SCREEN
 			super.paintComponent(g);
+
+			// Read map from map.txt and draw map onto the screen
 			for(int i = 0; i < 600; i += 40)
 			{
 				for(int j = 0; j < 520; j += 40)
 				{
+					// "x" is for the outer wall / boundary, "-" is for empty spaces player can walk on, "1" is for blocks on the map that player cannot go through 
 					if(map[j/40][i/40].equals("x"))
 					{
 						g.setColor(new Color(0, 0, 0));
@@ -119,6 +125,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 				}
 			}
 
+			// Sprite animation, if player is going down/left/right/up, set the player image to one of two sprites
 			playerImg = null;
 			if(direction.equals("down"))
 			{
@@ -149,11 +156,13 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 					playerImg = characterSprites[7];
 			}
 
+			// Display bombs that player places
 			for(int i = 0; i < bombArray.size(); i++)
 			{
 				bombArray.get(i).draw(g);
 			}
 			
+			// Draw the player
 			g.drawImage(playerImg, xPosPlayer, yPosPlayer, null);
 
 			// ENEMY TEST
@@ -177,18 +186,27 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			// }
 
 		}
+		// Game state 2, high score page
 		else if(gameState == 2)
         {
             super.paintComponent(g);
 			g.drawImage(highscoreImg, 0, 0, null);
 			g.drawImage(backImg, 15, 15, null);
         }
+		// Game state 3, rules page
         else if(gameState == 3)
         {
             super.paintComponent(g);
 			g.drawImage(backImg, 15, 15, null);
         }
+		// Game state 4, about page
         else if(gameState == 4)
+        {
+            super.paintComponent(g);
+			g.drawImage(backImg, 15, 15, null);
+        }
+		// Game state 5, exit
+		else if(gameState == 5)
         {
             super.paintComponent(g);
 			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
@@ -225,6 +243,10 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			{
 				gameState = 4;
 			}
+			else if(xPos >= 339 && xPos <= 394 && yPos >= 438 && yPos <= 478)
+			{
+				gameState = 5;
+			}
 		}
 		else if(gameState == 1)
 		{
@@ -239,6 +261,14 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			}
 		}
 		else if(gameState == 3)
+		{
+			repaint();
+			if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
+			{
+				gameState = 0;
+			}
+		}
+		else if(gameState == 4)
 		{
 			repaint();
 			if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
@@ -455,6 +485,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		// }
     }
 
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+	// USELESS
     public void mouseClicked(MouseEvent e) {}
     public void mouseReleased(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {}
