@@ -1,3 +1,4 @@
+// IMPORT
 import java.util.*;
 import java.io.*;
 import java.awt.*;
@@ -6,9 +7,11 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.imageio.ImageIO;
 
+// MAIN CLASS
 public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 {
 
+	// GLOBAL VARIABLES
 	// GRAPHICS VARIABLES
     static JFrame frame;
 
@@ -29,7 +32,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	static String[][] map = new String[13][15];
 
 	// IMAGES
-    // public static BufferedImage player;
 	static BufferedImage wallImg, unbreakableWallImg;
 	static BufferedImage backgroundImg, highscoreImg, rulesImg, backImg;
 	static BufferedImage[] characterSprites;
@@ -37,10 +39,16 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	static int spriteNum = 1;
 	static int spriteCounter = 0;
 
+	// POWER UPS
 	static PowerUps speed = new PowerUps(5, 0);
 	static PowerUps slow = new PowerUps(5, 0);
 
+	// BOMBS
 	static ArrayList<Bomb> bombArray = new ArrayList<Bomb>();
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 	// INITIALIZE
 	public Main() throws IOException
@@ -56,27 +64,15 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         t.start();
 	}
 
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+	// PAINT COMPONENT
     public void paintComponent(Graphics g)	
 	{
+		// CLEAR SCREEN
 		super.paintComponent(g);
-
-        /* OLD BUTTONS
-		// Play
-		g.setColor(new Color(160, 50, 168));
-		g.fillRect(410, 310, 260, 80);
-		
-		// About
-		g.setColor(new Color(160, 50, 168));
-		g.fillRect(410, 400, 260, 80);
-		
-		// Exit
-		g.setColor(new Color(160, 50, 168));
-		g.fillRect(410, 490, 160, 80);
-		
-		// Settings
-		g.setColor(new Color(160, 50, 168));
-		g.fillRect(580, 490, 90, 80);
-		*/
 
 		/* BUTTON HITBOXES
 		// Play
@@ -96,8 +92,10 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		g.fillRect(339, 438, 55, 40);
 		*/
 
+		// Draw background image
 		g.drawImage(backgroundImg, 0, 0, null);
 
+		// Game state 1, main game
 		if(gameState == 1)
 		{
 			super.paintComponent(g);
@@ -179,7 +177,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			// }
 
 		}
-        else if(gameState == 2)
+		else if(gameState == 2)
         {
             super.paintComponent(g);
 			g.drawImage(highscoreImg, 0, 0, null);
@@ -197,6 +195,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         }
 	}
 
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+	// MOUSE INPUT
     public void mousePressed(MouseEvent e) {
 		xPos = e.getX();
 		yPos = e.getY();
@@ -243,10 +246,14 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 				gameState = 0;
 			}
 		}
-
 		repaint();
 	}
 
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+	// KEYBOARD INPUT
 	public void keyPressed(KeyEvent e)
 	{
 		int key = e.getKeyCode();
@@ -287,6 +294,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		}
 	}
 
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+	// KEYBOARD INPUT
 	public void keyReleased(KeyEvent e)
 	{
 		int key = e.getKeyCode();
@@ -301,6 +313,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			down = false;
 	}
 
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+	// PLAYER MOVEMENT
 	public void move()
 	{
 		if(left || right || up || down)
@@ -428,7 +445,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		{
 			System.out.println("Input / Output Error");
 		}
-
 		// for (String[] x : map)
 		// {
 		// 	for (String y : x)
@@ -438,22 +454,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		// 	System.out.println();
 		// }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public void mouseClicked(MouseEvent e) {}
     public void mouseReleased(MouseEvent e) {}
