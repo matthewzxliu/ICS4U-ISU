@@ -77,28 +77,39 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		super.paintComponent(g);
 
 		/* BUTTON HITBOXES
+		// About
+		g.setColor(new Color(160, 50, 168));
+		g.fillRect(211, 260, 177, 50);
+		
 		// Play
 		g.setColor(new Color(160, 50, 168));
-		g.fillRect(214, 290, 177, 60);
+		g.fillRect(211, 320, 177, 50);
 		
 		// Highscore
 		g.setColor(new Color(160, 50, 168));
-		g.fillRect(214, 369, 179, 48);
+		g.fillRect(211, 380, 177, 50);
 		
 		// Rules
 		g.setColor(new Color(160, 50, 168));
-		g.fillRect(214, 438, 117, 40);
-		
+		g.fillRect(211, 440, 116, 50);
+
 		// Exit
 		g.setColor(new Color(160, 50, 168));
-		g.fillRect(339, 438, 55, 40);
+		g.fillRect(336, 440, 52, 50);
 		*/
 
 		// Draw background image
 		g.drawImage(backgroundImg, 0, 0, null);
 
-		// Game state 1, main game
-		if(gameState == 1)
+		// Game state 1, about page
+        if(gameState == 1)
+        {
+            super.paintComponent(g);
+			g.drawImage(aboutImg, 0, 0, null);
+			g.drawImage(backImg, 15, 15, null);
+        }
+		// Game state 2, main game
+		else if(gameState == 2)
 		{
 			// CLEAR SCREEN
 			super.paintComponent(g);
@@ -186,24 +197,17 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			// }
 
 		}
-		// Game state 2, high score page
-		else if(gameState == 2)
+		// Game state 3, high score page
+		else if(gameState == 3)
         {
             super.paintComponent(g);
 			g.drawImage(highscoreImg, 0, 0, null);
 			g.drawImage(backImg, 15, 15, null);
         }
-		// Game state 3, rules page
-        else if(gameState == 3)
-        {
-            super.paintComponent(g);
-			g.drawImage(backImg, 15, 15, null);
-        }
-		// Game state 4, about page
+		// Game state 4, rules page
         else if(gameState == 4)
         {
             super.paintComponent(g);
-			g.drawImage(aboutImg, 0, 0, null);
 			g.drawImage(backImg, 15, 15, null);
         }
 		// Game state 5, exit
@@ -225,26 +229,23 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		
 		if(gameState == 0)
 		{
-			if(xPos >= 214 && xPos <= 391 && yPos >= 290 && yPos <= 350)
+			if(xPos >= 211 && xPos <= 388 && yPos >= 260 && yPos <= 310)
 			{
 				gameState = 1;
 			}
-
-			else if(xPos >= 214 && xPos <= 393 && yPos >= 369 && yPos <= 417)
+			else if(xPos >= 211 && xPos <= 388 && yPos >= 320 && yPos <= 370)
 			{
 				gameState = 2;
 			}
-
-			else if(xPos >= 214 && xPos <= 331 && yPos >= 438 && yPos <= 478)
+			else if(xPos >= 211 && xPos <= 388 && yPos >= 380 && yPos <= 430)
 			{
                 gameState = 3;
 			}
-
-			else if(xPos >= 339 && xPos <= 394 && yPos >= 438 && yPos <= 478)
+			else if(xPos >= 211 && xPos <= 327 && yPos >= 440 && yPos <= 490)
 			{
 				gameState = 4;
 			}
-			else if(xPos >= 339 && xPos <= 394 && yPos >= 438 && yPos <= 478)
+			else if(xPos >= 336 && xPos <= 388 && yPos >= 440 && yPos <= 490)
 			{
 				gameState = 5;
 			}
@@ -252,14 +253,14 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		else if(gameState == 1)
 		{
 			repaint();
-		}
-		else if(gameState == 2)
-		{
-			repaint();
 			if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
 			{
 				gameState = 0;
 			}
+		}
+		else if(gameState == 2)
+		{
+			repaint();
 		}
 		else if(gameState == 3)
 		{
