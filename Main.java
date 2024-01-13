@@ -33,7 +33,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 	// IMAGES
 	static BufferedImage wallImg, unbreakableWallImg;
-	static BufferedImage backgroundImg, highscoreImg, rulesImg, backImg;
+	static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg;
 	static BufferedImage[] characterSprites;
 	static BufferedImage playerImg;
 	static int spriteNum = 1;
@@ -203,6 +203,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         else if(gameState == 4)
         {
             super.paintComponent(g);
+			g.drawImage(aboutImg, 0, 0, null);
 			g.drawImage(backImg, 15, 15, null);
         }
 		// Game state 5, exit
@@ -456,6 +457,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			backgroundImg = ImageIO.read(new File("Images/Background.png"));
 			highscoreImg = ImageIO.read(new File("Images/highscore.png"));
 			// rulesImg = ImageIO.read(new File("Images/rulesImg.png"));
+			aboutImg = ImageIO.read(new File("Images/about.png"));
 			backImg = ImageIO.read(new File("Images/back.png"));
 
 			wallImg = ImageIO.read(new File("Images/wall.png"));
