@@ -260,7 +260,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		}
 		else if(gameState == 1)
 		{
-			repaint();
 			if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
 			{
 				gameState = 0;
@@ -268,11 +267,10 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		}
 		else if(gameState == 2)
 		{
-			repaint();
+			;
 		}
 		else if(gameState == 3)
 		{
-			repaint();
 			if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
 			{
 				gameState = 0;
@@ -280,13 +278,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		}
 		else if(gameState == 4)
 		{
-			repaint();
 			if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
 			{
 				gameState = 0;
 			}
 		}
-		repaint();
 	}
 
 

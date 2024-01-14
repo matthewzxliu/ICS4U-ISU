@@ -3,7 +3,7 @@ import java.awt.image.*;
 
 public class Bomb {
     
-    BufferedImage bombImg;
+    private BufferedImage bombImg;
     private int x;
     private int y;
     private int damage;
@@ -29,6 +29,8 @@ public class Bomb {
 
     public void draw(Graphics g)
     {
-        g.drawImage(bombImg, x, y, null);
+        int roundedX = (int) Math.round(x / 40.0) * 40;
+        int roundedY = (int) Math.round(y / 40.0) * 40;
+        g.drawImage(bombImg, roundedX, roundedY, null);
     }
 }
