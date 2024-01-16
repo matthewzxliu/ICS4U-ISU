@@ -30,6 +30,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 	// MAP
 	static String[][] map = new String[13][15];
+	static int xPosNear, yPosNear;
 
 	// IMAGES
 	static BufferedImage wallImg, unbreakableWallImg;
@@ -406,10 +407,20 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+	public void checkCollision()
+	{
+		
+	}
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 	// THREADING
 	public void run() {
         while(true) {
 			move();
+			checkCollision();
             repaint();
             try {
                 Thread.sleep(17);
