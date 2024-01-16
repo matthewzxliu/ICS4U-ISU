@@ -34,7 +34,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 	// IMAGES
 	static BufferedImage wallImg, unbreakableWallImg;
-	static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, bombImg;
+	static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, gameOverImg, bombImg;
 	static BufferedImage[] characterSprites;
 	static BufferedImage playerImg;
 	static int spriteNum = 1;
@@ -47,6 +47,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	// BOMBS
 	static ArrayList<Bomb> bombArray = new ArrayList<Bomb>();
 	static int timer = 0;
+
+	// HIGHSCORE
+	static ArrayList<String> highscore = new ArrayList<String>();
+	boolean enterName = false;
+	Font font = new Font("SansSerif", Font.PLAIN, 18);
 
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -212,6 +217,13 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             super.paintComponent(g);
 			g.drawImage(highscoreImg, 0, 0, null);
 			g.drawImage(backImg, 15, 15, null);
+
+			for(int i = 0; i < 5; i++)
+			{
+				String name = highscore.get(i);
+				g.setFont(font);
+				g.drawString(name, 125, 195 + 45*i);
+			}
         }
 		// Game state 4, rules page
         else if(gameState == 4)
@@ -225,6 +237,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             super.paintComponent(g);
 			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
         }
+		// Game State 6, game over
+		else if(gameState == 6)
+		{
+			g.drawImage(gameOverImg, 0, 0, null);
+			g.drawImage(backImg, 250, 290, null);
+		}
 	}
 
 
@@ -280,6 +298,13 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		else if(gameState == 4)
 		{
 			if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
+			{
+				gameState = 0;
+			}
+		}
+		else if(gameState == 6)
+		{
+			if(xPos >= 250 && xPos <= 350 && yPos >= 290 && yPos <= 336)
 			{
 				gameState = 0;
 			}
@@ -416,6 +441,42 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+	public void enterName()
+	{
+		if(enterName == true)
+		{
+			String nameEntered = JOptionPane.showInputDialog("Enter your name.");
+
+			// If the user presses the X button, return back
+			if(nameEntered == null)
+			{
+				return;
+			}
+
+			// If the user tries to enter an empty file name
+			if(nameEntered.length() <= 0)
+			{
+				// Display that it is invalid and return
+				JOptionPane.showMessageDialog(null, "No name given.", "Invalid Entry", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+
+			// Check if the file entered is a valid file
+			else
+			{
+				// If it is a valid file, display that it was sucessfully added
+				JOptionPane.showMessageDialog(null, "Highscore added.", "Success", JOptionPane.INFORMATION_MESSAGE);
+				// Add the new file to the arraylist of files names and the combo box so that the user can select it
+				highscore.add(nameEntered);
+			}
+		}
+		enterName = false;
+	}
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 	// THREADING
 	public void run() {
         while(true) {
@@ -443,6 +504,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         frame.pack();
 		frame.setVisible(true);
      
+		highscore.add("a HIGHSCORE 1");
+		highscore.add("b HIGHSCORE 2");
+		highscore.add("c HIGHSCORE 3");
+		highscore.add("d HIGHSCORE 4");
+		highscore.add("e HIGHSCORE 5");
+		
 		// LOADING MAPS
 		try
 		{
@@ -481,6 +548,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			// rulesImg = ImageIO.read(new File("Images/rulesImg.png"));
 			aboutImg = ImageIO.read(new File("Images/about.png"));
 			backImg = ImageIO.read(new File("Images/back.png"));
+			gameOverImg = ImageIO.read(new File("Images/gameOver.png"));
 
 			wallImg = ImageIO.read(new File("Images/wall.png"));
 			unbreakableWallImg = ImageIO.read(new File("Images/unbreakable.png"));
