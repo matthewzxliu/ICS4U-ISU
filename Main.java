@@ -35,7 +35,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 	// IMAGES
 	static BufferedImage wallImg, unbreakableWallImg;
-	static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, gameOverImg, bombImg;
+	static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, gameOverImg, bombImg, bombExplosionImg, bombAndExplosionImg;
 	static BufferedImage[] characterSprites;
 	static BufferedImage playerImg;
 	static int spriteNum = 1;
@@ -184,6 +184,25 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			// Bomb explosion
 			if(timer >= 60 && bombArray.size() >= 1)
 			{
+				int bombX = bombArray.get(0).getX();
+				int bombY = bombArray.get(0).getY();
+
+				if(map[bombY/40][(bombX/40) - 1].equals("W"))
+				{
+					map[bombY/40][(bombX/40) - 1] = "-";
+				}
+				if(map[bombY/40][(bombX/40) + 1].equals("W"))
+				{
+					map[bombY/40][(bombX/40) + 1] = "-";
+				}
+				if(map[(bombY/40) - 1][bombX/40].equals("W"))
+				{
+					map[(bombY/40) - 1][bombX/40] = "-";
+				}
+				if(map[(bombY/40) + 1][bombX/40].equals("W"))
+				{
+					map[(bombY/40) + 1][bombX/40] = "-";
+				}
 				bombArray.remove(0);
 				timer = 0;
 			}
@@ -608,6 +627,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			characterSprites[7] = ImageIO.read(new File("Images/boy_up_2.png"));
 
 			bombImg = ImageIO.read(new File("Images/bomb.png"));
+			bombExplosionImg = ImageIO.read(new File("Images/bombExplosion.gif"));
+			bombAndExplosionImg = ImageIO.read(new File("Images/bombAndExplosion.gif"));
 		}
 		catch(IOException e)
 		{
