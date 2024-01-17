@@ -53,6 +53,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	static ArrayList<String> highscore = new ArrayList<String>();
 	boolean enterName = false;
 	Font font = new Font("SansSerif", Font.PLAIN, 18);
+	static PrintWriter outFile = new PrintWriter(new FileWriter("highscore.txt"));
 
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -219,7 +220,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			g.drawImage(highscoreImg, 0, 0, null);
 			g.drawImage(backImg, 15, 15, null);
 
-			for(int i = 0; i < 5; i++)
+			for(int i = 0; i < highscore.size(); i++)
 			{
 				String name = highscore.get(i);
 				g.setFont(font);
@@ -243,6 +244,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		{
 			g.drawImage(gameOverImg, 0, 0, null);
 			g.drawImage(backImg, 250, 290, null);
+			enterName = true;
 		}
 	}
 
@@ -305,6 +307,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		}
 		else if(gameState == 6)
 		{
+			if(enterName == true)
+			{
+				enterHighscoreName();
+			}
+
 			if(xPos >= 250 && xPos <= 350 && yPos >= 290 && yPos <= 336)
 			{
 				gameState = 0;
@@ -357,6 +364,10 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		else if(key == KeyEvent.VK_M)
 		{
 			vel += speed.getSpeedPowerUp();
+		}
+		else if(key == KeyEvent.VK_L)
+		{
+			gameState = 6;
 		}
 	}
 
@@ -481,36 +492,67 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-	public void enterName()
+	public void enterHighscoreName()
 	{
 		if(enterName == true)
 		{
-			String nameEntered = JOptionPane.showInputDialog("Enter your name.");
-
-			// If the user presses the X button, return back
-			if(nameEntered == null)
+			try
 			{
-				return;
+				String nameEntered = JOptionPane.showInputDialog("Enter your name for the highscore.");
+
+				// If the user presses the X button, return back
+				if(nameEntered == null)
+				{
+					return;
+				}
+
+				// If the user tries to enter an empty file name
+				if(nameEntered.length() <= 0)
+				{
+					// Display that it is invalid and return
+					JOptionPane.showMessageDialog(null, "No name given.", "Invalid Entry", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+
+				// Check if the file entered is a valid file
+				else
+				{
+					// If it is a valid file, display that it was sucessfully added
+					JOptionPane.showMessageDialog(null, "Highscore added.", "Success", JOptionPane.INFORMATION_MESSAGE);
+					// Add the new file to the arraylist of files names and the combo box so that the user can select it
+					outFile.println(nameEntered);
+				}
+				outFile.close();
 			}
-
-			// If the user tries to enter an empty file name
-			if(nameEntered.length() <= 0)
+			catch(IOException e)
 			{
-				// Display that it is invalid and return
-				JOptionPane.showMessageDialog(null, "No name given.", "Invalid Entry", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-
-			// Check if the file entered is a valid file
-			else
-			{
-				// If it is a valid file, display that it was sucessfully added
-				JOptionPane.showMessageDialog(null, "Highscore added.", "Success", JOptionPane.INFORMATION_MESSAGE);
-				// Add the new file to the arraylist of files names and the combo box so that the user can select it
-				highscore.add(nameEntered);
+				System.out.println("Input / Output Error");
 			}
 		}
+		readHighscore();
 		enterName = false;
+	}
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+	public void readHighscore()
+	{
+		try
+		{
+			BufferedReader inFile = new BufferedReader(new FileReader("highscore.txt"));
+			String line = "";
+			while((line = inFile.readLine()) != null)
+			{
+				highscore.add(line);
+			}
+			inFile.close();
+		}
+		catch(IOException e)
+		{
+			System.out.println("Input / Output Erorr.");
+		}
 	}
 
 
@@ -543,12 +585,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		frame.setResizable(false);
         frame.pack();
 		frame.setVisible(true);
-     
-		highscore.add("a HIGHSCORE 1");
-		highscore.add("b HIGHSCORE 2");
-		highscore.add("c HIGHSCORE 3");
-		highscore.add("d HIGHSCORE 4");
-		highscore.add("e HIGHSCORE 5");
 		
 		// LOADING MAPS
 		try
