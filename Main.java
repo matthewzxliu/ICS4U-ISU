@@ -22,6 +22,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	static int xPosPlayer = 40, yPosPlayer = 40;
 	// static int xPosEnemy = 535, yPosEnemy = 455;
 	static boolean up, left, down, right;
+	static boolean blockUp, blockLeft, blockDown, blockRight;
 	static int vel = 3;
 	static String direction = "down";
 
@@ -389,22 +390,22 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		{
 			if(left || right || up || down)
 			{
-				if(left && xPosPlayer > 40)
+				if(left && xPosPlayer > 40 && !blockLeft)
 				{
 					xPosPlayer -= vel;
 					direction = "left";
 				}
-				else if(right && xPosPlayer < 520)
+				else if(right && xPosPlayer < 520 && !blockRight)
 				{
 					xPosPlayer += vel;
 					direction = "right";
 				}
-				if(up && yPosPlayer > 40)
+				if(up && yPosPlayer > 40 && !blockUp)
 				{
 					yPosPlayer -= vel;
 					direction = "up";
 				}
-				else if(down && yPosPlayer < 440)
+				else if(down && yPosPlayer < 440 && !blockDown)
 				{
 					yPosPlayer += vel;
 					direction = "down";
@@ -431,10 +432,49 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+	// Checks collision with boxes
 	public void checkCollision()
 	{
-		
+		if(gameState == 2) {
+			int xTile = (xPosPlayer + 20) / 40;
+			int yTile = (yPosPlayer + 30) / 40;
+			Rectangle player = new Rectangle(xPosPlayer, yPosPlayer, 40, 40);
+
+			blockDown = false;
+			blockUp = false;
+			blockLeft = false;
+			blockRight = false;
+
+			if(map[yTile][xTile-1].equals("1")) {
+				Rectangle tile = new Rectangle((xTile-1) * 40, yTile * 40, 40, 40);
+	            // Rectangle tile2 = new Rectangle((xTile-1) * 40, (yTile-1) * 40, 40, 40);
+	            // Rectangle tile3 = new Rectangle((xTile-1) * 40, (yTile+1) * 40, 40, 40);
+				if(player.intersects(tile))
+					blockLeft = true;
+
+			}
+			if(map[yTile-1][xTile].equals("1")) {
+				Rectangle tile = new Rectangle((xTile) * 40, (yTile-1) * 40, 40, 40);
+	            // Rectangle tile2 = new Rectangle((xTile - 1) * 40, (yTile-1) * 40, 40, 40);
+	            // Rectangle tile3 = new Rectangle((xTile + 1) * 40, (yTile-1) * 40, 40, 40);
+				if(player.intersects(tile))
+					blockUp = true;
+			}
+			if(map[yTile][xTile+1].equals("1")) {
+				Rectangle tile = new Rectangle((xTile + 1) * 40, (yTile) * 40, 40, 40);
+	            // Rectangle tile2 = new Rectangle((xTile + 1) * 40, (yTile - 1) * 40, 40, 40);
+	            // Rectangle tile3 = new Rectangle((xTile + 1) * 40, (yTile + 1) * 40, 40, 40);
+				if(player.intersects(tile))
+					blockRight = true;
+			}
+			if(map[yTile+1][xTile].equals("1")) {
+				Rectangle tile = new Rectangle((xTile) * 40, (yTile + 1) * 40, 40, 40);
+	            // Rectangle tile2 = new Rectangle((xTile - 1) * 40, (yTile + 1) * 40, 40, 40);
+	            // Rectangle tile3 = new Rectangle((xTile+ 1) * 40, (yTile + 1) * 40, 40, 40);
+				if(player.intersects(tile))
+					blockDown = true;
+			}
+		}
 	}
 
 
