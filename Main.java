@@ -63,7 +63,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	{
 		// Set the size and colour of the game window
 		setPreferredSize(new Dimension(600, 520));
-		setBackground(new Color(231, 238, 229));
+		setBackground(new Color(252, 177, 3));
 
 		// 
         setFocusable(true);
@@ -133,7 +133,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 						g.setColor(new Color(0, 0, 0));
 						g.fillRect(i, j, 40, 40);
 					}
-					else if(map[j/40][i/40].equals("W"))
+					else if(map[j/40][i/40].equals("-"))
 					{
 						g.drawImage(wallImg, i, j, null);
 					}
@@ -455,7 +455,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			blockLeft = false;
 			blockRight = false;
 
-			if(!map[yTile][xTile-1].equals("-")) {
+			if(map[yTile][xTile-1].equals("1")) {
 				Rectangle tile = new Rectangle((xTile-1) * 40, yTile * 40, 40, 40);
 	            // Rectangle tile2 = new Rectangle((xTile-1) * 40, (yTile-1) * 40, 40, 40);
 	            // Rectangle tile3 = new Rectangle((xTile-1) * 40, (yTile+1) * 40, 40, 40);
@@ -463,21 +463,21 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 					blockLeft = true;
 
 			}
-			if(!map[yTile-1][xTile].equals("-")) {
+			if(map[yTile-1][xTile].equals("1")) {
 				Rectangle tile = new Rectangle((xTile) * 40, (yTile-1) * 40, 40, 40);
 	            // Rectangle tile2 = new Rectangle((xTile - 1) * 40, (yTile-1) * 40, 40, 40);
 	            // Rectangle tile3 = new Rectangle((xTile + 1) * 40, (yTile-1) * 40, 40, 40);
 				if(player.intersects(tile))
 					blockUp = true;
 			}
-			if(!map[yTile][xTile+1].equals("-")) {
+			if(map[yTile][xTile+1].equals("1")) {
 				Rectangle tile = new Rectangle((xTile + 1) * 40, (yTile) * 40, 40, 40);
 	            // Rectangle tile2 = new Rectangle((xTile + 1) * 40, (yTile - 1) * 40, 40, 40);
 	            // Rectangle tile3 = new Rectangle((xTile + 1) * 40, (yTile + 1) * 40, 40, 40);
 				if(player.intersects(tile))
 					blockRight = true;
 			}
-			if(!map[yTile+1][xTile].equals("-")) {
+			if(map[yTile+1][xTile].equals("1")) {
 				Rectangle tile = new Rectangle((xTile) * 40, (yTile + 1) * 40, 40, 40);
 	            // Rectangle tile2 = new Rectangle((xTile - 1) * 40, (yTile + 1) * 40, 40, 40);
 	            // Rectangle tile3 = new Rectangle((xTile+ 1) * 40, (yTile + 1) * 40, 40, 40);
@@ -495,65 +495,32 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	{
 		if(enterName == true)
 		{
-			try
+			String nameEntered = JOptionPane.showInputDialog("Enter your name for the highscore.");
+
+			// If the user presses the X button, return back
+			if(nameEntered == null)
 			{
-				PrintWriter outFile = new PrintWriter(new FileWriter("highscore.txt"));
-
-				String nameEntered = JOptionPane.showInputDialog("Enter your name for the highscore.");
-
-				// If the user presses the X button, return back
-				if(nameEntered == null)
-				{
-					return;
-				}
-
-				// If the user tries to enter an empty file name
-				if(nameEntered.length() <= 0)
-				{
-					// Display that it is invalid and return
-					JOptionPane.showMessageDialog(null, "No name given.", "Invalid Entry", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-
-				// Check if the file entered is a valid file
-				else
-				{
-					// If it is a valid file, display that it was sucessfully added
-					JOptionPane.showMessageDialog(null, "Highscore added.", "Success", JOptionPane.INFORMATION_MESSAGE);
-					// Add the new file to the arraylist of files names and the combo box so that the user can select it
-					outFile.println(nameEntered);
-				}
-				outFile.close();
+				return;
 			}
-			catch(IOException e)
+
+			// If the user tries to enter an empty file name
+			if(nameEntered.length() <= 0)
 			{
-				System.out.println("Input / Output Error");
+				// Display that it is invalid and return
+				JOptionPane.showMessageDialog(null, "No name given.", "Invalid Entry", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+
+			// Check if the file entered is a valid file
+			else
+			{
+				// If it is a valid file, display that it was sucessfully added
+				JOptionPane.showMessageDialog(null, "Highscore added.", "Success", JOptionPane.INFORMATION_MESSAGE);
+				// Add the new file to the arraylist of files names and the combo box so that the user can select it
+				highscore.add(nameEntered);
 			}
 		}
-		readHighscore();
 		enterName = false;
-	}
-
-
-// --------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-	public void readHighscore()
-	{
-		try
-		{
-			BufferedReader inFile = new BufferedReader(new FileReader("highscore.txt"));
-			String line = "";
-			while((line = inFile.readLine()) != null)
-			{
-				highscore.add(line);
-			}
-			inFile.close();
-		}
-		catch(IOException e)
-		{
-			System.out.println("Input / Output Erorr.");
-		}
 	}
 
 
