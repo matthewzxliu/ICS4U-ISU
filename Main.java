@@ -63,7 +63,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	{
 		// Set the size and colour of the game window
 		setPreferredSize(new Dimension(600, 520));
-		setBackground(new Color(252, 177, 3));
+		setBackground(new Color(231, 238, 229));
 
 		// 
         setFocusable(true);
