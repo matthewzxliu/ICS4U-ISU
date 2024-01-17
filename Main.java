@@ -455,7 +455,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			blockLeft = false;
 			blockRight = false;
 
-			if(map[yTile][xTile-1].equals("1")) {
+			if(!map[yTile][xTile-1].equals("-")) {
 				Rectangle tile = new Rectangle((xTile-1) * 40, yTile * 40, 40, 40);
 	            // Rectangle tile2 = new Rectangle((xTile-1) * 40, (yTile-1) * 40, 40, 40);
 	            // Rectangle tile3 = new Rectangle((xTile-1) * 40, (yTile+1) * 40, 40, 40);
@@ -463,21 +463,21 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 					blockLeft = true;
 
 			}
-			if(map[yTile-1][xTile].equals("1")) {
+			if(!map[yTile-1][xTile].equals("-")) {
 				Rectangle tile = new Rectangle((xTile) * 40, (yTile-1) * 40, 40, 40);
 	            // Rectangle tile2 = new Rectangle((xTile - 1) * 40, (yTile-1) * 40, 40, 40);
 	            // Rectangle tile3 = new Rectangle((xTile + 1) * 40, (yTile-1) * 40, 40, 40);
 				if(player.intersects(tile))
 					blockUp = true;
 			}
-			if(map[yTile][xTile+1].equals("1")) {
+			if(!map[yTile][xTile+1].equals("-")) {
 				Rectangle tile = new Rectangle((xTile + 1) * 40, (yTile) * 40, 40, 40);
 	            // Rectangle tile2 = new Rectangle((xTile + 1) * 40, (yTile - 1) * 40, 40, 40);
 	            // Rectangle tile3 = new Rectangle((xTile + 1) * 40, (yTile + 1) * 40, 40, 40);
 				if(player.intersects(tile))
 					blockRight = true;
 			}
-			if(map[yTile+1][xTile].equals("1")) {
+			if(!map[yTile+1][xTile].equals("-")) {
 				Rectangle tile = new Rectangle((xTile) * 40, (yTile + 1) * 40, 40, 40);
 	            // Rectangle tile2 = new Rectangle((xTile - 1) * 40, (yTile + 1) * 40, 40, 40);
 	            // Rectangle tile3 = new Rectangle((xTile+ 1) * 40, (yTile + 1) * 40, 40, 40);
