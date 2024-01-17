@@ -53,7 +53,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 	static ArrayList<String> highscore = new ArrayList<String>();
 	boolean enterName = false;
 	Font font = new Font("SansSerif", Font.PLAIN, 18);
-	static PrintWriter outFile = new PrintWriter(new FileWriter("highscore.txt"));
 
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -498,6 +497,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		{
 			try
 			{
+				PrintWriter outFile = new PrintWriter(new FileWriter("highscore.txt"));
+
 				String nameEntered = JOptionPane.showInputDialog("Enter your name for the highscore.");
 
 				// If the user presses the X button, return back
