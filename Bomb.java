@@ -12,12 +12,12 @@ public class Bomb {
 
     public int getX()
     {
-        return x;
+        return (int) Math.round(x / 40.0) * 40;
     }
 
     public int getY()
     {
-        return y;
+        return (int) Math.round(y / 40.0) * 40;
     }
 
     public Bomb(BufferedImage bombImg, int x, int y)

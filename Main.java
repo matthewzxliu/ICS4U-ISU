@@ -180,29 +180,14 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			{
 				bombArray.get(i).draw(g);
 				timer++;
+				// System.out.println("X: " + bombArray.get(i).getX());
+				// System.out.println("Y: " + bombArray.get(i).getY());
 			}
 			// Bomb explosion
 			if(timer >= 60 && bombArray.size() >= 1)
 			{
-				int bombX = bombArray.get(0).getX();
-				int bombY = bombArray.get(0).getY();
-
-				if(map[bombY/40][(bombX/40) - 1].equals("W"))
-				{
-					map[bombY/40][(bombX/40) - 1] = "-";
-				}
-				if(map[bombY/40][(bombX/40) + 1].equals("W"))
-				{
-					map[bombY/40][(bombX/40) + 1] = "-";
-				}
-				if(map[(bombY/40) - 1][bombX/40].equals("W"))
-				{
-					map[(bombY/40) - 1][bombX/40] = "-";
-				}
-				if(map[(bombY/40) + 1][bombX/40].equals("W"))
-				{
-					map[(bombY/40) + 1][bombX/40] = "-";
-				}
+				explodeBomb();
+				
 				bombArray.remove(0);
 				timer = 0;
 			}
@@ -503,6 +488,87 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 				if(player.intersects(tile))
 					blockDown = true;
 			}
+		}
+	}
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+	public void explodeBomb()
+	{
+		int bombX = bombArray.get(0).getX();
+		int bombY = bombArray.get(0).getY();
+
+		if(map[(bombY/40)-1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40)+1].equals("W") && map[(bombY/40)+1][(bombX/40)].equals("W"))
+		{
+			map[(bombY/40)-1][(bombX/40)] = "-";
+			map[(bombY/40)][(bombX/40) + 1] = "-";
+			map[(bombY/40)+1][(bombX/40)] = "-";
+		}
+		else if(map[(bombY/40)-1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40) + 1].equals("W"))
+		{
+			map[(bombY/40)-1][(bombX/40)] = "-";
+			map[(bombY/40)][(bombX/40)+ 1] = "-";
+		}
+		else if(map[(bombY/40)][(bombX/40)+1].equals("W") && map[(bombY/40)+1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40)-1].equals("W"))
+		{
+			map[(bombY/40)][(bombX/40)+1] = "-";
+			map[(bombY/40)+1][(bombX/40)] = "-";
+			map[(bombY/40)][(bombX/40)-1] = "-";
+		}
+		else if(map[(bombY/40)][(bombX/40)+1].equals("W") && map[(bombY/40)+1][(bombX/40)].equals("W"))
+		{
+			map[(bombY/40)][(bombX/40)+1] = "-";
+			map[(bombY/40)+1][(bombX/40)] = "-";
+		}
+		else if(map[(bombY/40)+1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40)-1].equals("W") && map[(bombY/40)-1][(bombX/40)].equals("W"))
+		{
+			map[(bombY/40)+1][(bombX/40)] = "-";
+			map[(bombY/40)][(bombX/40)-1] = "-";
+			map[(bombY/40)-1][(bombX/40)] = "-";
+		}
+		else if(map[(bombY/40)+1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40)-1].equals("W"))
+		{
+			map[(bombY/40)+1][(bombX/40)] = "-";
+			map[(bombY/40)][(bombX/40)-1] = "-";
+		}
+		else if(map[(bombY/40)][(bombX/40)-1].equals("W") && map[(bombY/40)-1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40)+1].equals("W"))
+		{
+			map[(bombY/40)][(bombX/40)-1] = "-";
+			map[(bombY/40)-1][(bombX/40)] = "-";
+			map[(bombY/40)][(bombX/40)+1] = "-";
+		}
+		else if(map[(bombY/40)][(bombX/40)-1].equals("W") && map[(bombY/40)-1][(bombX/40)].equals("W"))
+		{
+			map[(bombY/40)][(bombX/40)-1] = "-";
+			map[(bombY/40)-1][(bombX/40)] = "-";
+		}
+		else if(map[(bombY/40)-1][(bombX/40)].equals("W") && map[(bombY/40)+1][(bombX/40)].equals("W"))
+		{
+			map[(bombY/40)-1][(bombX/40)] = "-";
+			map[(bombY/40)+1][(bombX/40)] = "-";
+		}
+		else if(map[(bombY/40)][(bombX/40)-1].equals("W") && map[(bombY/40)][(bombX/40)+1].equals("W"))
+		{
+			map[(bombY/40)][(bombX/40)-1] = "-";
+			map[(bombY/40)][(bombX/40)+1] = "-";
+		}
+		else if(map[(bombY/40)-1][(bombX/40)].equals("W"))
+		{
+			map[(bombY/40)-1][(bombX/40)] = "-";
+		}
+		else if(map[(bombY/40)][(bombX/40)+1].equals("W"))
+		{
+			map[(bombY/40)][(bombX/40)+1] = "-";
+		}
+		else if(map[(bombY/40)+1][(bombX/40)].equals("W"))
+		{
+			map[(bombY/40)+1][(bombX/40)] = "-";
+		}
+		else if(map[(bombY/40)][(bombX/40)-1].equals("W"))
+		{
+			map[(bombY/40)][(bombX/40)-1] = "-";
 		}
 	}
 
