@@ -11,92 +11,92 @@ import javax.imageio.ImageIO;
 public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 {
 
-	// GLOBAL VARIABLES
-	// GRAPHICS VARIABLES
+    // GLOBAL VARIABLES
+    // GRAPHICS VARIABLES
     static JFrame frame;
 
-	// MOUSE INPUT
-	static int xPos, yPos;
+    // MOUSE INPUT
+    static int xPos, yPos;
 
-	// CHARACTER VARIABLES
-	static int xPosPlayer = 40, yPosPlayer = 40;
-	// static int xPosEnemy = 535, yPosEnemy = 455;
-	static boolean up, left, down, right;
-	static boolean blockUp, blockLeft, blockDown, blockRight;
-	static int vel = 3;
-	static String direction = "down";
+    // CHARACTER VARIABLES
+    static int xPosPlayer = 40, yPosPlayer = 40;
+    // static int xPosEnemy = 535, yPosEnemy = 455;
+    static boolean up, left, down, right;
+    static boolean blockUp, blockLeft, blockDown, blockRight;
+    static int vel = 3;
+    static String direction = "down";
 
-	// GAME STATE
-	static int gameState = 0;
+    // GAME STATE
+    static int gameState = 0;
 
-	// MAP
-	static String[][] map = new String[13][15];
-	static int xPosNear, yPosNear;
+    // MAP
+    static String[][] map = new String[13][15];
+    static int xPosNear, yPosNear;
 
-	// IMAGES
-	static BufferedImage wallImg, unbreakableWallImg;
-	static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, gameOverImg, bombImg, bombExplosionImg, bombAndExplosionImg;
-	static BufferedImage[] characterSprites;
-	static BufferedImage playerImg;
-	static int spriteNum = 1;
-	static int spriteCounter = 0;
+    // IMAGES
+    static BufferedImage wallImg, unbreakableWallImg;
+    static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, gameOverImg, bombImg, bombExplosionImg, bombAndExplosionImg;
+    static BufferedImage[] characterSprites;
+    static BufferedImage playerImg;
+    static int spriteNum = 1;
+    static int spriteCounter = 0;
 
-	// POWER UPS
-	static PowerUps speed = new PowerUps(5, 0);
-	static PowerUps slow = new PowerUps(5, 0);
+    // POWER UPS
+    static PowerUps speed = new PowerUps(5, 0);
+    static PowerUps slow = new PowerUps(5, 0);
 
-	// BOMBS
-	static ArrayList<Bomb> bombArray = new ArrayList<Bomb>();
-	static int timer = 0;
+    // BOMBS
+    static ArrayList<Bomb> bombArray = new ArrayList<Bomb>();
+    static int timer = 0;
 
-	// HIGHSCORE
-	static ArrayList<String> highscore = new ArrayList<String>();
-	boolean enterName = false;
-	Font font = new Font("SansSerif", Font.PLAIN, 18);
+    // HIGHSCORE
+    static ArrayList<String> highscore = new ArrayList<String>();
+    boolean enterName = false;
+    Font font = new Font("SansSerif", Font.PLAIN, 18);
 
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-	// INITIALIZE
-	public Main() throws IOException
-	{
-		// Set the size and colour of the game window
-		setPreferredSize(new Dimension(600, 520));
-		setBackground(new Color(231, 238, 229));
+    // INITIALIZE
+    public Main() throws IOException
+    {
+        // Set the size and colour of the game window
+        setPreferredSize(new Dimension(600, 520));
+        setBackground(new Color(231, 238, 229));
 
-		// 
+        //
         setFocusable(true);
         addKeyListener(this);
-		addMouseListener(this);
+        addMouseListener(this);
 
         Thread t = new Thread((Runnable) this);
         t.start();
-	}
+    }
 
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-	// PAINT COMPONENT
-    public void paintComponent(Graphics g)	
-	{
-		// CLEAR SCREEN
-		super.paintComponent(g);
+    // PAINT COMPONENT
+    public void paintComponent(Graphics g)
+    {
+        // CLEAR SCREEN
+        super.paintComponent(g);
 
 		/* BUTTON HITBOXES
 		// About
 		g.setColor(new Color(160, 50, 168));
 		g.fillRect(211, 260, 177, 50);
-		
+
 		// Play
 		g.setColor(new Color(160, 50, 168));
 		g.fillRect(211, 320, 177, 50);
-		
+
 		// Highscore
 		g.setColor(new Color(160, 50, 168));
 		g.fillRect(211, 380, 177, 50);
-		
+
 		// Rules
 		g.setColor(new Color(160, 50, 168));
 		g.fillRect(211, 440, 116, 50);
@@ -106,517 +106,529 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 		g.fillRect(336, 440, 52, 50);
 		*/
 
-		// Draw background image
-		g.drawImage(backgroundImg, 0, 0, null);
+        // Draw background image
+        g.drawImage(backgroundImg, 0, 0, null);
 
-		// Game state 1, about page
+        // Game state 1, about page
         if(gameState == 1)
         {
             super.paintComponent(g);
-			g.drawImage(aboutImg, 0, 0, null);
-			g.drawImage(backImg, 15, 15, null);
+            g.drawImage(aboutImg, 0, 0, null);
+            g.drawImage(backImg, 15, 15, null);
         }
-		// Game state 2, main game
-		else if(gameState == 2)
-		{
-			// CLEAR SCREEN
-			super.paintComponent(g);
+        // Game state 2, main game
+        else if(gameState == 2)
+        {
+            // CLEAR SCREEN
+            super.paintComponent(g);
 
-			// Read map from map.txt and draw map onto the screen
-			for(int i = 0; i < 600; i += 40)
-			{
-				for(int j = 0; j < 520; j += 40)
-				{
-					// "x" is for the outer wall / boundary, "-" is for empty spaces player can walk on, "1" is for blocks on the map that player cannot go through 
-					if(map[j/40][i/40].equals("x"))
-					{
-						g.setColor(new Color(0, 0, 0));
-						g.fillRect(i, j, 40, 40);
-					}
-					else if(map[j/40][i/40].equals("W"))
-					{
-						g.drawImage(wallImg, i, j, null);
-					}
-					else if(map[j/40][i/40].equals("1"))
-					{
-						g.drawImage(unbreakableWallImg, i, j, null);
-					}
-				}
-			}
+            // Read map from map.txt and draw map onto the screen
+            for(int i = 0; i < 600; i += 40)
+            {
+                for(int j = 0; j < 520; j += 40)
+                {
+                    // "x" is for the outer wall / boundary, "-" is for empty spaces player can walk on, "1" is for blocks on the map that player cannot go through
+                    if(map[j/40][i/40].equals("x"))
+                    {
+                        g.setColor(new Color(0, 0, 0));
+                        g.fillRect(i, j, 40, 40);
+                    }
+                    else if(map[j/40][i/40].equals("W"))
+                    {
+                        g.drawImage(wallImg, i, j, null);
+                    }
+                    else if(map[j/40][i/40].equals("1"))
+                    {
+                        g.drawImage(unbreakableWallImg, i, j, null);
+                    }
+                }
+            }
 
-			// Sprite animation, if player is going down/left/right/up, set the player image to one of two sprites
-			playerImg = null;
-			if(direction.equals("down"))
-			{
-				if(spriteNum == 1)
-					playerImg = characterSprites[0];
-				else
-					playerImg = characterSprites[1];
-			}
-			else if(direction.equals("left"))
-			{
-				if(spriteNum == 1)
-					playerImg = characterSprites[2];
-				else
-					playerImg = characterSprites[3];
-			}
-			else if(direction.equals("right"))
-			{
-				if(spriteNum == 1)
-					playerImg = characterSprites[4];
-				else
-					playerImg = characterSprites[5];
-			}
-			else if(direction.equals("up"))
-			{
-				if(spriteNum == 1)
-					playerImg = characterSprites[6];
-				else
-					playerImg = characterSprites[7];
-			}
+            // Sprite animation, if player is going down/left/right/up, set the player image to one of two sprites
+            playerImg = null;
+            if(direction.equals("down"))
+            {
+                if(spriteNum == 1)
+                    playerImg = characterSprites[0];
+                else
+                    playerImg = characterSprites[1];
+            }
+            else if(direction.equals("left"))
+            {
+                if(spriteNum == 1)
+                    playerImg = characterSprites[2];
+                else
+                    playerImg = characterSprites[3];
+            }
+            else if(direction.equals("right"))
+            {
+                if(spriteNum == 1)
+                    playerImg = characterSprites[4];
+                else
+                    playerImg = characterSprites[5];
+            }
+            else if(direction.equals("up"))
+            {
+                if(spriteNum == 1)
+                    playerImg = characterSprites[6];
+                else
+                    playerImg = characterSprites[7];
+            }
 
-			// Display bombs that player places
-			for(int i = 0; i < bombArray.size(); i++)
-			{
-				bombArray.get(i).draw(g);
-				timer++;
-				// System.out.println("X: " + bombArray.get(i).getX());
-				// System.out.println("Y: " + bombArray.get(i).getY());
-			}
-			// Bomb explosion
-			if(timer >= 60 && bombArray.size() >= 1)
-			{
-				explodeBomb();
-				
-				bombArray.remove(0);
-				timer = 0;
-			}
+            // Display bombs that player places
+            for(int i = 0; i < bombArray.size(); i++)
+            {
+                bombArray.get(i).draw(g);
+                timer++;
+                // System.out.println("X: " + bombArray.get(i).getX());
+                // System.out.println("Y: " + bombArray.get(i).getY());
+            }
+            // Bomb explosion
+            if(timer >= 60 && bombArray.size() >= 1)
+            {
+                explodeBomb();
 
-			// Draw the player
-			g.drawImage(playerImg, xPosPlayer, yPosPlayer, null);
+                bombArray.remove(0);
+                timer = 0;
+            }
 
-			// ENEMY TEST
-			// g.setColor(new Color(0, 0, 255));
-			// g.fillOval(xPosEnemy, yPosEnemy, 25, 25);
-			// if(xPosEnemy >= xPosPlayer)
-			// {
-			// 	xPosEnemy -= 2;
-			// }
-			// else if(xPosEnemy <= xPosPlayer)
-			// {
-			// 	xPosEnemy += 2;
-			// }
-			// if(yPosEnemy >= yPosPlayer)
-			// {
-			// 	yPosEnemy -= 2;
-			// }
-			// else if(yPosEnemy <= yPosPlayer)
-			// {
-			// 	yPosEnemy += 2;
-			// }
+            // Draw the player
+            g.drawImage(playerImg, xPosPlayer, yPosPlayer, null);
 
-		}
-		// Game state 3, high score page
-		else if(gameState == 3)
+            // ENEMY TEST
+            // g.setColor(new Color(0, 0, 255));
+            // g.fillOval(xPosEnemy, yPosEnemy, 25, 25);
+            // if(xPosEnemy >= xPosPlayer)
+            // {
+            // 	xPosEnemy -= 2;
+            // }
+            // else if(xPosEnemy <= xPosPlayer)
+            // {
+            // 	xPosEnemy += 2;
+            // }
+            // if(yPosEnemy >= yPosPlayer)
+            // {
+            // 	yPosEnemy -= 2;
+            // }
+            // else if(yPosEnemy <= yPosPlayer)
+            // {
+            // 	yPosEnemy += 2;
+            // }
+
+        }
+        // Game state 3, high score page
+        else if(gameState == 3)
         {
             super.paintComponent(g);
-			g.drawImage(highscoreImg, 0, 0, null);
-			g.drawImage(backImg, 15, 15, null);
+            g.drawImage(highscoreImg, 0, 0, null);
+            g.drawImage(backImg, 15, 15, null);
 
-			for(int i = 0; i < highscore.size(); i++)
-			{
-				String name = highscore.get(i);
-				g.setFont(font);
-				g.drawString(name, 125, 195 + 45*i);
-			}
+            for(int i = 0; i < highscore.size(); i++)
+            {
+                String name = highscore.get(i);
+                g.setFont(font);
+                g.drawString(name, 125, 195 + 45*i);
+            }
         }
-		// Game state 4, rules page
+        // Game state 4, rules page
         else if(gameState == 4)
         {
             super.paintComponent(g);
-			g.drawImage(backImg, 15, 15, null);
+            g.drawImage(backImg, 15, 15, null);
         }
-		// Game state 5, exit
-		else if(gameState == 5)
+        // Game state 5, exit
+        else if(gameState == 5)
         {
             super.paintComponent(g);
-			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
         }
-		// Game State 6, game over
-		else if(gameState == 6)
-		{
-			g.drawImage(gameOverImg, 0, 0, null);
-			g.drawImage(backImg, 250, 290, null);
-			enterName = true;
-		}
-	}
+        // Game State 6, game over
+        else if(gameState == 6)
+        {
+            g.drawImage(gameOverImg, 0, 0, null);
+            g.drawImage(backImg, 250, 290, null);
+            enterName = true;
+        }
+    }
 
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-	// MOUSE INPUT
+    // MOUSE INPUT
     public void mousePressed(MouseEvent e) {
-		xPos = e.getX();
-		yPos = e.getY();
-		
-		if(gameState == 0)
-		{
-			if(xPos >= 211 && xPos <= 388 && yPos >= 260 && yPos <= 310)
-			{
-				gameState = 1;
-			}
-			else if(xPos >= 211 && xPos <= 388 && yPos >= 320 && yPos <= 370)
-			{
-				gameState = 2;
-			}
-			else if(xPos >= 211 && xPos <= 388 && yPos >= 380 && yPos <= 430)
-			{
+        xPos = e.getX();
+        yPos = e.getY();
+
+        if(gameState == 0)
+        {
+            if(xPos >= 211 && xPos <= 388 && yPos >= 260 && yPos <= 310)
+            {
+                gameState = 1;
+            }
+            else if(xPos >= 211 && xPos <= 388 && yPos >= 320 && yPos <= 370)
+            {
+                gameState = 2;
+            }
+            else if(xPos >= 211 && xPos <= 388 && yPos >= 380 && yPos <= 430)
+            {
                 gameState = 3;
-			}
-			else if(xPos >= 211 && xPos <= 327 && yPos >= 440 && yPos <= 490)
-			{
-				gameState = 4;
-			}
-			else if(xPos >= 336 && xPos <= 388 && yPos >= 440 && yPos <= 490)
-			{
-				gameState = 5;
-			}
-		}
-		else if(gameState == 1)
-		{
-			if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
-			{
-				gameState = 0;
-			}
-		}
-		else if(gameState == 2)
-		{
-			;
-		}
-		else if(gameState == 3)
-		{
-			if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
-			{
-				gameState = 0;
-			}
-		}
-		else if(gameState == 4)
-		{
-			if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
-			{
-				gameState = 0;
-			}
-		}
-		else if(gameState == 6)
-		{
-			if(enterName == true)
-			{
-				enterHighscoreName();
-			}
+            }
+            else if(xPos >= 211 && xPos <= 327 && yPos >= 440 && yPos <= 490)
+            {
+                gameState = 4;
+            }
+            else if(xPos >= 336 && xPos <= 388 && yPos >= 440 && yPos <= 490)
+            {
+                gameState = 5;
+            }
+        }
+        else if(gameState == 1)
+        {
+            if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
+            {
+                gameState = 0;
+            }
+        }
+        else if(gameState == 2)
+        {
+            ;
+        }
+        else if(gameState == 3)
+        {
+            if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
+            {
+                gameState = 0;
+            }
+        }
+        else if(gameState == 4)
+        {
+            if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
+            {
+                gameState = 0;
+            }
+        }
+        else if(gameState == 6)
+        {
+            if(enterName == true)
+            {
+                enterHighscoreName();
+            }
 
-			if(xPos >= 250 && xPos <= 350 && yPos >= 290 && yPos <= 336)
-			{
-				gameState = 0;
-			}
-		}
-	}
-
-
-// --------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-	// KEYBOARD INPUT
-	public void keyPressed(KeyEvent e)
-	{
-		int key = e.getKeyCode();
-
-		if(key == KeyEvent.VK_A)
-		{
-			left = true;
-			right = false;
-		}
-		else if(key == KeyEvent.VK_D)
-		{
-			right = true;
-			left = false;
-		}
-		else if(key == KeyEvent.VK_W)
-		{
-			up = true;
-			down = false;
-		}
-		else if(key == KeyEvent.VK_S)
-		{
-			down = true;
-			up = false;
-		}
-		else if(key == KeyEvent.VK_SPACE)
-		{
-			if(gameState == 2)
-			{
-				Bomb bomb = new Bomb(bombImg, xPosPlayer, yPosPlayer);
-				bombArray.add(bomb);
-			}
-		}
-
-		else if(key == KeyEvent.VK_CONTROL)
-		{
-			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-		}
-		else if(key == KeyEvent.VK_M)
-		{
-			vel += speed.getSpeedPowerUp();
-		}
-		else if(key == KeyEvent.VK_L)
-		{
-			gameState = 6;
-		}
-	}
+            if(xPos >= 250 && xPos <= 350 && yPos >= 290 && yPos <= 336)
+            {
+                gameState = 0;
+            }
+        }
+    }
 
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-	// KEYBOARD INPUT
-	public void keyReleased(KeyEvent e)
-	{
-		int key = e.getKeyCode();
+    // KEYBOARD INPUT
+    public void keyPressed(KeyEvent e)
+    {
+        int key = e.getKeyCode();
 
-		if(key == KeyEvent.VK_A)
-			left = false;
-		else if(key == KeyEvent.VK_D)
-			right = false;
-		else if(key == KeyEvent.VK_W)
-			up = false;
-		else if(key == KeyEvent.VK_S)
-			down = false;
-	}
+        if(key == KeyEvent.VK_A)
+        {
+            left = true;
+            right = false;
+        }
+        else if(key == KeyEvent.VK_D)
+        {
+            right = true;
+            left = false;
+        }
+        else if(key == KeyEvent.VK_W)
+        {
+            up = true;
+            down = false;
+        }
+        else if(key == KeyEvent.VK_S)
+        {
+            down = true;
+            up = false;
+        }
+        else if(key == KeyEvent.VK_SPACE)
+        {
+            if(gameState == 2)
+            {
+                Bomb bomb = new Bomb(bombImg, xPosPlayer, yPosPlayer);
+                bombArray.add(bomb);
+            }
+        }
 
-
-// --------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-	// PLAYER MOVEMENT
-	public void move()
-	{
-		if(gameState == 2)
-		{
-			if(left || right || up || down)
-			{
-				if(left && xPosPlayer > 40 && !blockLeft)
-				{
-					xPosPlayer -= vel;
-					direction = "left";
-				}
-				else if(right && xPosPlayer < 520 && !blockRight)
-				{
-					xPosPlayer += vel;
-					direction = "right";
-				}
-				if(up && yPosPlayer > 40 && !blockUp)
-				{
-					yPosPlayer -= vel;
-					direction = "up";
-				}
-				else if(down && yPosPlayer < 440 && !blockDown)
-				{
-					yPosPlayer += vel;
-					direction = "down";
-				}
-
-				spriteCounter++;
-
-				if(spriteCounter > 8)
-				{
-					if(spriteNum == 1)
-					{
-						spriteNum = 2;
-					}
-					else if(spriteNum == 2)
-					{
-						spriteNum = 1;
-					}
-					spriteCounter = 0;
-				}
-			}
-		}
-	}
-
-
-// --------------------------------------------------------------------------------------------------------------------------------------------------------
-
-	// Checks collision with boxes
-	public void checkCollision()
-	{
-		if(gameState == 2) {
-			int xTile = (xPosPlayer + 20) / 40;
-			int yTile = (yPosPlayer + 30) / 40;
-			Rectangle player = new Rectangle(xPosPlayer, yPosPlayer, 40, 40);
-
-			blockDown = false;
-			blockUp = false;
-			blockLeft = false;
-			blockRight = false;
-
-			if(!map[yTile][xTile-1].equals("-")) {
-				Rectangle tile = new Rectangle((xTile-1) * 40, yTile * 40, 40, 40);
-	            // Rectangle tile2 = new Rectangle((xTile-1) * 40, (yTile-1) * 40, 40, 40);
-	            // Rectangle tile3 = new Rectangle((xTile-1) * 40, (yTile+1) * 40, 40, 40);
-				if(player.intersects(tile))
-					blockLeft = true;
-
-			}
-			if(!map[yTile-1][xTile].equals("-")) {
-				Rectangle tile = new Rectangle((xTile) * 40, (yTile-1) * 40, 40, 40);
-	            // Rectangle tile2 = new Rectangle((xTile - 1) * 40, (yTile-1) * 40, 40, 40);
-	            // Rectangle tile3 = new Rectangle((xTile + 1) * 40, (yTile-1) * 40, 40, 40);
-				if(player.intersects(tile))
-					blockUp = true;
-			}
-			if(!map[yTile][xTile+1].equals("-")) {
-				Rectangle tile = new Rectangle((xTile + 1) * 40, (yTile) * 40, 40, 40);
-	            // Rectangle tile2 = new Rectangle((xTile + 1) * 40, (yTile - 1) * 40, 40, 40);
-	            // Rectangle tile3 = new Rectangle((xTile + 1) * 40, (yTile + 1) * 40, 40, 40);
-				if(player.intersects(tile))
-					blockRight = true;
-			}
-			if(!map[yTile+1][xTile].equals("-")) {
-				Rectangle tile = new Rectangle((xTile) * 40, (yTile + 1) * 40, 40, 40);
-	            // Rectangle tile2 = new Rectangle((xTile - 1) * 40, (yTile + 1) * 40, 40, 40);
-	            // Rectangle tile3 = new Rectangle((xTile+ 1) * 40, (yTile + 1) * 40, 40, 40);
-				if(player.intersects(tile))
-					blockDown = true;
-			}
-		}
-	}
+        else if(key == KeyEvent.VK_CONTROL)
+        {
+            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+        }
+        else if(key == KeyEvent.VK_M)
+        {
+            vel += speed.getSpeedPowerUp();
+        }
+        else if(key == KeyEvent.VK_L)
+        {
+            gameState = 6;
+        }
+    }
 
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-	public void explodeBomb()
-	{
-		int bombX = bombArray.get(0).getX();
-		int bombY = bombArray.get(0).getY();
+    // KEYBOARD INPUT
+    public void keyReleased(KeyEvent e)
+    {
+        int key = e.getKeyCode();
 
-		if(map[(bombY/40)-1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40)+1].equals("W") && map[(bombY/40)+1][(bombX/40)].equals("W"))
-		{
-			map[(bombY/40)-1][(bombX/40)] = "-";
-			map[(bombY/40)][(bombX/40) + 1] = "-";
-			map[(bombY/40)+1][(bombX/40)] = "-";
-		}
-		else if(map[(bombY/40)-1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40) + 1].equals("W"))
-		{
-			map[(bombY/40)-1][(bombX/40)] = "-";
-			map[(bombY/40)][(bombX/40)+ 1] = "-";
-		}
-		else if(map[(bombY/40)][(bombX/40)+1].equals("W") && map[(bombY/40)+1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40)-1].equals("W"))
-		{
-			map[(bombY/40)][(bombX/40)+1] = "-";
-			map[(bombY/40)+1][(bombX/40)] = "-";
-			map[(bombY/40)][(bombX/40)-1] = "-";
-		}
-		else if(map[(bombY/40)][(bombX/40)+1].equals("W") && map[(bombY/40)+1][(bombX/40)].equals("W"))
-		{
-			map[(bombY/40)][(bombX/40)+1] = "-";
-			map[(bombY/40)+1][(bombX/40)] = "-";
-		}
-		else if(map[(bombY/40)+1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40)-1].equals("W") && map[(bombY/40)-1][(bombX/40)].equals("W"))
-		{
-			map[(bombY/40)+1][(bombX/40)] = "-";
-			map[(bombY/40)][(bombX/40)-1] = "-";
-			map[(bombY/40)-1][(bombX/40)] = "-";
-		}
-		else if(map[(bombY/40)+1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40)-1].equals("W"))
-		{
-			map[(bombY/40)+1][(bombX/40)] = "-";
-			map[(bombY/40)][(bombX/40)-1] = "-";
-		}
-		else if(map[(bombY/40)][(bombX/40)-1].equals("W") && map[(bombY/40)-1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40)+1].equals("W"))
-		{
-			map[(bombY/40)][(bombX/40)-1] = "-";
-			map[(bombY/40)-1][(bombX/40)] = "-";
-			map[(bombY/40)][(bombX/40)+1] = "-";
-		}
-		else if(map[(bombY/40)][(bombX/40)-1].equals("W") && map[(bombY/40)-1][(bombX/40)].equals("W"))
-		{
-			map[(bombY/40)][(bombX/40)-1] = "-";
-			map[(bombY/40)-1][(bombX/40)] = "-";
-		}
-		else if(map[(bombY/40)-1][(bombX/40)].equals("W") && map[(bombY/40)+1][(bombX/40)].equals("W"))
-		{
-			map[(bombY/40)-1][(bombX/40)] = "-";
-			map[(bombY/40)+1][(bombX/40)] = "-";
-		}
-		else if(map[(bombY/40)][(bombX/40)-1].equals("W") && map[(bombY/40)][(bombX/40)+1].equals("W"))
-		{
-			map[(bombY/40)][(bombX/40)-1] = "-";
-			map[(bombY/40)][(bombX/40)+1] = "-";
-		}
-		else if(map[(bombY/40)-1][(bombX/40)].equals("W"))
-		{
-			map[(bombY/40)-1][(bombX/40)] = "-";
-		}
-		else if(map[(bombY/40)][(bombX/40)+1].equals("W"))
-		{
-			map[(bombY/40)][(bombX/40)+1] = "-";
-		}
-		else if(map[(bombY/40)+1][(bombX/40)].equals("W"))
-		{
-			map[(bombY/40)+1][(bombX/40)] = "-";
-		}
-		else if(map[(bombY/40)][(bombX/40)-1].equals("W"))
-		{
-			map[(bombY/40)][(bombX/40)-1] = "-";
-		}
-	}
+        if(key == KeyEvent.VK_A)
+            left = false;
+        else if(key == KeyEvent.VK_D)
+            right = false;
+        else if(key == KeyEvent.VK_W)
+            up = false;
+        else if(key == KeyEvent.VK_S)
+            down = false;
+    }
 
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-	public void enterHighscoreName()
-	{
-		if(enterName == true)
-		{
-			String nameEntered = JOptionPane.showInputDialog("Enter your name for the highscore.");
+    // PLAYER MOVEMENT
+    public void move()
+    {
+        if(gameState == 2)
+        {
+            if(left || right || up || down)
+            {
+                if(left && xPosPlayer > 40 && !blockLeft)
+                {
+                    xPosPlayer -= vel;
+                    direction = "left";
+                }
+                else if(right && xPosPlayer < 520 && !blockRight)
+                {
+                    xPosPlayer += vel;
+                    direction = "right";
+                }
+                if(up && yPosPlayer > 40 && !blockUp)
+                {
+                    yPosPlayer -= vel;
+                    direction = "up";
+                }
+                else if(down && yPosPlayer < 440 && !blockDown)
+                {
+                    yPosPlayer += vel;
+                    direction = "down";
+                }
 
-			// If the user presses the X button, return back
-			if(nameEntered == null)
-			{
-				return;
-			}
+                spriteCounter++;
 
-			// If the user tries to enter an empty file name
-			if(nameEntered.length() <= 0)
-			{
-				// Display that it is invalid and return
-				JOptionPane.showMessageDialog(null, "No name given.", "Invalid Entry", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
+                if(spriteCounter > 8)
+                {
+                    if(spriteNum == 1)
+                    {
+                        spriteNum = 2;
+                    }
+                    else if(spriteNum == 2)
+                    {
+                        spriteNum = 1;
+                    }
+                    spriteCounter = 0;
+                }
+            }
+        }
+    }
 
-			// Check if the file entered is a valid file
-			else
-			{
-				// If it is a valid file, display that it was sucessfully added
-				JOptionPane.showMessageDialog(null, "Highscore added.", "Success", JOptionPane.INFORMATION_MESSAGE);
-				// Add the new file to the arraylist of files names and the combo box so that the user can select it
-				highscore.add(nameEntered);
-			}
-		}
-		enterName = false;
-	}
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    // Checks collision with boxes
+    public void checkCollision()
+    {
+        if(gameState == 2) {
+            int xTile = (xPosPlayer + 20) / 40;
+            int yTile = (yPosPlayer + 20) / 40;
+
+            int xHeadTile = (xPosPlayer + 20) / 40;
+            int yHeadTile = (yPosPlayer + 5) / 40;
+
+            int xFeetTile = (xPosPlayer + 20) / 40;
+            int yFeetTile = (yPosPlayer + 35) / 40;
+
+            int xLeftHandTile = (xPosPlayer + 5) / 40;
+            int yLeftHandTile = (yPosPlayer + 20) / 40;
+
+            int xRightHandTile = (xPosPlayer + 35) / 40;
+            int yRightHandTile = (yPosPlayer + 20) / 40;
+
+            Rectangle player = new Rectangle(xPosPlayer, yPosPlayer, 40, 40);
+
+            blockDown = false;
+            blockUp = false;
+            blockLeft = false;
+            blockRight = false;
+
+            // Checks left block of player
+            if(!map[yFeetTile][xFeetTile-1].equals("-") || !map[yHeadTile][xHeadTile-1].equals("-")) {
+                Rectangle tile = new Rectangle((xTile-1) * 40, yTile * 40, 40, 40);
+                if(player.intersects(tile)) {
+                    blockLeft = true;
+                }
+            }
+            // Checks right block
+            if(!map[yFeetTile][xFeetTile+1].equals("-") || !map[yHeadTile][xHeadTile+1].equals("-")) {
+                Rectangle tile = new Rectangle((xTile + 1) * 40, (yTile) * 40, 40, 40);
+                if(player.intersects(tile)) {
+                    blockRight = true;
+                }
+            }
+            // Checks up block of player
+            if(!map[yLeftHandTile-1][xLeftHandTile].equals("-") || !map[yRightHandTile-1][xRightHandTile].equals("-")) {
+                Rectangle tile = new Rectangle((xTile) * 40, (yTile-1) * 40, 40, 40);
+                if(player.intersects(tile)) {
+                    blockUp = true;
+                }
+            }
+            // Checks down block
+            if(!map[yLeftHandTile+1][xLeftHandTile].equals("-") || !map[yRightHandTile+1][xRightHandTile].equals("-")) {
+                Rectangle tile = new Rectangle((xTile) * 40, (yTile + 1) * 40, 40, 40);
+                if(player.intersects(tile)) {
+                    blockDown = true;
+                }
+            }
+        }
+    }
 
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-	// THREADING
-	public void run() {
+    public void explodeBomb()
+    {
+        int bombX = bombArray.get(0).getX();
+        int bombY = bombArray.get(0).getY();
+
+        if(map[(bombY/40)-1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40)+1].equals("W") && map[(bombY/40)+1][(bombX/40)].equals("W"))
+        {
+            map[(bombY/40)-1][(bombX/40)] = "-";
+            map[(bombY/40)][(bombX/40) + 1] = "-";
+            map[(bombY/40)+1][(bombX/40)] = "-";
+        }
+        else if(map[(bombY/40)-1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40) + 1].equals("W"))
+        {
+            map[(bombY/40)-1][(bombX/40)] = "-";
+            map[(bombY/40)][(bombX/40)+ 1] = "-";
+        }
+        else if(map[(bombY/40)][(bombX/40)+1].equals("W") && map[(bombY/40)+1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40)-1].equals("W"))
+        {
+            map[(bombY/40)][(bombX/40)+1] = "-";
+            map[(bombY/40)+1][(bombX/40)] = "-";
+            map[(bombY/40)][(bombX/40)-1] = "-";
+        }
+        else if(map[(bombY/40)][(bombX/40)+1].equals("W") && map[(bombY/40)+1][(bombX/40)].equals("W"))
+        {
+            map[(bombY/40)][(bombX/40)+1] = "-";
+            map[(bombY/40)+1][(bombX/40)] = "-";
+        }
+        else if(map[(bombY/40)+1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40)-1].equals("W") && map[(bombY/40)-1][(bombX/40)].equals("W"))
+        {
+            map[(bombY/40)+1][(bombX/40)] = "-";
+            map[(bombY/40)][(bombX/40)-1] = "-";
+            map[(bombY/40)-1][(bombX/40)] = "-";
+        }
+        else if(map[(bombY/40)+1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40)-1].equals("W"))
+        {
+            map[(bombY/40)+1][(bombX/40)] = "-";
+            map[(bombY/40)][(bombX/40)-1] = "-";
+        }
+        else if(map[(bombY/40)][(bombX/40)-1].equals("W") && map[(bombY/40)-1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40)+1].equals("W"))
+        {
+            map[(bombY/40)][(bombX/40)-1] = "-";
+            map[(bombY/40)-1][(bombX/40)] = "-";
+            map[(bombY/40)][(bombX/40)+1] = "-";
+        }
+        else if(map[(bombY/40)][(bombX/40)-1].equals("W") && map[(bombY/40)-1][(bombX/40)].equals("W"))
+        {
+            map[(bombY/40)][(bombX/40)-1] = "-";
+            map[(bombY/40)-1][(bombX/40)] = "-";
+        }
+        else if(map[(bombY/40)-1][(bombX/40)].equals("W") && map[(bombY/40)+1][(bombX/40)].equals("W"))
+        {
+            map[(bombY/40)-1][(bombX/40)] = "-";
+            map[(bombY/40)+1][(bombX/40)] = "-";
+        }
+        else if(map[(bombY/40)][(bombX/40)-1].equals("W") && map[(bombY/40)][(bombX/40)+1].equals("W"))
+        {
+            map[(bombY/40)][(bombX/40)-1] = "-";
+            map[(bombY/40)][(bombX/40)+1] = "-";
+        }
+        else if(map[(bombY/40)-1][(bombX/40)].equals("W"))
+        {
+            map[(bombY/40)-1][(bombX/40)] = "-";
+        }
+        else if(map[(bombY/40)][(bombX/40)+1].equals("W"))
+        {
+            map[(bombY/40)][(bombX/40)+1] = "-";
+        }
+        else if(map[(bombY/40)+1][(bombX/40)].equals("W"))
+        {
+            map[(bombY/40)+1][(bombX/40)] = "-";
+        }
+        else if(map[(bombY/40)][(bombX/40)-1].equals("W"))
+        {
+            map[(bombY/40)][(bombX/40)-1] = "-";
+        }
+    }
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    public void enterHighscoreName()
+    {
+        if(enterName == true)
+        {
+            String nameEntered = JOptionPane.showInputDialog("Enter your name for the highscore.");
+
+            // If the user presses the X button, return back
+            if(nameEntered == null)
+            {
+                return;
+            }
+
+            // If the user tries to enter an empty file name
+            if(nameEntered.length() <= 0)
+            {
+                // Display that it is invalid and return
+                JOptionPane.showMessageDialog(null, "No name given.", "Invalid Entry", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Check if the file entered is a valid file
+            else
+            {
+                // If it is a valid file, display that it was sucessfully added
+                JOptionPane.showMessageDialog(null, "Highscore added.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                // Add the new file to the arraylist of files names and the combo box so that the user can select it
+                highscore.add(nameEntered);
+            }
+        }
+        enterName = false;
+    }
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    // THREADING
+    public void run() {
         while(true) {
-			move();
-			checkCollision();
+            move();
+            checkCollision();
             repaint();
             try {
                 Thread.sleep(17);
@@ -629,92 +641,92 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 
     // MAIN METHOD
-	public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
         // INITIALIZE FRAME
-		frame = new JFrame("Bomberman");
+        frame = new JFrame("Bomberman");
         Main myPanel = new Main();
         frame.add(myPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
+        frame.setResizable(false);
         frame.pack();
-		frame.setVisible(true);
-		
-		// LOADING MAPS
-		try
-		{
-			// Read Maps
-			BufferedReader br = new BufferedReader(new FileReader("map.txt"));
+        frame.setVisible(true);
 
-			int mapNumber = (int)(Math.random()*(3-1+1)) + 1;
+        // LOADING MAPS
+        try
+        {
+            // Read Maps
+            BufferedReader br = new BufferedReader(new FileReader("map.txt"));
 
-			int end = 13 * (mapNumber - 1);
-			for(int i = 0; i < end; i++)
-			{
-				br.readLine();
-			}
+            int mapNumber = (int)(Math.random()*(3-1+1)) + 1;
 
-			for(int i = 0; i < 13; i++)
-			{
-				String line = br.readLine();
-				for(int j = 0; j < 15; j++)
-				{
-					map[i][j] = line.substring(0, 1);
-					line = line.substring(1);
-				}
-			}
-			br.close();
-		}
-		catch(IOException e)
-		{
-			System.out.println("Input / Output Error");
-		}
+            int end = 13 * (mapNumber - 1);
+            for(int i = 0; i < end; i++)
+            {
+                br.readLine();
+            }
 
-		// LOADING IMAGES
-		try
-		{
-			backgroundImg = ImageIO.read(new File("Images/Background.png"));
-			highscoreImg = ImageIO.read(new File("Images/highscore.png"));
-			// rulesImg = ImageIO.read(new File("Images/rulesImg.png"));
-			aboutImg = ImageIO.read(new File("Images/about.png"));
-			backImg = ImageIO.read(new File("Images/back.png"));
-			gameOverImg = ImageIO.read(new File("Images/gameOver.png"));
+            for(int i = 0; i < 13; i++)
+            {
+                String line = br.readLine();
+                for(int j = 0; j < 15; j++)
+                {
+                    map[i][j] = line.substring(0, 1);
+                    line = line.substring(1);
+                }
+            }
+            br.close();
+        }
+        catch(IOException e)
+        {
+            System.out.println("Input / Output Error");
+        }
 
-			wallImg = ImageIO.read(new File("Images/wall.png"));
-			unbreakableWallImg = ImageIO.read(new File("Images/unbreakable.png"));
+        // LOADING IMAGES
+        try
+        {
+            backgroundImg = ImageIO.read(new File("Images/Background.png"));
+            highscoreImg = ImageIO.read(new File("Images/highscore.png"));
+            // rulesImg = ImageIO.read(new File("Images/rulesImg.png"));
+            aboutImg = ImageIO.read(new File("Images/about.png"));
+            backImg = ImageIO.read(new File("Images/back.png"));
+            gameOverImg = ImageIO.read(new File("Images/gameOver.png"));
 
-			characterSprites = new BufferedImage[10];
-			characterSprites[0] = ImageIO.read(new File("Images/boy_down_1.png"));
-			characterSprites[1] = ImageIO.read(new File("Images/boy_down_2.png"));
-			characterSprites[2] = ImageIO.read(new File("Images/boy_left_1.png"));
-			characterSprites[3] = ImageIO.read(new File("Images/boy_left_2.png"));
-			characterSprites[4] = ImageIO.read(new File("Images/boy_right_1.png"));
-			characterSprites[5] = ImageIO.read(new File("Images/boy_right_2.png"));
-			characterSprites[6] = ImageIO.read(new File("Images/boy_up_1.png"));
-			characterSprites[7] = ImageIO.read(new File("Images/boy_up_2.png"));
+            wallImg = ImageIO.read(new File("Images/wall.png"));
+            unbreakableWallImg = ImageIO.read(new File("Images/unbreakable.png"));
 
-			bombImg = ImageIO.read(new File("Images/bomb.png"));
-			bombExplosionImg = ImageIO.read(new File("Images/bombExplosion.gif"));
-			bombAndExplosionImg = ImageIO.read(new File("Images/bombAndExplosion.gif"));
-		}
-		catch(IOException e)
-		{
-			System.out.println("Input / Output Error");
-		}
-		// for (String[] x : map)
-		// {
-		// 	for (String y : x)
-		// 	{
-		// 			System.out.print(y);
-		// 	}
-		// 	System.out.println();
-		// }
+            characterSprites = new BufferedImage[10];
+            characterSprites[0] = ImageIO.read(new File("Images/boy_down_1.png"));
+            characterSprites[1] = ImageIO.read(new File("Images/boy_down_2.png"));
+            characterSprites[2] = ImageIO.read(new File("Images/boy_left_1.png"));
+            characterSprites[3] = ImageIO.read(new File("Images/boy_left_2.png"));
+            characterSprites[4] = ImageIO.read(new File("Images/boy_right_1.png"));
+            characterSprites[5] = ImageIO.read(new File("Images/boy_right_2.png"));
+            characterSprites[6] = ImageIO.read(new File("Images/boy_up_1.png"));
+            characterSprites[7] = ImageIO.read(new File("Images/boy_up_2.png"));
+
+            bombImg = ImageIO.read(new File("Images/bomb.png"));
+            bombExplosionImg = ImageIO.read(new File("Images/bombExplosion.gif"));
+            bombAndExplosionImg = ImageIO.read(new File("Images/bombAndExplosion.gif"));
+        }
+        catch(IOException e)
+        {
+            System.out.println("Input / Output Error");
+        }
+        // for (String[] x : map)
+        // {
+        // 	for (String y : x)
+        // 	{
+        // 			System.out.print(y);
+        // 	}
+        // 	System.out.println();
+        // }
     }
 
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-	// USELESS
+    // USELESS
     public void mouseClicked(MouseEvent e) {}
     public void mouseReleased(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {}
