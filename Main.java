@@ -44,6 +44,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     // POWER UPS
     static PowerUps speed = new PowerUps(5, 0);
     static PowerUps slow = new PowerUps(5, 0);
+    static int powerUpSpawnTileX;
+    static int powerUpSpawnTileY;
 
     // BOMBS
     static ArrayList<Bomb> bombArray = new ArrayList<Bomb>();
@@ -141,6 +143,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                     {
                         g.drawImage(unbreakableWallImg, i, j, null);
                     }
+                    // else if(map[j/40][i/40].equals("P"))
+                    // {
+                    //     g.setColor(new Color(255, 0, 0));
+                    //     g.fillOval(i, j, 40, 40);
+                    // }
                 }
             }
 
@@ -190,6 +197,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
                 bombArray.remove(0);
                 timer = 0;
+            }
+
+            if(xPosPlayer == powerUpSpawnTileX*40 && yPosPlayer == powerUpSpawnTileY*40)
+            {
+                vel += speed.getSpeedPowerUp();
             }
 
             // Draw the player
@@ -658,6 +670,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             BufferedReader br = new BufferedReader(new FileReader("map.txt"));
 
             int mapNumber = (int)(Math.random()*(3-1+1)) + 1;
+            powerUpSpawnTileX = (int)(Math.random()*(14)) +1;
+            powerUpSpawnTileY = (int)(Math.random()*(12)) +1;
 
             int end = 13 * (mapNumber - 1);
             for(int i = 0; i < end; i++)
@@ -674,6 +688,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                     line = line.substring(1);
                 }
             }
+            while(!map[powerUpSpawnTileY][powerUpSpawnTileX].equals("-"))
+            {
+                powerUpSpawnTileX = (int)(Math.random()*(14)) +1;
+                powerUpSpawnTileY = (int)(Math.random()*(12)) +1;
+            }
+            // map[powerUpSpawnTileY][powerUpSpawnTileX] = "P";
             br.close();
         }
         catch(IOException e)
