@@ -37,21 +37,18 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
     // IMAGES
     static BufferedImage wallImg, unbreakableWallImg;
-    static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, gameOverImg, bombImg, bombExplosionImg, bombAndExplosionImg, doorImg;
+    static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, gameOverImg, bombImg, bombExplosionImg, bombAndExplosionImg, powerUpSpeedImg, doorImg;
     static BufferedImage[] characterSprites;
     static BufferedImage playerImg;
     static int spriteNum = 1;
     static int spriteCounter = 0;
 
-    // POWER UPS
-    static PowerUps speed = new PowerUps(5, 0);
-    static PowerUps slow = new PowerUps(5, 0);
-    static int powerUpSpawnTileX;
-    static int powerUpSpawnTileY;
-
     // BOMBS
     static ArrayList<Bomb> bombArray = new ArrayList<Bomb>();
     static int timer = 0;
+
+	// POWERUPS
+	static ArrayList<PowerUp> powerUpArray = new ArrayList<PowerUp>();
 
     // DOOR
     static int xPosDoor;
@@ -133,6 +130,21 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             // Draw Door
             g.drawImage(doorImg, xPosDoor, yPosDoor, null);
 
+			// Draw Powerup
+			if(powerUpArray.size() >= 1)
+			{
+				for(int i = 0; i < powerUpArray.size(); i++)
+				{
+					powerUpArray.get(i).draw(g);
+				}
+				if(xPosPlayer >= powerUpArray.get(0).getX()-10 && xPosPlayer <= powerUpArray.get(0).getX()+10 && yPosPlayer >= powerUpArray.get(0).getY()-10 && yPosPlayer <= powerUpArray.get(0).getY()+10)
+				{
+					vel += powerUpArray.get(0).getSpeedPowerUp();
+					powerUpArray.remove(0);
+				}
+				// System.out.println(powerUpArray.get(0).getX() + ", " + powerUpArray.get(0).getY());
+			}
+
             // Read map from map.txt and draw map onto the screen
             for(int i = 0; i < 600; i += 40)
             {
@@ -152,11 +164,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                     {
                         g.drawImage(unbreakableWallImg, i, j, null);
                     }
-                    // else if(map[j/40][i/40].equals("P"))
-                    // {
-                    //     g.setColor(new Color(255, 0, 0));
-                    //     g.fillOval(i, j, 40, 40);
-                    // }
+                    else if(map[j/40][i/40].equals("P"))
+                    {
+                        g.setColor(new Color(255, 0, 0));
+                        g.fillOval(i, j, 40, 40);
+                    }
                 }
             }
 
@@ -206,11 +218,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
                 bombArray.remove(0);
                 timer = 0;
-            }
-
-            if(xPosPlayer == powerUpSpawnTileX*40 && yPosPlayer == powerUpSpawnTileY*40)
-            {
-                vel += speed.getSpeedPowerUp();
             }
 
             // Draw the player
@@ -389,7 +396,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         }
         else if(key == KeyEvent.VK_M)
         {
-            vel += speed.getSpeedPowerUp();
+            vel += powerUpArray.get(0).getSpeedPowerUp();
         }
         else if(key == KeyEvent.VK_L || (player.intersects(door) && (key == KeyEvent.VK_ENTER)))
         {
@@ -681,8 +688,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             BufferedReader br = new BufferedReader(new FileReader("map.txt"));
 
             int mapNumber = (int)(Math.random()*(3-1+1)) + 1;
-            powerUpSpawnTileX = (int)(Math.random()*(14)) +1;
-            powerUpSpawnTileY = (int)(Math.random()*(12)) +1;
 
             int end = 13 * (mapNumber - 1);
             for(int i = 0; i < end; i++)
@@ -705,12 +710,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                     line = line.substring(1);
                 }
             }
-            while(!map[powerUpSpawnTileY][powerUpSpawnTileX].equals("-"))
-            {
-                powerUpSpawnTileX = (int)(Math.random()*(14)) +1;
-                powerUpSpawnTileY = (int)(Math.random()*(12)) +1;
-            }
-            // map[powerUpSpawnTileY][powerUpSpawnTileX] = "P";
             br.close();
 
             int doorBlock = (int) (Math.random() * xBlocks.size()) + 1;
@@ -751,12 +750,30 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             bombExplosionImg = ImageIO.read(new File("Images/bombExplosion.gif"));
             bombAndExplosionImg = ImageIO.read(new File("Images/bombAndExplosion.gif"));
 
+			powerUpSpeedImg = ImageIO.read(new File("Images/powerUpSpeed.png"));
+
             doorImg = ImageIO.read(new File("Images/door.png"));
         }
         catch(IOException e)
         {
             System.out.println("Input / Output Error");
         }
+
+		for(int i = 0; i < 1; i++)
+		{
+			int xPosPowerUp = (int)(Math.random()*(14)) +1;
+			int yPosPowerUp = (int)(Math.random()*(12)) +1;
+			while(map[yPosPowerUp][xPosPowerUp].equals("1"))
+			{
+				xPosPowerUp = (int)(Math.random()*(14)) +1;
+				yPosPowerUp = (int)(Math.random()*(12)) +1;
+			}
+
+			PowerUp powerUp = new PowerUp(powerUpSpeedImg, xPosPowerUp*40, yPosPowerUp*40);
+
+			powerUpArray.add(powerUp);
+		}
+
         // for (String[] x : map)
         // {
         // 	for (String y : x)
