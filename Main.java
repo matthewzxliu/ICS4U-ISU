@@ -31,11 +31,13 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
     // MAP
     static String[][] map = new String[13][15];
+    static ArrayList<Integer> xBlocks = new ArrayList<>();
+    static ArrayList<Integer> yBlocks = new ArrayList<>();
     static int xPosNear, yPosNear;
 
     // IMAGES
     static BufferedImage wallImg, unbreakableWallImg;
-    static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, gameOverImg, bombImg, bombExplosionImg, bombAndExplosionImg;
+    static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, gameOverImg, bombImg, bombExplosionImg, bombAndExplosionImg, doorImg;
     static BufferedImage[] characterSprites;
     static BufferedImage playerImg;
     static int spriteNum = 1;
@@ -50,6 +52,10 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     // BOMBS
     static ArrayList<Bomb> bombArray = new ArrayList<Bomb>();
     static int timer = 0;
+
+    // DOOR
+    static int xPosDoor;
+    static int yPosDoor;
 
     // HIGHSCORE
     static ArrayList<String> highscore = new ArrayList<String>();
@@ -123,6 +129,9 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         {
             // CLEAR SCREEN
             super.paintComponent(g);
+
+            // Draw Door
+            g.drawImage(doorImg, xPosDoor, yPosDoor, null);
 
             // Read map from map.txt and draw map onto the screen
             for(int i = 0; i < 600; i += 40)
@@ -342,6 +351,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     public void keyPressed(KeyEvent e)
     {
         int key = e.getKeyCode();
+        Rectangle player = new Rectangle(xPosPlayer, yPosPlayer, 40, 40);
+        Rectangle door = new Rectangle(xPosDoor, yPosDoor, 40, 40);
 
         if(key == KeyEvent.VK_A)
         {
@@ -380,7 +391,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         {
             vel += speed.getSpeedPowerUp();
         }
-        else if(key == KeyEvent.VK_L)
+        else if(key == KeyEvent.VK_L || (player.intersects(door) && (key == KeyEvent.VK_ENTER)))
         {
             gameState = 6;
         }
@@ -685,6 +696,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 for(int j = 0; j < 15; j++)
                 {
                     map[i][j] = line.substring(0, 1);
+
+                    if(map[i][j].equals("W")) {
+                        xBlocks.add(j * 40);
+                        yBlocks.add(i * 40);
+                    }
+
                     line = line.substring(1);
                 }
             }
@@ -695,6 +712,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             }
             // map[powerUpSpawnTileY][powerUpSpawnTileX] = "P";
             br.close();
+
+            int doorBlock = (int) (Math.random() * xBlocks.size()) + 1;
+            xPosDoor = xBlocks.get(doorBlock);
+            yPosDoor = yBlocks.get(doorBlock);
+            System.out.println("Door: " + xPosDoor + ", " + yPosDoor);
+
         }
         catch(IOException e)
         {
@@ -727,6 +750,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             bombImg = ImageIO.read(new File("Images/bomb.png"));
             bombExplosionImg = ImageIO.read(new File("Images/bombExplosion.gif"));
             bombAndExplosionImg = ImageIO.read(new File("Images/bombAndExplosion.gif"));
+
+            doorImg = ImageIO.read(new File("Images/door.png"));
         }
         catch(IOException e)
         {
