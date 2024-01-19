@@ -3,11 +3,10 @@ import java.awt.image.BufferedImage;
 
 public class Enemy {
 
-    private BufferedImage enemyImg;
     private int x;
     private int y;
     private String direction;
-    private double speed = 1;
+    private double speed = 2;
 
     public int getX() {
         return x;
@@ -21,7 +20,6 @@ public class Enemy {
         this.x = x;
         this.y = y;
         this.direction = direction;
-        this.enemyImg = enemyImg;
     }
 
     public void move(String[][] map) {
@@ -38,6 +36,9 @@ public class Enemy {
             Rectangle upEnemy = new Rectangle((xTile) * 40, (yTile - 1) * 40, 40, 40);
             if(!map[yTile - 1][xTile].equals("-") && enemyBox.intersects(upEnemy)) {
                 changeDirection();
+            } else {
+                x = newX;
+                y = newY;
             }
         }
         if(direction.equals("down")) {
@@ -48,6 +49,9 @@ public class Enemy {
             Rectangle downEnemy = new Rectangle((xTile) * 40, (yTile + 1) * 40, 40, 40);
             if(!map[yTile + 1][xTile].equals("-") && enemyBox.intersects(downEnemy)) {
                 changeDirection();
+            } else {
+                x = newX;
+                y = newY;
             }
         }
         if(direction.equals("left")) {
@@ -58,6 +62,9 @@ public class Enemy {
             Rectangle leftEnemy = new Rectangle((xTile-1) * 40, yTile * 40, 40, 40);
             if(!map[yTile][xTile - 1].equals("-") && enemyBox.intersects(leftEnemy)) {
                 changeDirection();
+            } else {
+                x = newX;
+                y = newY;
             }
         }
         if(direction.equals("right")) {
@@ -68,40 +75,59 @@ public class Enemy {
             Rectangle rightEnemy = new Rectangle((xTile + 1) * 40, yTile * 40, 40, 40);
             if(!map[yTile][xTile + 1].equals("-") && enemyBox.intersects(rightEnemy)) {
                 changeDirection();
+            } else {
+                x = newX;
+                y = newY;
             }
         }
-        x = newX;
-        y = newY;
-//        switch (direction) {
-//            case 0:
-//                newY -= speed;
-//                break;
-//            case 1:
-//                newY += speed;
-//                break;
-//            case 2:
-//                newX -= speed;
-//                break;
-//            case 3:
-//                newX += speed;
-//                break;
-//        }
     }
 
     private void changeDirection() {
         // Change direction to a random value (0: UP, 1: DOWN, 2: LEFT, 3: RIGHT)
-        int num = (int) (Math.random() * 4);
-        if(num == 0) {
-            direction = "up";
+        int num = (int) (Math.random() * 3);
+        if(direction.equals("up")) {
+            if(num == 0) {
+                direction = "right";
+            }
+            if(num == 1) {
+                direction = "down";
+            }
+            if(num == 2) {
+                direction = "left";
+            }
         }
-        if(num == 1) {
-            direction = "down";
+        else if(direction.equals("down")) {
+            if(num == 0) {
+                direction = "up";
+            }
+            if(num == 1) {
+                direction = "right";
+            }
+            if(num == 2) {
+                direction = "left";
+            }
         }
-        if(num == 2) {
-            direction = "left";
+        else if(direction.equals("right")) {
+            if(num == 0) {
+                direction = "up";
+            }
+            if(num == 1) {
+                direction = "down";
+            }
+            if(num == 2) {
+                direction = "left";
+            }
         }
-        if(num == 3) {
-            direction = "right";
+        else if(direction.equals("left")) {
+            if(num == 0) {
+                direction = "up";
+            }
+            if(num == 1) {
+                direction = "down";
+            }
+            if(num == 2) {
+                direction = "right";
+            }
         }
     }
 }
