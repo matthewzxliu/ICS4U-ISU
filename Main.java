@@ -61,8 +61,13 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
     // HIGHSCORE
     static ArrayList<String> highscore = new ArrayList<String>();
-    boolean enterName = false;
-    Font font = new Font("SansSerif", Font.PLAIN, 18);
+    static boolean enterName = false;
+    static Font font = new Font("SansSerif", Font.PLAIN, 18);
+    static int timeElapsedMs = 0;
+    static int timeElapsedSec = 0;
+    static int timeElapsedMin = 0;
+    static String timeString = "";
+    static int fps = 0;
 
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -131,6 +136,18 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         {
             // CLEAR SCREEN
             super.paintComponent(g);
+            
+            timeElapsedMs += (1000/60);
+            if(timeElapsedMs >= 1000)
+            {
+                timeElapsedSec++;
+                timeElapsedMs = 0;
+            }
+            if(timeElapsedSec == 60)
+            {
+                timeElapsedMin++;
+                timeElapsedSec = 0;
+            }
 
             // Draw Door
             g.drawImage(doorImg, xPosDoor, yPosDoor, null);
@@ -196,6 +213,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                     }
                 }
             }
+
+            g.setColor(new Color(255, 255, 255));
+            g.setFont(font);
+            timeString = String.format("Time: %02d:%02d:%02d", timeElapsedMin, timeElapsedSec, timeElapsedMs/10);
+            g.drawString(timeString, 400, 27);
 
             // Sprite animation, if player is going down/left/right/up, set the player image to one of two sprites
             playerImg = null;
@@ -751,7 +773,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             checkCollision();
             repaint();
             try {
-                Thread.sleep(17);
+                Thread.sleep(1000/60);
             } catch(Exception e) {}
         }
     }
