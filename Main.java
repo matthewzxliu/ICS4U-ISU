@@ -46,6 +46,10 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     // BOMBS
     static ArrayList<Bomb> bombArray = new ArrayList<Bomb>();
     static int timer = 0;
+    static int currentFrame;
+    static int endFrame;
+    static int xPosExploded;
+    static int yPosExploded;
 
     // ENEMIES
     static ArrayList<Enemy> enemies = new ArrayList<>();
@@ -66,7 +70,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     static ArrayList<String> highscore = new ArrayList<String>();
     static boolean enterName = false;
     static Font font = new Font("SansSerif", Font.PLAIN, 18);
-    static int timeElapsedMs = 0;
+    static int timeElapsedMsInt;
+    static long timeElapsedMs = 0;
     static int timeElapsedSec = 0;
     static int timeElapsedMin = 0;
     static String timeString = "";
@@ -140,17 +145,17 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             // CLEAR SCREEN
             super.paintComponent(g);
             
-            timeElapsedMs += (1000/60);
-            if(timeElapsedMs >= 1000)
-            {
-                timeElapsedSec++;
-                timeElapsedMs = 0;
-            }
-            if(timeElapsedSec == 60)
-            {
-                timeElapsedMin++;
-                timeElapsedSec = 0;
-            }
+            // timeElapsedMs = System.currentTimeMillis();
+            // if(timeElapsedMs >= 1000)
+            // {
+            //     timeElapsedSec++;
+            //     timeElapsedMs = 0;
+            // }
+            // if(timeElapsedSec == 60)
+            // {
+            //     timeElapsedMin++;
+            //     timeElapsedSec = 0;
+            // }
 
             // Draw Door
             g.drawImage(doorImg, xPosDoor, yPosDoor, null);
@@ -219,8 +224,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
             g.setColor(new Color(255, 255, 255));
             g.setFont(font);
-            timeString = String.format("Time: %02d:%02d:%02d", timeElapsedMin, timeElapsedSec, timeElapsedMs/10);
-            g.drawString(timeString, 400, 27);
+            // timeString = String.format("Time: %02d:%02d:%02d", timeElapsedMin, timeElapsedSec, timeElapsedMs/10);
+            // g.drawString(timeString, 400, 27);
 
             // Sprite animation, if player is going down/left/right/up, set the player image to one of two sprites
             playerImg = null;
@@ -266,8 +271,20 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             {
                 explodeBomb();
 
+                currentFrame = fps;
+                endFrame = currentFrame + 60;
+                xPosExploded = bombArray.get(0).getX();
+                yPosExploded = bombArray.get(0).getY();
+
                 bombArray.remove(0);
                 timer = 0;
+            }
+            currentFrame++;
+            if(currentFrame <= endFrame)
+            {
+                g.setColor(new Color(255, 0, 0));
+                g.fillRect(xPosExploded-40, yPosExploded, 120, 40);
+                g.fillRect(xPosExploded, yPosExploded-40, 40, 120);
             }
 
             // Draw the player
@@ -278,26 +295,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 enemies.get(i).move(map);
                 g.drawImage(enemyImg, enemies.get(i).getX(), enemies.get(i).getY(), null);
             }
-
-            // ENEMY TEST
-            // g.setColor(new Color(0, 0, 255));
-            // g.fillOval(xPosEnemy, yPosEnemy, 25, 25);
-            // if(xPosEnemy >= xPosPlayer)
-            // {
-            // 	xPosEnemy -= 2;
-            // }
-            // else if(xPosEnemy <= xPosPlayer)
-            // {
-            // 	xPosEnemy += 2;
-            // }
-            // if(yPosEnemy >= yPosPlayer)
-            // {
-            // 	yPosEnemy -= 2;
-            // }
-            // else if(yPosEnemy <= yPosPlayer)
-            // {
-            // 	yPosEnemy += 2;
-            // }
 
         }
         // Game state 3, high score page
