@@ -366,6 +366,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             }
             else if(xPos >= 211 && xPos <= 388 && yPos >= 320 && yPos <= 370)
             {
+                reset();
                 gameState = 2;
             }
             else if(xPos >= 211 && xPos <= 388 && yPos >= 380 && yPos <= 430)
@@ -630,79 +631,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             if(bomb.intersects(enemy) || bombUp.intersects(enemy) || bombDown.intersects(enemy) || bombLeft.intersects(enemy) || bombRight.intersects(enemy)) {
                 enemies.remove(i);
             }
-
         }
-
-//        if(map[(bombY/40)-1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40)+1].equals("W") && map[(bombY/40)+1][(bombX/40)].equals("W"))
-//        {
-//            map[(bombY/40)-1][(bombX/40)] = "-";
-//            map[(bombY/40)][(bombX/40) + 1] = "-";
-//            map[(bombY/40)+1][(bombX/40)] = "-";
-//        }
-//        else if(map[(bombY/40)-1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40) + 1].equals("W"))
-//        {
-//            map[(bombY/40)-1][(bombX/40)] = "-";
-//            map[(bombY/40)][(bombX/40)+ 1] = "-";
-//        }
-//        else if(map[(bombY/40)][(bombX/40)+1].equals("W") && map[(bombY/40)+1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40)-1].equals("W"))
-//        {
-//            map[(bombY/40)][(bombX/40)+1] = "-";
-//            map[(bombY/40)+1][(bombX/40)] = "-";
-//            map[(bombY/40)][(bombX/40)-1] = "-";
-//        }
-//        else if(map[(bombY/40)][(bombX/40)+1].equals("W") && map[(bombY/40)+1][(bombX/40)].equals("W"))
-//        {
-//            map[(bombY/40)][(bombX/40)+1] = "-";
-//            map[(bombY/40)+1][(bombX/40)] = "-";
-//        }
-//        else if(map[(bombY/40)+1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40)-1].equals("W") && map[(bombY/40)-1][(bombX/40)].equals("W"))
-//        {
-//            map[(bombY/40)+1][(bombX/40)] = "-";
-//            map[(bombY/40)][(bombX/40)-1] = "-";
-//            map[(bombY/40)-1][(bombX/40)] = "-";
-//        }
-//        else if(map[(bombY/40)+1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40)-1].equals("W"))
-//        {
-//            map[(bombY/40)+1][(bombX/40)] = "-";
-//            map[(bombY/40)][(bombX/40)-1] = "-";
-//        }
-//        else if(map[(bombY/40)][(bombX/40)-1].equals("W") && map[(bombY/40)-1][(bombX/40)].equals("W") && map[(bombY/40)][(bombX/40)+1].equals("W"))
-//        {
-//            map[(bombY/40)][(bombX/40)-1] = "-";
-//            map[(bombY/40)-1][(bombX/40)] = "-";
-//            map[(bombY/40)][(bombX/40)+1] = "-";
-//        }
-//        else if(map[(bombY/40)][(bombX/40)-1].equals("W") && map[(bombY/40)-1][(bombX/40)].equals("W"))
-//        {
-//            map[(bombY/40)][(bombX/40)-1] = "-";
-//            map[(bombY/40)-1][(bombX/40)] = "-";
-//        }
-//        else if(map[(bombY/40)-1][(bombX/40)].equals("W") && map[(bombY/40)+1][(bombX/40)].equals("W"))
-//        {
-//            map[(bombY/40)-1][(bombX/40)] = "-";
-//            map[(bombY/40)+1][(bombX/40)] = "-";
-//        }
-//        else if(map[(bombY/40)][(bombX/40)-1].equals("W") && map[(bombY/40)][(bombX/40)+1].equals("W"))
-//        {
-//            map[(bombY/40)][(bombX/40)-1] = "-";
-//            map[(bombY/40)][(bombX/40)+1] = "-";
-//        }
-//        else if(map[(bombY/40)-1][(bombX/40)].equals("W"))
-//        {
-//            map[(bombY/40)-1][(bombX/40)] = "-";
-//        }
-//        else if(map[(bombY/40)][(bombX/40)+1].equals("W"))
-//        {
-//            map[(bombY/40)][(bombX/40)+1] = "-";
-//        }
-//        else if(map[(bombY/40)+1][(bombX/40)].equals("W"))
-//        {
-//            map[(bombY/40)+1][(bombX/40)] = "-";
-//        }
-//        else if(map[(bombY/40)][(bombX/40)-1].equals("W"))
-//        {
-//            map[(bombY/40)][(bombX/40)-1] = "-";
-//        }
     }
 
 
@@ -742,7 +671,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             }
             br.close();
 
-            int doorBlock = (int) (Math.random() * xBlocks.size()) + 1;
+            int doorBlock = (int) (Math.random() * xBlocks.size());
             xPosDoor = xBlocks.get(doorBlock);
             yPosDoor = yBlocks.get(doorBlock);
             System.out.println("Door: " + xPosDoor + ", " + yPosDoor);
@@ -761,22 +690,24 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
     public static void generatePowerUps()
     {
-        int xPosPowerUp = (int)(Math.random()*(14)) +1;
-        int yPosPowerUp = (int)(Math.random()*(12)) +1;
+        int xPosPowerUp = (int)(Math.random()*(13)) +1;
+        int yPosPowerUp = (int)(Math.random()*(11)) +1;
         while(map[yPosPowerUp][xPosPowerUp].equals("1"))
         {
-            xPosPowerUp = (int)(Math.random()*(14)) +1;
-            yPosPowerUp = (int)(Math.random()*(12)) +1;
+            xPosPowerUp = (int)(Math.random()*(13)) +1;
+            yPosPowerUp = (int)(Math.random()*(11)) +1;
         }
+        System.out.println("Power 1: " + xPosPowerUp + ", " + yPosPowerUp);
         powerUp1 = new PowerUp(powerUpSpeedImg, xPosPowerUp*40, yPosPowerUp*40);
 
-        xPosPowerUp = (int)(Math.random()*(14)) +1;
-        yPosPowerUp = (int)(Math.random()*(12)) +1;
+        xPosPowerUp = (int)(Math.random()*(13)) +1;
+        yPosPowerUp = (int)(Math.random()*(11)) +1;
         while(map[yPosPowerUp][xPosPowerUp].equals("1"))
         {
-            xPosPowerUp = (int)(Math.random()*(14)) +1;
-            yPosPowerUp = (int)(Math.random()*(12)) +1;
+            xPosPowerUp = (int)(Math.random()*(13)) +1;
+            yPosPowerUp = (int)(Math.random()*(11)) +1;
         }
+        System.out.println("Power 2: " + xPosPowerUp + ", " + yPosPowerUp);
         powerUp2 = new PowerUp(powerUpSpeedImg, xPosPowerUp*40, yPosPowerUp*40);
     }
 
@@ -879,6 +810,27 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         System.out.println(highscoreTreeMap);
     }
 
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    public void reset() {
+        xPosPlayer = 40;
+        yPosPlayer = 40;
+        enemies.clear();
+        xBlocks.clear();
+        yBlocks.clear();
+        powerUp1Claimed = false;
+        powerUp2Claimed = false;
+
+        // Load new map
+        try {
+            loadMaps();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Generate new power-ups
+        generatePowerUps();
+    }
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -910,7 +862,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         frame.pack();
         frame.setVisible(true);
 
-        loadMaps();
 
         // LOADING IMAGES
         try
@@ -950,8 +901,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         {
             System.out.println("Input / Output Error");
         }
-
-        generatePowerUps();
 
         // for (String[] x : map)
         // {
