@@ -222,10 +222,10 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 }
             }
 
-            g.setColor(new Color(255, 255, 255));
-            g.setFont(font);
-            // timeString = String.format("Time: %02d:%02d:%02d", timeElapsedMin, timeElapsedSec, timeElapsedMs/10);
-            // g.drawString(timeString, 400, 27);
+            // g.setColor(new Color(255, 255, 255));
+            // g.setFont(font);
+            // // timeString = String.format("Time: %02d:%02d:%02d", timeElapsedMin, timeElapsedSec, timeElapsedMs/10);
+            // // g.drawString(timeString, 400, 27);
 
             // Sprite animation, if player is going down/left/right/up, set the player image to one of two sprites
             playerImg = null;
@@ -283,8 +283,23 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             if(currentFrame <= endFrame)
             {
                 g.setColor(new Color(255, 0, 0));
-                g.fillRect(xPosExploded-40, yPosExploded, 120, 40);
-                g.fillRect(xPosExploded, yPosExploded-40, 40, 120);
+                g.fillRect(xPosExploded, yPosExploded, 40, 40);
+                if(!map[(yPosExploded/40)-1][(xPosExploded/40)].equals("x") && !map[(yPosExploded/40)-1][(xPosExploded/40)].equals("1"))
+                {
+                    g.fillRect(xPosExploded, yPosExploded-40, 40, 40);
+                }
+                if(!map[(yPosExploded/40)+1][(xPosExploded/40)].equals("x") && !map[(yPosExploded/40)+1][(xPosExploded/40)].equals("1"))
+                {
+                    g.fillRect(xPosExploded, yPosExploded+40, 40, 40);
+                }
+                if(!map[(yPosExploded/40)][(xPosExploded/40)-1].equals("x") && !map[(yPosExploded/40)][(xPosExploded/40)-1].equals("1"))
+                {
+                    g.fillRect(xPosExploded-40, yPosExploded, 40, 40);
+                }
+                if(!map[(yPosExploded/40)][(xPosExploded/40)+1].equals("x") &&x !map[(yPosExploded/40)][(xPosExploded/40)+1].equals("1"))
+                {
+                    g.fillRect(xPosExploded+40, yPosExploded, 40, 40);
+                }
             }
 
             // Draw the player
