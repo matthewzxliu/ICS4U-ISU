@@ -31,8 +31,6 @@ public class PowerUp {
 
     public PowerUp(BufferedImage powerUpSpeedImg, int xPosPowerUp, int yPosPowerUp)
     {
-        // this.playerVel = playerVel;
-        // this.enemyVel = enemyVel;
         this.powerUpSpeedImg = powerUpSpeedImg;
         this.xPosPowerUp = xPosPowerUp;
         this.yPosPowerUp = yPosPowerUp;
@@ -55,11 +53,11 @@ public class PowerUp {
     
     public int getSlowPowerUp()
     {
-        return enemyVel += 5;
+        return enemyVel -= 2;
     }
 
     public int removeSlowPowerUp()
     {
-        return enemyVel -= 2;
+        return enemyVel += 2;
     }
 }
