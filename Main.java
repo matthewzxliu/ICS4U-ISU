@@ -48,7 +48,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     static int timer = 0;
 
 	// POWERUPS
-	static ArrayList<PowerUp> powerUpArray = new ArrayList<PowerUp>();
+    static PowerUp powerUp1;
+    static PowerUp powerUp2;
+    static boolean powerUp1Claimed = false;
+    static boolean powerUp2Claimed = false;
+    static int powerUp1Duration = 300;
+    static int powerUp2Duration = 300;
 
     // DOOR
     static int xPosDoor;
@@ -130,20 +135,40 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             // Draw Door
             g.drawImage(doorImg, xPosDoor, yPosDoor, null);
 
-			// Draw Powerup
-			if(powerUpArray.size() >= 1)
-			{
-				for(int i = 0; i < powerUpArray.size(); i++)
-				{
-					powerUpArray.get(i).draw(g);
-				}
-				if(xPosPlayer >= powerUpArray.get(0).getX()-10 && xPosPlayer <= powerUpArray.get(0).getX()+10 && yPosPlayer >= powerUpArray.get(0).getY()-10 && yPosPlayer <= powerUpArray.get(0).getY()+10)
-				{
-					vel += powerUpArray.get(0).getSpeedPowerUp();
-					powerUpArray.remove(0);
-				}
-				// System.out.println(powerUpArray.get(0).getX() + ", " + powerUpArray.get(0).getY());
-			}
+            if(powerUp1Claimed == false)
+            {
+                powerUp1.draw(g);
+                if(xPosPlayer >= powerUp1.getX()-10 && xPosPlayer <= powerUp1.getX()+10 && yPosPlayer >= powerUp1.getY()-10 && yPosPlayer <= powerUp1.getY()+10)
+                {
+                    vel += powerUp1.getSpeedPowerUp();
+                    powerUp1Claimed = true;
+                }
+            }
+            if(powerUp2Claimed == false)
+            {
+                powerUp2.draw(g);
+                if(xPosPlayer >= powerUp2.getX()-10 && xPosPlayer <= powerUp2.getX()+10 && yPosPlayer >= powerUp2.getY()-10 && yPosPlayer <= powerUp2.getY()+10)
+                {
+                    vel += powerUp2.getSpeedPowerUp();
+                    powerUp2Claimed = true;
+                }
+            }
+            if(powerUp1Claimed == true && powerUp1Duration >= 0)
+            {
+                powerUp1Duration--;
+                if(powerUp1Duration <= 0)
+                {
+                    vel += powerUp1.removeSpeedPowerUp();
+                }
+            }
+            if(powerUp2Claimed == true && powerUp2Duration >= 0)
+            {
+                powerUp2Duration--;
+                if(powerUp2Duration <= 0)
+                {
+                    vel += powerUp2.removeSpeedPowerUp();
+                }
+            }
 
             // Read map from map.txt and draw map onto the screen
             for(int i = 0; i < 600; i += 40)
@@ -389,15 +414,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 bombArray.add(bomb);
             }
         }
-
-        else if(key == KeyEvent.VK_CONTROL)
-        {
-            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-        }
-        else if(key == KeyEvent.VK_M)
-        {
-            vel += powerUpArray.get(0).getSpeedPowerUp();
-        }
         else if(key == KeyEvent.VK_L || (player.intersects(door) && (key == KeyEvent.VK_ENTER)))
         {
             gameState = 6;
@@ -618,6 +634,80 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+    public static void loadMaps() throws IOException
+    {
+        // LOADING MAPS
+        try
+        {
+            // Read Maps
+            BufferedReader br = new BufferedReader(new FileReader("map.txt"));
+
+            int mapNumber = (int)(Math.random()*(3-1+1)) + 1;
+
+            int end = 13 * (mapNumber - 1);
+            for(int i = 0; i < end; i++)
+            {
+                br.readLine();
+            }
+
+            for(int i = 0; i < 13; i++)
+            {
+                String line = br.readLine();
+                for(int j = 0; j < 15; j++)
+                {
+                    map[i][j] = line.substring(0, 1);
+
+                    if(map[i][j].equals("W")) {
+                        xBlocks.add(j * 40);
+                        yBlocks.add(i * 40);
+                    }
+
+                    line = line.substring(1);
+                }
+            }
+            br.close();
+
+            int doorBlock = (int) (Math.random() * xBlocks.size()) + 1;
+            xPosDoor = xBlocks.get(doorBlock);
+            yPosDoor = yBlocks.get(doorBlock);
+            System.out.println("Door: " + xPosDoor + ", " + yPosDoor);
+
+        }
+        catch(IOException e)
+        {
+            System.out.println("Input / Output Error");
+        }
+    }
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    public static void generatePowerUps()
+    {
+        int xPosPowerUp = (int)(Math.random()*(14)) +1;
+		int yPosPowerUp = (int)(Math.random()*(12)) +1;
+        while(map[yPosPowerUp][xPosPowerUp].equals("1"))
+        {
+            xPosPowerUp = (int)(Math.random()*(14)) +1;
+            yPosPowerUp = (int)(Math.random()*(12)) +1;
+        }
+        powerUp1 = new PowerUp(powerUpSpeedImg, xPosPowerUp*40, yPosPowerUp*40);
+
+        xPosPowerUp = (int)(Math.random()*(14)) +1;
+        yPosPowerUp = (int)(Math.random()*(12)) +1;
+        while(map[yPosPowerUp][xPosPowerUp].equals("1"))
+        {
+            xPosPowerUp = (int)(Math.random()*(14)) +1;
+            yPosPowerUp = (int)(Math.random()*(12)) +1;
+        }
+        powerUp2 = new PowerUp(powerUpSpeedImg, xPosPowerUp*40, yPosPowerUp*40);
+    }
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
     public void enterHighscoreName()
     {
         if(enterName == true)
@@ -681,47 +771,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         frame.pack();
         frame.setVisible(true);
 
-        // LOADING MAPS
-        try
-        {
-            // Read Maps
-            BufferedReader br = new BufferedReader(new FileReader("map.txt"));
-
-            int mapNumber = (int)(Math.random()*(3-1+1)) + 1;
-
-            int end = 13 * (mapNumber - 1);
-            for(int i = 0; i < end; i++)
-            {
-                br.readLine();
-            }
-
-            for(int i = 0; i < 13; i++)
-            {
-                String line = br.readLine();
-                for(int j = 0; j < 15; j++)
-                {
-                    map[i][j] = line.substring(0, 1);
-
-                    if(map[i][j].equals("W")) {
-                        xBlocks.add(j * 40);
-                        yBlocks.add(i * 40);
-                    }
-
-                    line = line.substring(1);
-                }
-            }
-            br.close();
-
-            int doorBlock = (int) (Math.random() * xBlocks.size()) + 1;
-            xPosDoor = xBlocks.get(doorBlock);
-            yPosDoor = yBlocks.get(doorBlock);
-            System.out.println("Door: " + xPosDoor + ", " + yPosDoor);
-
-        }
-        catch(IOException e)
-        {
-            System.out.println("Input / Output Error");
-        }
+        loadMaps();
 
         // LOADING IMAGES
         try
@@ -759,20 +809,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             System.out.println("Input / Output Error");
         }
 
-		for(int i = 0; i < 1; i++)
-		{
-			int xPosPowerUp = (int)(Math.random()*(14)) +1;
-			int yPosPowerUp = (int)(Math.random()*(12)) +1;
-			while(map[yPosPowerUp][xPosPowerUp].equals("1"))
-			{
-				xPosPowerUp = (int)(Math.random()*(14)) +1;
-				yPosPowerUp = (int)(Math.random()*(12)) +1;
-			}
-
-			PowerUp powerUp = new PowerUp(powerUpSpeedImg, xPosPowerUp*40, yPosPowerUp*40);
-
-			powerUpArray.add(powerUp);
-		}
+        generatePowerUps();
 
         // for (String[] x : map)
         // {
