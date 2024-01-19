@@ -36,7 +36,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
     // IMAGES
     static BufferedImage wallImg, unbreakableWallImg;
-    static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, gameOverImg, bombImg, bombExplosionImg, bombAndExplosionImg, powerUpSpeedImg, doorImg, enemyImg;
+    static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, gameOverImg, bombImg, bombExplosionImg, bombAndExplosionImg, powerUpSpeedImg, powerUpSlowImg, doorImg, enemyImg;
     static BufferedImage[] characterSprites;
     static BufferedImage playerImg;
     static int spriteNum = 1;
@@ -56,10 +56,16 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     // POWERUPS
     static PowerUp powerUp1;
     static PowerUp powerUp2;
+    static PowerUp powerUp3;
+    static PowerUp powerUp4;
     static boolean powerUp1Claimed = false;
     static boolean powerUp2Claimed = false;
+    static boolean powerUp3Claimed = false;
+    static boolean powerUp4Claimed = false;
     static int powerUp1Duration = 300;
     static int powerUp2Duration = 300;
+    static int powerUp3Duration = 300;
+    static int powerUp4Duration = 300;
 
     // DOOR
     static int xPosDoor;
@@ -179,6 +185,30 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                     powerUp2Claimed = true;
                 }
             }
+            if(powerUp3Claimed == false)
+            {
+                powerUp3.draw(g);
+                if(xPosPlayer >= powerUp3.getX()-10 && xPosPlayer <= powerUp3.getX()+10 && yPosPlayer >= powerUp3.getY()-10 && yPosPlayer <= powerUp3.getY()+10)
+                {
+                    for(int i = 0; i < enemies.size(); i++)
+                    {
+                        enemies.get(i).getSlowPowerUp();
+                    }
+                    powerUp3Claimed = true;
+                }
+            }
+            if(powerUp4Claimed == false)
+            {
+                powerUp4.draw(g);
+                if(xPosPlayer >= powerUp4.getX()-10 && xPosPlayer <= powerUp4.getX()+10 && yPosPlayer >= powerUp4.getY()-10 && yPosPlayer <= powerUp4.getY()+10)
+                {
+                    for(int i = 0; i < enemies.size(); i++)
+                    {
+                        enemies.get(i).getSlowPowerUp();
+                    }
+                    powerUp4Claimed = true;
+                }
+            }
             if(powerUp1Claimed == true && powerUp1Duration >= 0)
             {
                 powerUp1Duration--;
@@ -193,6 +223,28 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 if(powerUp2Duration <= 0)
                 {
                     vel += powerUp2.removeSpeedPowerUp();
+                }
+            }
+            if(powerUp3Claimed == true && powerUp3Duration >= 0)
+            {
+                powerUp3Duration--;
+                if(powerUp3Duration <= 0)
+                {
+                    for(int i = 0; i < enemies.size(); i++)
+                    {
+                        enemies.get(i).removeSlowPowerUp();
+                    }
+                }
+            }
+            if(powerUp4Claimed == true && powerUp4Duration >= 0)
+            {
+                powerUp4Duration--;
+                if(powerUp4Duration <= 0)
+                {
+                    for(int i = 0; i < enemies.size(); i++)
+                    {
+                        enemies.get(i).removeSlowPowerUp();
+                    }
                 }
             }
 
@@ -690,25 +742,45 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
     public static void generatePowerUps()
     {
-        int xPosPowerUp = (int)(Math.random()*(13)) +1;
-        int yPosPowerUp = (int)(Math.random()*(11)) +1;
-        while(map[yPosPowerUp][xPosPowerUp].equals("1"))
+        int xPosPowerUp1 = (int)(Math.random()*(13)) +1;
+        int yPosPowerUp1 = (int)(Math.random()*(11)) +1;
+        while(map[yPosPowerUp1][xPosPowerUp1].equals("1"))
         {
-            xPosPowerUp = (int)(Math.random()*(13)) +1;
-            yPosPowerUp = (int)(Math.random()*(11)) +1;
+            xPosPowerUp1 = (int)(Math.random()*(13)) +1;
+            yPosPowerUp1 = (int)(Math.random()*(11)) +1;
         }
-        System.out.println("Power 1: " + xPosPowerUp + ", " + yPosPowerUp);
-        powerUp1 = new PowerUp(powerUpSpeedImg, xPosPowerUp*40, yPosPowerUp*40);
+        System.out.println("Power 1: " + xPosPowerUp1 + ", " + yPosPowerUp1);
+        powerUp1 = new PowerUp(powerUpSpeedImg, xPosPowerUp1*40, yPosPowerUp1*40);
 
-        xPosPowerUp = (int)(Math.random()*(13)) +1;
-        yPosPowerUp = (int)(Math.random()*(11)) +1;
-        while(map[yPosPowerUp][xPosPowerUp].equals("1"))
+        int xPosPowerUp2 = (int)(Math.random()*(13)) +1;
+        int yPosPowerUp2 = (int)(Math.random()*(11)) +1;
+        while(map[yPosPowerUp2][xPosPowerUp2].equals("1") || (xPosPowerUp1 == xPosPowerUp2 && yPosPowerUp1 == yPosPowerUp2))
         {
-            xPosPowerUp = (int)(Math.random()*(13)) +1;
-            yPosPowerUp = (int)(Math.random()*(11)) +1;
+            xPosPowerUp2 = (int)(Math.random()*(13)) +1;
+            yPosPowerUp2 = (int)(Math.random()*(11)) +1;
         }
-        System.out.println("Power 2: " + xPosPowerUp + ", " + yPosPowerUp);
-        powerUp2 = new PowerUp(powerUpSpeedImg, xPosPowerUp*40, yPosPowerUp*40);
+        System.out.println("Power 2: " + xPosPowerUp2 + ", " + yPosPowerUp2);
+        powerUp2 = new PowerUp(powerUpSpeedImg, xPosPowerUp2*40, yPosPowerUp2*40);
+
+        int xPosPowerUp3 = (int)(Math.random()*(13)) +1;
+        int yPosPowerUp3 = (int)(Math.random()*(11)) +1;
+        while(map[yPosPowerUp3][xPosPowerUp3].equals("1") || (xPosPowerUp1 == xPosPowerUp3 && yPosPowerUp1 == yPosPowerUp3) || (xPosPowerUp2 == xPosPowerUp3 && yPosPowerUp2 == yPosPowerUp3))
+        {
+            xPosPowerUp3 = (int)(Math.random()*(13)) +1;
+            yPosPowerUp3 = (int)(Math.random()*(11)) +1;
+        }
+        System.out.println("Power 2: " + xPosPowerUp3 + ", " + yPosPowerUp3);
+        powerUp3 = new PowerUp(powerUpSlowImg, xPosPowerUp3*40, yPosPowerUp3*40);
+
+        int xPosPowerUp4 = (int)(Math.random()*(13)) +1;
+        int yPosPowerUp4 = (int)(Math.random()*(11)) +1;
+        while(map[yPosPowerUp4][xPosPowerUp4].equals("1") || (xPosPowerUp1 == xPosPowerUp4 && yPosPowerUp1 == yPosPowerUp4) || (xPosPowerUp2 == xPosPowerUp4 && yPosPowerUp2 == yPosPowerUp4) || (xPosPowerUp3 == xPosPowerUp4 && yPosPowerUp3 == yPosPowerUp4))
+        {
+            xPosPowerUp4 = (int)(Math.random()*(13)) +1;
+            yPosPowerUp4 = (int)(Math.random()*(11)) +1;
+        }
+        System.out.println("Power 2: " + xPosPowerUp4 + ", " + yPosPowerUp4);
+        powerUp4 = new PowerUp(powerUpSlowImg, xPosPowerUp4*40, yPosPowerUp4*40);
     }
 
 
@@ -820,6 +892,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         yBlocks.clear();
         powerUp1Claimed = false;
         powerUp2Claimed = false;
+        powerUp3Claimed = false;
+        powerUp4Claimed = false;
 
         // Load new map
         try {
@@ -891,6 +965,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             bombAndExplosionImg = ImageIO.read(new File("Images/bombAndExplosion.gif"));
 
             powerUpSpeedImg = ImageIO.read(new File("Images/powerUpSpeed.png"));
+            powerUpSlowImg = ImageIO.read(new File("Images/powerUpSlow.png"));
 
             doorImg = ImageIO.read(new File("Images/door.png"));
 

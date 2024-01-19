@@ -4,19 +4,13 @@ import java.awt.image.*;
 public class PowerUp {
     
     private int playerVel = 0;
-    private int enemyVel;
     private int xPosPowerUp;
     private int yPosPowerUp;
-    private BufferedImage powerUpSpeedImg;
+    private BufferedImage powerUpImg;
 
     public int getPlayerVel()
     {
         return playerVel;
-    }
-
-    public int getEnemyVel()
-    {
-        return enemyVel;
     }
 
     public int getX()
@@ -29,16 +23,16 @@ public class PowerUp {
         return (int) Math.round(yPosPowerUp / 40.0) * 40;
     }
 
-    public PowerUp(BufferedImage powerUpSpeedImg, int xPosPowerUp, int yPosPowerUp)
+    public PowerUp(BufferedImage powerUpImg, int xPosPowerUp, int yPosPowerUp)
     {
-        this.powerUpSpeedImg = powerUpSpeedImg;
+        this.powerUpImg = powerUpImg;
         this.xPosPowerUp = xPosPowerUp;
         this.yPosPowerUp = yPosPowerUp;
     }
 
     public void draw(Graphics g)
     {
-        g.drawImage(powerUpSpeedImg, xPosPowerUp, yPosPowerUp, null);
+        g.drawImage(powerUpImg, xPosPowerUp, yPosPowerUp, null);
     }
 
     public int getSpeedPowerUp()
@@ -49,15 +43,5 @@ public class PowerUp {
     public int removeSpeedPowerUp()
     {
         return playerVel -= 2;
-    }
-    
-    public int getSlowPowerUp()
-    {
-        return enemyVel -= 2;
-    }
-
-    public int removeSlowPowerUp()
-    {
-        return enemyVel += 2;
     }
 }
