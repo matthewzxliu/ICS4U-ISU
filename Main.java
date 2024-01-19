@@ -37,7 +37,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
     // IMAGES
     static BufferedImage wallImg, unbreakableWallImg;
-    static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, gameOverImg, bombImg, bombExplosionImg, bombAndExplosionImg, powerUpSpeedImg, doorImg;
+    static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, gameOverImg, bombImg, bombExplosionImg, bombAndExplosionImg, powerUpSpeedImg, doorImg, enemyImg;
     static BufferedImage[] characterSprites;
     static BufferedImage playerImg;
     static int spriteNum = 1;
@@ -46,6 +46,9 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     // BOMBS
     static ArrayList<Bomb> bombArray = new ArrayList<Bomb>();
     static int timer = 0;
+
+    // ENEMIES
+    static ArrayList<Enemy> enemies = new ArrayList<>();
 
 	// POWERUPS
     static PowerUp powerUp1;
@@ -269,6 +272,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
             // Draw the player
             g.drawImage(playerImg, xPosPlayer, yPosPlayer, null);
+
+            // Draw the enemy
+            for(int i = 0; i < enemies.size(); i++) {
+                enemies.get(i).move(map);
+                g.drawImage(enemyImg, enemies.get(i).getX(), enemies.get(i).getY(), null);
+            }
 
             // ENEMY TEST
             // g.setColor(new Color(0, 0, 255));
@@ -694,6 +703,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             yPosDoor = yBlocks.get(doorBlock);
             System.out.println("Door: " + xPosDoor + ", " + yPosDoor);
 
+            generateEnemies(mapNumber);
         }
         catch(IOException e)
         {
@@ -724,6 +734,33 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             yPosPowerUp = (int)(Math.random()*(12)) +1;
         }
         powerUp2 = new PowerUp(powerUpSpeedImg, xPosPowerUp*40, yPosPowerUp*40);
+    }
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    public static void generateEnemies(int mapNumber) {
+        if(mapNumber == 1) {
+            enemies.add(new Enemy(enemyImg, 160, 120, "left"));
+            enemies.add(new Enemy(enemyImg, 400, 40, "left"));
+            enemies.add(new Enemy(enemyImg, 280, 200, "left"));
+            enemies.add(new Enemy(enemyImg, 280, 280, "left"));
+            enemies.add(new Enemy(enemyImg, 400, 440, "left"));
+        }
+        if(mapNumber == 2) {
+            enemies.add(new Enemy(enemyImg, 320, 40, "left"));
+            enemies.add(new Enemy(enemyImg, 160, 120, "left"));
+            enemies.add(new Enemy(enemyImg, 280, 200, "left"));
+            enemies.add(new Enemy(enemyImg, 280, 280, "left"));
+            enemies.add(new Enemy(enemyImg, 400, 440, "left"));
+        }
+        if(mapNumber == 3) {
+            enemies.add(new Enemy(enemyImg, 440, 40, "left"));
+            enemies.add(new Enemy(enemyImg, 120, 120, "left"));
+            enemies.add(new Enemy(enemyImg, 280, 200, "left"));
+            enemies.add(new Enemy(enemyImg, 280, 320, "left"));
+            enemies.add(new Enemy(enemyImg, 400, 440, "left"));
+        }
+
     }
 
 
@@ -825,6 +862,9 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 			powerUpSpeedImg = ImageIO.read(new File("Images/powerUpSpeed.png"));
 
             doorImg = ImageIO.read(new File("Images/door.png"));
+
+            enemyImg = ImageIO.read(new File("Images/laptop.png"));
+
         }
         catch(IOException e)
         {
