@@ -296,7 +296,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 {
                     g.fillRect(xPosExploded-40, yPosExploded, 40, 40);
                 }
-                if(!map[(yPosExploded/40)][(xPosExploded/40)+1].equals("x") &&x !map[(yPosExploded/40)][(xPosExploded/40)+1].equals("1"))
+                if(!map[(yPosExploded/40)][(xPosExploded/40)+1].equals("x") && !map[(yPosExploded/40)][(xPosExploded/40)+1].equals("1"))
                 {
                     g.fillRect(xPosExploded+40, yPosExploded, 40, 40);
                 }
