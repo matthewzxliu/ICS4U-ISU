@@ -813,6 +813,14 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     {
         if(enterName == true)
         {
+            // try
+            // {
+            //     PrintWriter outFile = new PrintWriter(new FileWriter("highscore.txt", true));
+            // }
+            // catch(IOException e)
+            // {
+            //     System.out.println("Input / Output Error.");
+            // }
             String nameEntered = JOptionPane.showInputDialog("Enter your name for the highscore.");
 
             // If the user presses the X button, return back
