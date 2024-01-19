@@ -6,9 +6,6 @@ public class Bomb {
     private BufferedImage bombImg;
     private int x;
     private int y;
-    private int damage;
-    private int timer;
-    private boolean exploded;
 
     public int getX()
     {

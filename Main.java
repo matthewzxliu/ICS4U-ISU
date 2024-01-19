@@ -20,7 +20,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
     // CHARACTER VARIABLES
     static int xPosPlayer = 40, yPosPlayer = 40;
-    // static int xPosEnemy = 535, yPosEnemy = 455;
     static boolean up, left, down, right;
     static boolean blockUp, blockLeft, blockDown, blockRight;
     static int vel = 3;
@@ -67,7 +66,9 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     static int yPosDoor;
 
     // HIGHSCORE
-    static ArrayList<String> highscore = new ArrayList<String>();
+    static PrintWriter outFile;
+    static BufferedReader inFile;
+    static TreeMap<String, String> highscoreTreeMap = new TreeMap<>();
     static boolean enterName = false;
     static Font font = new Font("SansSerif", Font.PLAIN, 18);
     static int timeElapsedMsInt;
@@ -319,11 +320,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             g.drawImage(highscoreImg, 0, 0, null);
             g.drawImage(backImg, 15, 15, null);
 
-            for(int i = 0; i < highscore.size(); i++)
+            if(!highscoreTreeMap.isEmpty())
             {
-                String name = highscore.get(i);
-                g.setFont(font);
-                g.drawString(name, 125, 195 + 45*i);
+                for(int i = 0; i < 5; i++)
+                {
+                    // g.drawString(highscoreTreeMap., 200, 100 + 50*i);
+                }
             }
         }
         // Game state 4, rules page
@@ -487,7 +489,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 
     // PLAYER MOVEMENT
-    public void move()
+    public static void move()
     {
         if(gameState == 2)
         {
@@ -536,7 +538,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
     // Checks collision with boxes
-    public void checkCollision()
+    public static void checkCollision()
     {
         if(gameState == 2) {
             int xTile = (xPosPlayer + 20) / 40;
@@ -596,7 +598,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-    public void explodeBomb()
+    public static void explodeBomb()
     {
         int bombX = bombArray.get(0).getX();
         int bombY = bombArray.get(0).getY();
@@ -778,7 +780,9 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         powerUp2 = new PowerUp(powerUpSpeedImg, xPosPowerUp*40, yPosPowerUp*40);
     }
 
+
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
     public static void generateEnemies(int mapNumber) {
         if(mapNumber == 1) {
@@ -809,44 +813,70 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-    public void enterHighscoreName()
+    public static void enterHighscoreName()
     {
         if(enterName == true)
         {
-            // try
-            // {
-            //     PrintWriter outFile = new PrintWriter(new FileWriter("highscore.txt", true));
-            // }
-            // catch(IOException e)
-            // {
-            //     System.out.println("Input / Output Error.");
-            // }
-            String nameEntered = JOptionPane.showInputDialog("Enter your name for the highscore.");
-
-            // If the user presses the X button, return back
-            if(nameEntered == null)
+            try
             {
-                return;
+                outFile = new PrintWriter(new FileWriter("highscore.txt", true));
+
+                String nameEntered = JOptionPane.showInputDialog("Enter your name for the highscore.");
+
+                // If the user presses the X button, return back
+                if(nameEntered == null)
+                {
+                    return;
+                }
+
+                // If the user tries to enter an empty file name
+                if(nameEntered.length() <= 0)
+                {
+                    // Display that it is invalid and return
+                    JOptionPane.showMessageDialog(null, "No name given.", "Invalid Entry", JOptionPane.ERROR_MESSAGE);
+                    enterHighscoreName();
+                }
+
+                // Check if the file entered is a valid file
+                else
+                {
+                    // If it is a valid file, display that it was sucessfully added
+                    JOptionPane.showMessageDialog(null, "Highscore added.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    // Add the new file to the arraylist of files names and the combo box so that the user can select it
+                }
+                outFile.println(nameEntered);
+                outFile.close();
+                readHighscore();
             }
-
-            // If the user tries to enter an empty file name
-            if(nameEntered.length() <= 0)
+            catch(IOException e)
             {
-                // Display that it is invalid and return
-                JOptionPane.showMessageDialog(null, "No name given.", "Invalid Entry", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Check if the file entered is a valid file
-            else
-            {
-                // If it is a valid file, display that it was sucessfully added
-                JOptionPane.showMessageDialog(null, "Highscore added.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                // Add the new file to the arraylist of files names and the combo box so that the user can select it
-                highscore.add(nameEntered);
+                System.out.println("Input / Output Error.");
             }
         }
         enterName = false;
+    }
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    public static void readHighscore()
+    {
+        try
+        {
+            inFile = new BufferedReader(new FileReader("highscore.txt"));
+            String line = "";
+            while((line = inFile.readLine()) != null)
+            {
+                highscoreTreeMap.put(line, "1");
+            }
+            inFile.close();
+        }
+        catch(IOException e)
+        {
+            System.out.println("Input / Output Error.");
+        }
+        System.out.println(highscoreTreeMap);
     }
 
 
