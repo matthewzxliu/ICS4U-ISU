@@ -12,6 +12,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 {
 
     // GLOBAL VARIABLES
+    
     // GRAPHICS VARIABLES
     static JFrame frame;
 
@@ -75,7 +76,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     // HIGHSCORE
     static PrintWriter outFile;
     static BufferedReader inFile;
-    static TreeMap<String, String> highscoreTreeMap = new TreeMap<>();
+    static HashMap<Integer, String> highscoreTreeMap = new HashMap<>();
     static boolean enterName = false;
     static Font font = new Font("SansSerif", Font.PLAIN, 18);
     static boolean timeStart = false;
@@ -84,6 +85,9 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     static int timeElapsedSec = 0;
     static int timeElapsedMin = 0;
     static String timeString = "";
+    static int countDown = 30;
+    static int countDownPoints = 300;
+    static String countDownString = "";
     static int score = 0;
 
 
@@ -97,11 +101,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         setPreferredSize(new Dimension(600, 520));
         setBackground(new Color(231, 238, 229));
 
-        //
+        // Add key and mouse listener
         setFocusable(true);
         addKeyListener(this);
         addMouseListener(this);
 
+        // Start thread
         Thread t = new Thread((Runnable) this);
         t.start();
     }
@@ -113,7 +118,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     // PAINT COMPONENT
     public void paintComponent(Graphics g)
     {
-        // CLEAR SCREEN
+        // Clear screen
         super.paintComponent(g);
 
 		/* BUTTON HITBOXES
@@ -144,24 +149,31 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         // Game state 1, about page
         if(gameState == 1)
         {
+            // Clear screen
             super.paintComponent(g);
             g.drawImage(aboutImg, 0, 0, null);
             g.drawImage(backImg, 15, 15, null);
         }
+
         // Game state 2, main game
         else if(gameState == 2)
         {
-            // CLEAR SCREEN
+            // Clear screen
             super.paintComponent(g);
 
             // Draw Door
             g.drawImage(doorImg, xPosDoor, yPosDoor, null);
 
+            // If player has not claimed power up
             if(powerUp1Claimed == false)
             {
+                // Draw the power up
                 powerUp1.draw(g);
+
+                // If player has claimed powerup
                 if(xPosPlayer >= powerUp1.getX()-10 && xPosPlayer <= powerUp1.getX()+10 && yPosPlayer >= powerUp1.getY()-10 && yPosPlayer <= powerUp1.getY()+10)
                 {
+                    // Apply the powerup
                     vel += powerUp1.getSpeedPowerUp();
                     powerUp1Claimed = true;
                 }
@@ -270,6 +282,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             timeString = String.format("Time: %02d:%02d", timeElapsedMin, timeElapsedSec);
             g.drawString(timeString, 400, 27);
             g.drawString("Score: " + score, 80, 27);
+            countDownString = String.format("Find the door within %d seconds for %d bonus points!", countDown, countDownPoints);
+            if(countDownPoints > 0)
+            {
+                g.drawString(countDownString, 80, 500);
+            }
 
             // Sprite animation, if player is going down/left/right/up, set the player image to one of two sprites
             playerImg = null;
@@ -307,8 +324,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             {
                 bombArray.get(i).draw(g);
                 timer++;
-                // System.out.println("X: " + bombArray.get(i).getX());
-                // System.out.println("Y: " + bombArray.get(i).getY());
             }
             // Bomb explosion
             if(timer >= 60 && bombArray.size() >= 1)
@@ -523,18 +538,16 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         }
         else if((player.intersects(door) && (key == KeyEvent.VK_ENTER)))
         {
-            if(timeElapsedMin < 1)
+            if(timeElapsedSec <= 30)
+                score += 300;
+            else if(timeElapsedSec > 30 && timeElapsedMin <= 1)
                 score += 200;
-            else if(timeElapsedMin < 2)
+            else if(timeElapsedMin > 1 && timeElapsedSec <= 30)
                 score += 100;
-            else
+            else if(timeElapsedSec > 30 && timeElapsedMin > 1)
                 score += 50;
                 
             gameState = 7;
-        }
-        else if(key == KeyEvent.VK_L)
-        {
-            gameState = 6;
         }
     }
 
@@ -680,7 +693,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         Rectangle bombDown = new Rectangle(bombX, bombY + 40, 40, 40);
         Rectangle bombLeft = new Rectangle(bombX - 40, bombY, 40, 40);
         Rectangle bombRight = new Rectangle(bombX + 40, bombY, 40, 40);
-        Rectangle player = new Rectangle(xPosPlayer, yPosPlayer, 40, 40);
+        Rectangle player = new Rectangle(((int)Math.round(xPosPlayer/40.0)*40), ((int)Math.round(yPosPlayer/40.0)*40), 40, 40);
 
         // Up
         if(map[(bombY/40) - 1][(bombX/40)].equals("W")) {
@@ -782,7 +795,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     {
         int xPosPowerUp1 = (int)(Math.random()*(13)) +1;
         int yPosPowerUp1 = (int)(Math.random()*(11)) +1;
-        while(map[yPosPowerUp1][xPosPowerUp1].equals("1") || (xPosPowerUp1 == xPosDoor && yPosPowerUp1 == yPosDoor))
+        while(map[yPosPowerUp1][xPosPowerUp1].equals("1") || (xPosPowerUp1 == xPosDoor && yPosPowerUp1 == yPosDoor) || (xPosPowerUp1 == 1 && yPosPowerUp1 == 1))
         {
             xPosPowerUp1 = (int)(Math.random()*(13)) +1;
             yPosPowerUp1 = (int)(Math.random()*(11)) +1;
@@ -792,7 +805,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
         int xPosPowerUp2 = (int)(Math.random()*(13)) +1;
         int yPosPowerUp2 = (int)(Math.random()*(11)) +1;
-        while(map[yPosPowerUp2][xPosPowerUp2].equals("1") || (xPosPowerUp1 == xPosPowerUp2 && yPosPowerUp1 == yPosPowerUp2) || (xPosPowerUp2 == xPosDoor && yPosPowerUp2 == yPosDoor))
+        while(map[yPosPowerUp2][xPosPowerUp2].equals("1") || (xPosPowerUp1 == xPosPowerUp2 && yPosPowerUp1 == yPosPowerUp2) || (xPosPowerUp2 == xPosDoor && yPosPowerUp2 == yPosDoor) || (xPosPowerUp2 == 1 && yPosPowerUp2 == 1))
         {
             xPosPowerUp2 = (int)(Math.random()*(13)) +1;
             yPosPowerUp2 = (int)(Math.random()*(11)) +1;
@@ -802,7 +815,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
         int xPosPowerUp3 = (int)(Math.random()*(13)) +1;
         int yPosPowerUp3 = (int)(Math.random()*(11)) +1;
-        while(map[yPosPowerUp3][xPosPowerUp3].equals("1") || (xPosPowerUp1 == xPosPowerUp3 && yPosPowerUp1 == yPosPowerUp3) || (xPosPowerUp2 == xPosPowerUp3 && yPosPowerUp2 == yPosPowerUp3) || (xPosPowerUp3 == xPosDoor && yPosPowerUp3 == yPosDoor))
+        while(map[yPosPowerUp3][xPosPowerUp3].equals("1") || (xPosPowerUp1 == xPosPowerUp3 && yPosPowerUp1 == yPosPowerUp3) || (xPosPowerUp2 == xPosPowerUp3 && yPosPowerUp2 == yPosPowerUp3) || (xPosPowerUp3 == xPosDoor && yPosPowerUp3 == yPosDoor) || (xPosPowerUp3 == 1 && yPosPowerUp3 == 1))
         {
             xPosPowerUp3 = (int)(Math.random()*(13)) +1;
             yPosPowerUp3 = (int)(Math.random()*(11)) +1;
@@ -812,7 +825,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
         int xPosPowerUp4 = (int)(Math.random()*(13)) +1;
         int yPosPowerUp4 = (int)(Math.random()*(11)) +1;
-        while(map[yPosPowerUp4][xPosPowerUp4].equals("1") || (xPosPowerUp1 == xPosPowerUp4 && yPosPowerUp1 == yPosPowerUp4) || (xPosPowerUp2 == xPosPowerUp4 && yPosPowerUp2 == yPosPowerUp4) || (xPosPowerUp3 == xPosPowerUp4 && yPosPowerUp3 == yPosPowerUp4) || (xPosPowerUp4 == xPosDoor && yPosPowerUp4 == yPosDoor))
+        while(map[yPosPowerUp4][xPosPowerUp4].equals("1") || (xPosPowerUp1 == xPosPowerUp4 && yPosPowerUp1 == yPosPowerUp4) || (xPosPowerUp2 == xPosPowerUp4 && yPosPowerUp2 == yPosPowerUp4) || (xPosPowerUp3 == xPosPowerUp4 && yPosPowerUp3 == yPosPowerUp4) || (xPosPowerUp4 == xPosDoor && yPosPowerUp4 == yPosDoor) || (xPosPowerUp4 == 1 && yPosPowerUp4 == 1))
         {
             xPosPowerUp4 = (int)(Math.random()*(13)) +1;
             yPosPowerUp4 = (int)(Math.random()*(11)) +1;
@@ -909,7 +922,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             String line = "";
             while((line = inFile.readLine()) != null)
             {
-                highscoreTreeMap.put(line, "1");
+                highscoreTreeMap.put(1, line);
             }
             inFile.close();
         }
@@ -925,9 +938,14 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     public void reset() {
         xPosPlayer = 40;
         yPosPlayer = 40;
+        direction = "down";
         enemies.clear();
         xBlocks.clear();
         yBlocks.clear();
+        bombArray.clear();
+        currentFrame = 0;
+        endFrame = 0;
+        fps = 0;
         powerUp1Claimed = false;
         powerUp2Claimed = false;
         powerUp3Claimed = false;
@@ -935,6 +953,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         timeElapsedSec = 0;
         timeElapsedMin = 0;
         score = 0;
+        countDown = 30;
+        countDownPoints = 300;
 
         // Load new map
         try {
@@ -971,10 +991,20 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 {
                     timeStart = true;
                     timeElapsedSec++;
+                    countDown--;
                 }
                 if(timeElapsedSec >= 60)
                 {
                     timeElapsedMin++;
+                    timeElapsedSec = 0;
+                }
+                if(countDown <= 0)
+                {
+                    if(countDownPoints > 0)
+                    {
+                        countDownPoints -= 100;
+                    }
+                    countDown = 30;
                 }
             }
         }
