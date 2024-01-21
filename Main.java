@@ -1,9 +1,9 @@
 /*
  * INTRO COMMENTS:
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
  */
 
 // IMPORT
@@ -21,7 +21,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 {
 
     // GLOBAL VARIABLES
-    
+
     // GRAPHICS VARIABLES
     static JFrame frame;
 
@@ -29,6 +29,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     static int xPos, yPos;
 
     // CHARACTER VARIABLES
+    static String nameEntered;
     static int xPosPlayer = 40, yPosPlayer = 40;
     static boolean up, left, down, right;
     static boolean blockUp, blockLeft, blockDown, blockRight;
@@ -42,7 +43,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     static String[][] map = new String[13][15];
     static ArrayList<Integer> xBlocks = new ArrayList<>();
     static ArrayList<Integer> yBlocks = new ArrayList<>();
-    static int xPosNear, yPosNear;
 
     // IMAGES
     static BufferedImage wallImg, unbreakableWallImg;
@@ -85,7 +85,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     // HIGHSCORE
     static PrintWriter outFile;
     static BufferedReader inFile;
-    static HashMap<Integer, String> highscoreTreeMap = new HashMap<>();
+    static HashMap<String, Integer> highscoreMap = new HashMap<>();
+    static ArrayList<Score> allScores = new ArrayList<>();
     static boolean enterName = false;
     static Font font = new Font("SansSerif", Font.PLAIN, 18);
     static boolean timeStart = false;
@@ -422,13 +423,59 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             super.paintComponent(g);
             g.drawImage(highscoreImg, 0, 0, null);
             g.drawImage(backImg, 15, 15, null);
+            g.setColor(Color.black);
+            g.setFont(font);
 
-            if(!highscoreTreeMap.isEmpty())
-            {
-                for(int i = 0; i < 5; i++)
-                {
-                    // g.drawString(highscoreTreeMap., 200, 100 + 50*i);
+            // top 5 scores
+            Collections.sort(allScores);
+            for(int i = 0; i < 5; i++) {
+                if(allScores.get(i).getName().length() > 7) {
+                    g.drawString((i+1) + ") " + allScores.get(i).getName().substring(0, 7) + ".. : " + allScores.get(i).getScore(), 125, 205 + 50 * i);
+                } else {
+                    g.drawString((i+1) + ") " + allScores.get(i).getName() + ": " + allScores.get(i).getScore(), 125, 205 + 50 * i);
                 }
+            }
+
+            if(nameEntered != null) {
+                // Name and Highest Score
+                g.drawString("Player Information", 300, 250);
+                if(nameEntered.length() > 7) {
+                    g.drawString("Name: " + nameEntered.substring(0, 7) + "...", 300, 275);
+                } else {
+                    g.drawString("Name: " + nameEntered, 300, 275);
+                }
+                g.drawString("Highest Score: "  + highscoreMap.get(nameEntered), 300, 300);
+
+                // Number of times played
+                Collections.sort(allScores, new CompareByName());
+                int index = Collections.binarySearch(allScores, new Score(nameEntered, 0), new CompareByName());
+                int lowest = -1;
+                int highest = -1;
+                for(int i = index; i >= 0; i--) {
+                    if(allScores.get(i).getName().equals(nameEntered)){
+                        lowest = i;
+                    }
+                }
+                for(int i = index; i < allScores.size(); i++) {
+                    if(allScores.get(i).getName().equals(nameEntered)){
+                        highest = i;
+                    }
+                }
+
+                int numberOfPlays = highest - lowest + 1;
+                g.drawString(String.format("Number of Plays: %d", numberOfPlays), 300, 325);
+
+                // Tell them how to see their own info
+                g.setColor(Color.yellow);
+                g.fillRect(40, 450, 520, 30);
+                g.setColor(Color.black);
+                g.drawString("*Wrong Player Info? Start a New Game and Enter your Name!*", 42, 470);
+            } else {
+                // Tell them how to see their own info
+                g.setColor(Color.yellow);
+                g.fillRect(40, 450, 520, 30);
+                g.setColor(Color.black);
+                g.drawString("*Play a Game and Enter Your Username To See Your Stats!*", 52, 470);
             }
         }
         // Game state 4, rules page
@@ -491,6 +538,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             }
             else if(xPos >= 211 && xPos <= 388 && yPos >= 380 && yPos <= 430)
             {
+                allScores.clear();
+                readHighscore();
                 gameState = 3;
                 try {
                     playMusic("click");
@@ -647,7 +696,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 score += 100;
             else if(timeElapsedSec > 30 && timeElapsedMin > 1)
                 score += 50;
-                
+
             gameState = 7;
         }
     }
@@ -957,7 +1006,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             xPosPowerUp3 = (int)(Math.random()*(13)) +1;
             yPosPowerUp3 = (int)(Math.random()*(11)) +1;
         }
-        System.out.println("Power 2: " + xPosPowerUp3 + ", " + yPosPowerUp3);
+        System.out.println("Power 3: " + xPosPowerUp3 + ", " + yPosPowerUp3);
         powerUp3 = new PowerUp(powerUpSlowImg, xPosPowerUp3*40, yPosPowerUp3*40);
 
         int xPosPowerUp4 = (int)(Math.random()*(13)) +1;
@@ -967,7 +1016,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             xPosPowerUp4 = (int)(Math.random()*(13)) +1;
             yPosPowerUp4 = (int)(Math.random()*(11)) +1;
         }
-        System.out.println("Power 2: " + xPosPowerUp4 + ", " + yPosPowerUp4);
+        System.out.println("Power 4: " + xPosPowerUp4 + ", " + yPosPowerUp4);
         powerUp4 = new PowerUp(powerUpSlowImg, xPosPowerUp4*40, yPosPowerUp4*40);
     }
 
@@ -1012,7 +1061,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             {
                 outFile = new PrintWriter(new FileWriter("highscore.txt", true));
 
-                String nameEntered = JOptionPane.showInputDialog("Enter your name for the highscore.");
+                nameEntered = JOptionPane.showInputDialog("Enter your name for the highscore.");
 
                 // If the user presses the X button, return back
                 if(nameEntered == null)
@@ -1020,7 +1069,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                     return;
                 }
 
-                // If the user tries to enter an empty file name
+                // If the user tries to enter an empty name
                 if(nameEntered.length() <= 0)
                 {
                     // Display that it is invalid and return
@@ -1035,9 +1084,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                     JOptionPane.showMessageDialog(null, "Highscore added.", "Success", JOptionPane.INFORMATION_MESSAGE);
                     // Add the new file to the arraylist of files names and the combo box so that the user can select it
                 }
-                outFile.println(nameEntered);
+                outFile.println(nameEntered + "," + score);
                 outFile.close();
-                readHighscore();
             }
             catch(IOException e)
             {
@@ -1059,7 +1107,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             String line = "";
             while((line = inFile.readLine()) != null)
             {
-                highscoreTreeMap.put(1, line);
+                Score score = new Score(line.substring(0, line.indexOf(",")), Integer.parseInt(line.substring(line.indexOf(",") + 1)));
+                allScores.add(score);
+                if(highscoreMap.get(line.substring(0, line.indexOf(","))) == null || highscoreMap.get(line.substring(0, line.indexOf(","))) < Integer.parseInt(line.substring(line.indexOf(",") + 1))) {
+                    highscoreMap.put(line.substring(0, line.indexOf(",")), Integer.parseInt(line.substring(line.indexOf(",") + 1)));
+                }
             }
             inFile.close();
         }
@@ -1067,7 +1119,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         {
             System.out.println("Input / Output Error.");
         }
-        System.out.println(highscoreTreeMap);
     }
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1080,6 +1131,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         xBlocks.clear();
         yBlocks.clear();
         bombArray.clear();
+        allScores.clear();
         currentFrame = 0;
         endFrame = 0;
         fps = 0;
@@ -1240,15 +1292,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         {
             System.out.println("Input / Output Error");
         }
-
-        // for (String[] x : map)
-        // {
-        // 	for (String y : x)
-        // 	{
-        // 			System.out.print(y);
-        // 	}
-        // 	System.out.println();
-        // }
     }
 
 
