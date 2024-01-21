@@ -1,7 +1,17 @@
-// Enemy/Laptop class
+/*
+ * INTRODUCTORY COMMENTS:
+ *
+ * NAME: Jeevesh Balendra
+ *
+ * DATE: January 21st, 2024
+ *
+ * DESCRIPTION: This is the class for enemy objects.
+ */
 
+// IMPORT
 import java.awt.*;
 
+// ENEMY/LAPTOP OBJECT CLASS
 public class Enemy {
 
     // Variables
@@ -10,7 +20,7 @@ public class Enemy {
     private String direction;
     private double speed = 2;
 
-    // getters
+    // Getters
     public int getX() {
         return x;
     }
@@ -19,11 +29,19 @@ public class Enemy {
         return y;
     }
 
+    // Get Slow Power Up
+    // Description: Sets the speed of the enemies to 1
+    // Parameters: N/A.
+    // Return: Speed value (double)
     public double getSlowPowerUp()
     {
         return speed = 1;
     }
 
+    // Remove Slow Power Up
+    // Description: Sets the speed of the enemies to 2
+    // Parameters: N/A.
+    // Return: Speed value (double)
     public double removeSlowPowerUp()
     {
         return speed = 2;
@@ -36,7 +54,7 @@ public class Enemy {
         this.direction = direction;
     }
 
-    // enemy movement
+    // Enemy movement
     // Description: updates the position of the enemy based on their current direction and speed
     // calls the change direction method if there is collision (invalid move for the enemy)
     // Parameters: 2D array of the map the check the tiles around it
@@ -110,7 +128,7 @@ public class Enemy {
         }
     }
 
-    // change direction
+    // Change direction
     // Description: method takes the current direction and randomly chooses one of the 
     // other three directions for the enemy to move in
     // Parameters: N/A.

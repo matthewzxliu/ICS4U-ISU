@@ -1,18 +1,27 @@
-// score object class
+/*
+ * INTRODUCTORY COMMENTS:
+ *
+ * NAME: Matthew Liu
+ *
+ * DATE: January 21st, 2024
+ *
+ * DESCRIPTION: This is the class for score objects.
+ */
 
+// SCORE OBJECT CLASS
 public class Score implements Comparable<Score>{
 
-    // variables
+    // Variables
     private int score;
     private String name;
 
-    // constructor
+    // Constructor
     public Score(String name, int score) {
         this.name = name;
         this.score = score;
     }
 
-    // getters
+    // Getters
     public int getScore() {
         return score;
     }
