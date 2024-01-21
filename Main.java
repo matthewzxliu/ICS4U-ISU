@@ -959,7 +959,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
     // COLLISION DETECTION
-    // Description: This method checks collision with boxes and enemies. It checks if the player is colliding with walls.
+    // Description: This method checks collision with boxes and enemies.
     // Parameters: N/A.
     // Return: N/A.
     public static void checkCollision()

@@ -15,7 +15,7 @@ Graphics
 Main.java
     - paintComponent()
         - gamestate 0, 2, 6, 7: Matthew Liu
-        - gamestate 1, 3, 4: Jeevesh Balendra
+        - gamestate 1, 3, 4, 6, 7: Jeevesh Balendra
     - explodeBomb()
         - Break walls: Matthew Liu
         - Kill player: Matthew Liu
