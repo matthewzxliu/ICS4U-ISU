@@ -14,6 +14,7 @@ import java.awt.image.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 
 // MAIN CLASS
 public class Main extends JPanel implements MouseListener, KeyListener, Runnable
@@ -345,6 +346,15 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
                 bombArray.remove(0);
                 timer = 0;
+
+                try
+                {
+                    playMusic("explosion");
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
             currentFrame++;
             if(currentFrame <= endFrame)
@@ -435,24 +445,49 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             if(xPos >= 211 && xPos <= 388 && yPos >= 260 && yPos <= 310)
             {
                 gameState = 1;
+                try {
+                    playMusic("click");
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
             else if(xPos >= 211 && xPos <= 388 && yPos >= 320 && yPos <= 370)
             {
                 reset();
                 timeStart = true;
                 gameState = 2;
+                try {
+                    playMusic("click");
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
             else if(xPos >= 211 && xPos <= 388 && yPos >= 380 && yPos <= 430)
             {
                 gameState = 3;
+                try {
+                    playMusic("click");
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
             else if(xPos >= 211 && xPos <= 327 && yPos >= 440 && yPos <= 490)
             {
                 gameState = 4;
+                try {
+                    playMusic("click");
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
             else if(xPos >= 336 && xPos <= 388 && yPos >= 440 && yPos <= 490)
             {
                 gameState = 5;
+                try {
+                    playMusic("click");
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
         else if(gameState == 1)
@@ -460,6 +495,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
             {
                 gameState = 0;
+                try {
+                    playMusic("click");
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
         else if(gameState == 2)
@@ -471,6 +511,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
             {
                 gameState = 0;
+                try {
+                    playMusic("click");
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
         else if(gameState == 4)
@@ -478,6 +523,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
             {
                 gameState = 0;
+                try {
+                    playMusic("click");
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
         else if(gameState == 6)
@@ -490,6 +540,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             if(xPos >= 250 && xPos <= 350 && yPos >= 290 && yPos <= 336)
             {
                 gameState = 0;
+                try {
+                    playMusic("click");
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
         else if(gameState == 7)
@@ -501,6 +556,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             if(xPos >= 250 && xPos <= 350 && yPos >= 290 && yPos <= 336)
             {
                 gameState = 0;
+                try {
+                    playMusic("click");
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
     }
@@ -1022,6 +1082,25 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+    public static void playMusic(String song) throws IOException
+    {
+        File file = new File("Music/" + song + ".wav");
+        try
+        {
+            Clip clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(file));
+            clip.start();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
     // MAIN METHOD
     public static void main(String[] args) throws IOException {
         // INITIALIZE FRAME
@@ -1033,6 +1112,24 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         frame.pack();
         frame.setVisible(true);
 
+        // Load music
+        if(gameState == 0)
+        {
+            File titleSong = new File("Music/title.wav");
+            try
+            {
+                Clip clip = AudioSystem.getClip();
+                clip.open(AudioSystem.getAudioInputStream(titleSong));
+                clip.loop(-1);
+                clip.start();
+                FloatControl fc = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                fc.setValue(-20f);
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
 
         // LOADING IMAGES
         try
