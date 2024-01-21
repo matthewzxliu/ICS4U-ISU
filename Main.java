@@ -99,6 +99,9 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     static String countDownString = "";
     static int score = 0;
 
+    // MUSIC / AUDIO
+    static Clip clip;
+
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -183,6 +186,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 if(xPosPlayer >= powerUp1.getX()-10 && xPosPlayer <= powerUp1.getX()+10 && yPosPlayer >= powerUp1.getY()-10 && yPosPlayer <= powerUp1.getY()+10)
                 {
                     // Apply the powerup
+                    try {
+                        playMusic("collect");
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                     vel += powerUp1.getSpeedPowerUp();
                     powerUp1Claimed = true;
                 }
@@ -192,6 +201,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 powerUp2.draw(g);
                 if(xPosPlayer >= powerUp2.getX()-10 && xPosPlayer <= powerUp2.getX()+10 && yPosPlayer >= powerUp2.getY()-10 && yPosPlayer <= powerUp2.getY()+10)
                 {
+                    try {
+                        playMusic("collect");
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                     vel += powerUp2.getSpeedPowerUp();
                     powerUp2Claimed = true;
                 }
@@ -201,6 +216,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 powerUp3.draw(g);
                 if(xPosPlayer >= powerUp3.getX()-10 && xPosPlayer <= powerUp3.getX()+10 && yPosPlayer >= powerUp3.getY()-10 && yPosPlayer <= powerUp3.getY()+10)
                 {
+                    try {
+                        playMusic("collect");
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                     for(int i = 0; i < enemies.size(); i++)
                     {
                         enemies.get(i).getSlowPowerUp();
@@ -213,6 +234,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 powerUp4.draw(g);
                 if(xPosPlayer >= powerUp4.getX()-10 && xPosPlayer <= powerUp4.getX()+10 && yPosPlayer >= powerUp4.getY()-10 && yPosPlayer <= powerUp4.getY()+10)
                 {
+                    try {
+                        playMusic("collect");
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                     for(int i = 0; i < enemies.size(); i++)
                     {
                         enemies.get(i).getSlowPowerUp();
@@ -484,7 +511,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             {
                 gameState = 5;
                 try {
-                    playMusic("click");
+                    playMusic("back");
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -496,7 +523,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             {
                 gameState = 0;
                 try {
-                    playMusic("click");
+                    playMusic("back");
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -512,7 +539,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             {
                 gameState = 0;
                 try {
-                    playMusic("click");
+                    playMusic("back");
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -524,7 +551,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             {
                 gameState = 0;
                 try {
-                    playMusic("click");
+                    playMusic("back");
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -541,7 +568,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             {
                 gameState = 0;
                 try {
-                    playMusic("click");
+                    playMusic("back");
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -557,7 +584,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             {
                 gameState = 0;
                 try {
-                    playMusic("click");
+                    playMusic("back");
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -606,6 +633,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         }
         else if((player.intersects(door) && (key == KeyEvent.VK_ENTER)))
         {
+            try {
+                playMusic("door");
+                playMusic("victory");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             if(timeElapsedSec <= 30)
                 score += 300;
             else if(timeElapsedSec > 30 && timeElapsedMin <= 1)
@@ -683,6 +716,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                         spriteNum = 1;
                     }
                     spriteCounter = 0;
+                    try {
+                        playMusic("footstep");
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
                 }
             }
         }
@@ -766,31 +804,62 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         // Up
         if(map[(bombY/40) - 1][(bombX/40)].equals("W")) {
             map[(bombY/40) - 1][(bombX/40)] = "-";
+            try {
+                playMusic("break");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             score += 5;
         }
         // Down
         if(map[(bombY/40) + 1][(bombX/40)].equals("W")) {
             map[(bombY/40) + 1][(bombX/40)] = "-";
+            try {
+                playMusic("break");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             score += 5;
         }
         // Left
         if(map[(bombY/40)][(bombX/40) - 1].equals("W")) {
             map[(bombY/40)][(bombX/40) - 1] = "-";
+            try {
+                playMusic("break");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             score += 5;
         }
         // Right
         if(map[(bombY/40)][(bombX/40) + 1].equals("W")) {
             map[(bombY/40)][(bombX/40) + 1] = "-";
+            try {
+                playMusic("break");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             score += 5;
         }
         if(bomb.intersects(player) || bombUp.intersects(player) || bombDown.intersects(player) || bombLeft.intersects(player) || bombRight.intersects(player))
         {
+            try {
+                playMusic("death");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             gameState = 6;
         }
         for(int i = 0; i < enemies.size(); i++) {
             Rectangle enemy = new Rectangle(enemies.get(i).getX(), enemies.get(i).getY(), 40, 40);
 
             if(bomb.intersects(enemy) || bombUp.intersects(enemy) || bombDown.intersects(enemy) || bombLeft.intersects(enemy) || bombRight.intersects(enemy)) {
+                try {
+                    playMusic("enemyDie");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                
                 enemies.remove(i);
 
                 if(timeElapsedSec <= 30)
@@ -1113,23 +1182,23 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         frame.setVisible(true);
 
         // Load music
-        if(gameState == 0)
-        {
-            File titleSong = new File("Music/title.wav");
-            try
-            {
-                Clip clip = AudioSystem.getClip();
-                clip.open(AudioSystem.getAudioInputStream(titleSong));
-                clip.loop(-1);
-                clip.start();
-                FloatControl fc = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                fc.setValue(-20f);
-            }
-            catch(Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
+        // if(gameState == 0)
+        // {
+        //     File titleSong = new File("Music/title.wav");
+        //     try
+        //     {
+        //         clip = AudioSystem.getClip();
+        //         clip.open(AudioSystem.getAudioInputStream(titleSong));
+        //         clip.loop(-1);
+        //         clip.start();
+        //         FloatControl fc = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        //         fc.setValue(-20f);
+        //     }
+        //     catch(Exception e)
+        //     {
+        //         e.printStackTrace();
+        //     }
+        // }
 
         // LOADING IMAGES
         try
