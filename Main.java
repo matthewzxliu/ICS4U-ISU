@@ -822,8 +822,21 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             }
         }
 
-        // If the player is intersecting with the bed and the user presses enter
-        else if((player.intersects(bed) && (key == KeyEvent.VK_ENTER)))
+        // Shortcut for Ms. Wong to lose: Press "-" to lose.
+        else if(key == KeyEvent.VK_MINUS)
+        {
+            // Stop the background music, play a death tune, and change the game state to 6 (game over)
+            gameState = 6;
+            clip.stop();
+            try {
+                playMusic("death");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+
+        // If the player is intersecting with the bed and the user presses enter. Shortcut for Ms. Wong to win: Press "=" to win.
+        else if((player.intersects(bed) && (key == KeyEvent.VK_ENTER)) || key == KeyEvent.VK_EQUALS)
         {
             // Play a sound effect and a victory tune
             clip.stop();
@@ -1205,7 +1218,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             int bedBlock = (int) (Math.random() * xBlocks.size());
             xPosBed = xBlocks.get(bedBlock);
             yPosBed = yBlocks.get(bedBlock);
-            System.out.println("Bed: " + xPosBed + ", " + yPosBed);
+            System.out.println("Bed: " + xPosBed/40 + ", " + yPosBed/40);
 
             // Call a method to generate enemies based on the map number
             generateEnemies(mapNumber);
@@ -1273,6 +1286,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         }
         // Create the power up 4 object
         powerUp4 = new PowerUp(powerUpSlowImg, xPosPowerUp4*40, yPosPowerUp4*40);
+
+        System.out.println("Power up 1 (speed): " + xPosPowerUp1 + ", " + yPosPowerUp1);
+        System.out.println("Power up 2 (speed): " + xPosPowerUp2 + ", " + yPosPowerUp2);
+        System.out.println("Power up 3 (slow): " + xPosPowerUp3 + ", " + yPosPowerUp3);
+        System.out.println("Power up 4 (slow): " + xPosPowerUp4 + ", " + yPosPowerUp4);
     }
 
 
