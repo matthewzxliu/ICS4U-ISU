@@ -8,6 +8,10 @@ If worked with a partner, list the responsibilities of each person:
     - Score.java
     - CompareByName.java
 
+Graphics
+    - Jeevesh Balendra
+        - Designed Wallpapers and chose images
+
 Main.java
     - paintComponent()
         - gamestate 2: Matthew Liu
@@ -48,7 +52,7 @@ Any additional functionalities added from your original plan
     - N/A.
 
 Known bugs / errors in your game
-    - Sometimes the speed up powerup (coffee) does not wear off. Hard to recreate.
+    - Once while testing the speed up powerup (coffee) didn't not wear off. Hard to recreate.
     - When you have two coffee power ups, the character may sometimes clip in the walls.
 
 Any other important info for me to play/mark your game
