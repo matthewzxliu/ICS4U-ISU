@@ -6,7 +6,6 @@ no,45
 no,355
 no,100
 jb,355
-james,50
 no,20
 no,325
 no,545
@@ -20,24 +19,12 @@ takeL,110
 dam,25
 jb,70
 jb,365
-jeevesh,350
-jeevesh,405
-Jeevesh,310
-Jeevesh,345
-Jeevesh,365
-Jeevesh,275
 no,375
 L,60
-Jeevesh,345
 L,30
 bob,35
-bobbyShmurdaInnit,5
-35BobbyShmurdaInnit,0
-bobbyshmurdainnit,1000
 d,0
 g,0
-bobbyshmurdainnit,0
-bobbyshmurdainnit,35
 l,0
 no,25
 diedFromEnemy,5
@@ -53,3 +40,4 @@ asdaf,0
 asdf,0
 asdf,5
 garwrg,5
+null,300
