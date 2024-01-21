@@ -422,23 +422,31 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                     e.printStackTrace();
                 }
             }
+            // Increase the current frame
             currentFrame++;
+            // If the current frame has not reached the end frame yet, draw the radius of the bombs explosion
             if(currentFrame <= endFrame)
             {
+                // Set the colour of the explosion to red
                 g.setColor(new Color(255, 0, 0));
+                // Draw the explosion radius at the bombs location
                 g.fillRect(xPosExploded, yPosExploded, 40, 40);
+                // If the block above the bomb is an empty space or breakable wall, draw the explosion radius
                 if(!map[(yPosExploded/40)-1][(xPosExploded/40)].equals("x") && !map[(yPosExploded/40)-1][(xPosExploded/40)].equals("1"))
                 {
                     g.fillRect(xPosExploded, yPosExploded-40, 40, 40);
                 }
+                // If the block below the bomb is an empty space or breakable wall, draw the explosion radius
                 if(!map[(yPosExploded/40)+1][(xPosExploded/40)].equals("x") && !map[(yPosExploded/40)+1][(xPosExploded/40)].equals("1"))
                 {
                     g.fillRect(xPosExploded, yPosExploded+40, 40, 40);
                 }
+                // If the block on the left of the bomb is an empty space or breakable wall, draw the explosion radius
                 if(!map[(yPosExploded/40)][(xPosExploded/40)-1].equals("x") && !map[(yPosExploded/40)][(xPosExploded/40)-1].equals("1"))
                 {
                     g.fillRect(xPosExploded-40, yPosExploded, 40, 40);
                 }
+                // If the block on the right of the bomb is an empty space or breakable wall, draw the explosion radius
                 if(!map[(yPosExploded/40)][(xPosExploded/40)+1].equals("x") && !map[(yPosExploded/40)][(xPosExploded/40)+1].equals("1"))
                 {
                     g.fillRect(xPosExploded+40, yPosExploded, 40, 40);
@@ -455,6 +463,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             }
 
         }
+
         // Game state 3, high score page
         else if(gameState == 3)
         {
@@ -516,21 +525,29 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 g.drawString("*Play a Game and Enter Your Username To See Your Stats!*", 52, 470);
             }
         }
+
         // Game state 4, rules page
         else if(gameState == 4)
         {
+            // Clear screen, draw rules page, and draw back button
             super.paintComponent(g);
+            // g.drawImage(rulesImg, 0, 0, null);
             g.drawImage(backImg, 15, 15, null);
         }
-        // Game state 5, exit
+
+        // Game state 5, exit game
         else if(gameState == 5)
         {
+            // Clear the screen and exit the game
             super.paintComponent(g);
             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
         }
+
         // Game State 6, game over
         else if(gameState == 6)
         {
+            // Clear screen, draw game over page, draw back button, display your score, and allow user to enter in their username
+            super.paintComponent(g);
             g.drawImage(gameOverImg, 0, 0, null);
             g.drawImage(backImg, 250, 290, null);
             g.setColor(Color.white);
@@ -538,8 +555,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             g.drawString("Your Score: " + score, 235, 200);
             enterName = true;
         }
+
         else if(gameState == 7)
         {
+            // Clear screen, draw win page, draw back button, display your score, and allow user to enter in their username
+            super.paintComponent(g);
             g.drawImage(winImg, 0, 0, null);
             g.drawImage(backImg, 250, 290, null);
             g.setColor(Color.white);
