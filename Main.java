@@ -362,7 +362,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 explodeBomb();
 
                 currentFrame = fps;
-                endFrame = currentFrame + 60;
+                endFrame = currentFrame + 10;
                 xPosExploded = bombArray.get(0).getX();
                 yPosExploded = bombArray.get(0).getY();
 
@@ -1189,6 +1189,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         yBlocks.clear();
         bombArray.clear();
         allScores.clear();
+        timer = 0;
         currentFrame = 0;
         endFrame = 0;
         fps = 0;
