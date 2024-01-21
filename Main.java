@@ -542,6 +542,9 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         {
             g.drawImage(winImg, 0, 0, null);
             g.drawImage(backImg, 250, 290, null);
+            g.setColor(Color.white);
+            g.setFont(font);
+            g.drawString("Your Score: " + score, 235, 200);
             enterName = true;
         }
     }
