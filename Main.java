@@ -45,7 +45,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
     // IMAGES
     private static BufferedImage wallImg, unbreakableWallImg;
-    private static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, gameOverImg, winImg, bombImg, powerUpSpeedImg, powerUpSlowImg, doorImg, enemyImg;
+    private static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, gameOverImg, winImg, bombImg, powerUpSpeedImg, powerUpSlowImg, bedImg, enemyImg;
     private static BufferedImage[] characterSprites;
     private static BufferedImage playerImg;
     private static int spriteNum = 1;
@@ -77,9 +77,9 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     private static int powerUp3Duration = 300;
     private static int powerUp4Duration = 300;
 
-    // DOOR
-    private static int xPosDoor;
-    private static int yPosDoor;
+    // BED
+    private static int xPosBed;
+    private static int yPosBed;
 
     // HIGHSCORE
     private static HashMap<String, Integer> highscoreMap = new HashMap<>();
@@ -176,8 +176,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             // Clear screen
             super.paintComponent(g);
 
-            // Draw Door
-            g.drawImage(doorImg, xPosDoor, yPosDoor, null);
+            // Draw Bed
+            g.drawImage(bedImg, xPosBed, yPosBed, null);
 
             // If player has not claimed power up
             if(powerUp1Claimed == false)
@@ -355,7 +355,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             g.drawString(timeString, 400, 27);
             g.drawString("Score: " + score, 80, 27);
             // Draw the countdown timer on the bottom
-            countDownString = String.format("Find the door within %d seconds for %d bonus points!", countDown, countDownPoints);
+            countDownString = String.format("Find the bed within %d seconds for %d bonus points!", countDown, countDownPoints);
             // If the countdown timer for bonus points has not run out, draw the countdown timer
             if(countDownPoints > 0)
             {
@@ -533,7 +533,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         {
             // Clear screen, draw rules page, and draw back button
             super.paintComponent(g);
-            // g.drawImage(rulesImg, 0, 0, null);
+            g.drawImage(rulesImg, 0, 0, null);
             g.drawImage(backImg, 15, 15, null);
         }
 
@@ -604,7 +604,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                     e1.printStackTrace();
                 }
             }
-            
+
             // If the user clicks on the play button
             else if(xPos >= 211 && xPos <= 388 && yPos >= 320 && yPos <= 370)
             {
@@ -794,9 +794,9 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         // Get the key that the user presses
         int key = e.getKeyCode();
 
-        // Create player and door rectangle for opening the door to win
+        // Create player and bed rectangle for opening the bed to win
         Rectangle player = new Rectangle(xPosPlayer, yPosPlayer, 40, 40);
-        Rectangle door = new Rectangle(xPosDoor, yPosDoor, 40, 40);
+        Rectangle bed = new Rectangle(xPosBed, yPosBed, 40, 40);
 
         // If the user presses A set left to true and right to false. If the user presses D set right to true and left to false. If the user presses W set up to true and down to false. If the user presses S set down to true and up to false.
         if(key == KeyEvent.VK_A)
@@ -839,8 +839,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             }
         }
 
-        // If the player is intersecting with the door and the user presses enter
-        else if((player.intersects(door) && (key == KeyEvent.VK_ENTER)))
+        // If the player is intersecting with the bed and the user presses enter
+        else if((player.intersects(bed) && (key == KeyEvent.VK_ENTER)))
         {
             // Play a sound effect and a victory tune
             clip.stop();
@@ -850,12 +850,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-            
-            // Determine how many points the user gets from entering the door
-            // If the user enters the door within 30 seconds: 300 points
-            // If the user enters the door after 30 seconds, but within 1 minute: 200 points
-            // If the user enters the door after 1 minute, but within 1 minute and 30 seconds: 100 points
-            // If the user enters the door after 1 minute and 30 seconds: 50 points
+
+            // Determine how many points the user gets from entering the bed
+            // If the user enters the bed within 30 seconds: 300 points
+            // If the user enters the bed after 30 seconds, but within 1 minute: 200 points
+            // If the user enters the bed after 1 minute, but within 1 minute and 30 seconds: 100 points
+            // If the user enters the bed after 1 minute and 30 seconds: 50 points
             if(timeElapsedSec <= 30)
                 score += 300;
             else if(timeElapsedSec > 30 && timeElapsedMin <= 1)
@@ -883,7 +883,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         // Get the key that the user releases
         int key = e.getKeyCode();
 
-        // If the user releases A set left to false. If the user releases D set right to false. If the user releases W set up to false. If the user releases S set down to false   
+        // If the user releases A set left to false. If the user releases D set right to false. If the user releases W set up to false. If the user releases S set down to false
         if(key == KeyEvent.VK_A)
             left = false;
         else if(key == KeyEvent.VK_D)
@@ -948,7 +948,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                         spriteNum = 1;
                     }
                     spriteCounter = 0;
-                    
+
                     try {
                         playMusic("footstep");
                     } catch (IOException e1) {
@@ -1065,7 +1065,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         if(map[(bombY/40) - 1][(bombX/40)].equals("W")) {
             // Break the wall. Change the "W" in the 2d map array to a "-".
             map[(bombY/40) - 1][(bombX/40)] = "-";
-            
+
             // Play a sound effect for the wall breaking
             try {
                 playMusic("break");
@@ -1081,7 +1081,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         if(map[(bombY/40) + 1][(bombX/40)].equals("W")) {
             // Break the wall. Change the "W" in the 2d map array to a "-".
             map[(bombY/40) + 1][(bombX/40)] = "-";
-            
+
             // Play a sound effect for the wall breaking
             try {
                 playMusic("break");
@@ -1097,7 +1097,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         if(map[(bombY/40)][(bombX/40) - 1].equals("W")) {
             // Break the wall. Change the "W" in the 2d map array to a "-".
             map[(bombY/40)][(bombX/40) - 1] = "-";
-            
+
             // Play a sound effect for the wall breaking
             try {
                 playMusic("break");
@@ -1113,7 +1113,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         if(map[(bombY/40)][(bombX/40) + 1].equals("W")) {
             // Break the wall. Change the "W" in the 2d map array to a "-".
             map[(bombY/40)][(bombX/40) + 1] = "-";
-            
+
             // Play a sound effect for the wall breaking
             try {
                 playMusic("break");
@@ -1169,7 +1169,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
     // LOAD MAPS
-    // Description: This method reads "map.txt" and puts one of the maps from the text file into a 2d array so that it can be drawn when the game starts 
+    // Description: This method reads "map.txt" and puts one of the maps from the text file into a 2d array so that it can be drawn when the game starts
     // Parameters: N/A.
     // Return: N/A.
     public static void loadMaps() throws IOException
@@ -1215,11 +1215,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             // Close the buffered reader
             br.close();
 
-            // Create the door
-            int doorBlock = (int) (Math.random() * xBlocks.size());
-            xPosDoor = xBlocks.get(doorBlock);
-            yPosDoor = yBlocks.get(doorBlock);
-            System.out.println("Door: " + xPosDoor + ", " + yPosDoor);
+            // Create the bed
+            int bedBlock = (int) (Math.random() * xBlocks.size());
+            xPosBed = xBlocks.get(bedBlock);
+            yPosBed = yBlocks.get(bedBlock);
+            System.out.println("Bed: " + xPosBed + ", " + yPosBed);
 
             // Call a method to generate enemies based on the map number
             generateEnemies(mapNumber);
@@ -1243,8 +1243,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         // Generate x and y positions for power up 1
         int xPosPowerUp1 = (int)(Math.random()*(13)) +1;
         int yPosPowerUp1 = (int)(Math.random()*(11)) +1;
-        // While the x and y positions are not valid (if it is under an indestructable block, on the door, or on the spawn tile), generate another set of x and y positions for power up 1
-        while(map[yPosPowerUp1][xPosPowerUp1].equals("1") || (xPosPowerUp1 == xPosDoor && yPosPowerUp1 == yPosDoor) || (xPosPowerUp1 == 1 && yPosPowerUp1 == 1))
+        // While the x and y positions are not valid (if it is under an indestructable block, on the bed, or on the spawn tile), generate another set of x and y positions for power up 1
+        while(map[yPosPowerUp1][xPosPowerUp1].equals("1") || (xPosPowerUp1 == xPosBed && yPosPowerUp1 == yPosBed) || (xPosPowerUp1 == 1 && yPosPowerUp1 == 1))
         {
             xPosPowerUp1 = (int)(Math.random()*(13)) +1;
             yPosPowerUp1 = (int)(Math.random()*(11)) +1;
@@ -1255,8 +1255,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         // Generate x and y positions for power up 2
         int xPosPowerUp2 = (int)(Math.random()*(13)) +1;
         int yPosPowerUp2 = (int)(Math.random()*(11)) +1;
-        // While the x and y positions are not valid (if it is under an indestructable block, on the door, on the spawn tile, or on power up 1), generate another set of x and y positions for power up 2
-        while(map[yPosPowerUp2][xPosPowerUp2].equals("1") || (xPosPowerUp1 == xPosPowerUp2 && yPosPowerUp1 == yPosPowerUp2) || (xPosPowerUp2 == xPosDoor && yPosPowerUp2 == yPosDoor) || (xPosPowerUp2 == 1 && yPosPowerUp2 == 1))
+        // While the x and y positions are not valid (if it is under an indestructable block, on the bed, on the spawn tile, or on power up 1), generate another set of x and y positions for power up 2
+        while(map[yPosPowerUp2][xPosPowerUp2].equals("1") || (xPosPowerUp1 == xPosPowerUp2 && yPosPowerUp1 == yPosPowerUp2) || (xPosPowerUp2 == xPosBed && yPosPowerUp2 == yPosBed) || (xPosPowerUp2 == 1 && yPosPowerUp2 == 1))
         {
             xPosPowerUp2 = (int)(Math.random()*(13)) +1;
             yPosPowerUp2 = (int)(Math.random()*(11)) +1;
@@ -1267,8 +1267,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         // Generate x and y positions for power up 3
         int xPosPowerUp3 = (int)(Math.random()*(13)) +1;
         int yPosPowerUp3 = (int)(Math.random()*(11)) +1;
-        // While the x and y positions are not valid (if it is under an indestructable block, on the door, on the spawn tile, on power up 1, or on power up 2), generate another set of x and y positions for power up 3
-        while(map[yPosPowerUp3][xPosPowerUp3].equals("1") || (xPosPowerUp1 == xPosPowerUp3 && yPosPowerUp1 == yPosPowerUp3) || (xPosPowerUp2 == xPosPowerUp3 && yPosPowerUp2 == yPosPowerUp3) || (xPosPowerUp3 == xPosDoor && yPosPowerUp3 == yPosDoor) || (xPosPowerUp3 == 1 && yPosPowerUp3 == 1))
+        // While the x and y positions are not valid (if it is under an indestructable block, on the bed, on the spawn tile, on power up 1, or on power up 2), generate another set of x and y positions for power up 3
+        while(map[yPosPowerUp3][xPosPowerUp3].equals("1") || (xPosPowerUp1 == xPosPowerUp3 && yPosPowerUp1 == yPosPowerUp3) || (xPosPowerUp2 == xPosPowerUp3 && yPosPowerUp2 == yPosPowerUp3) || (xPosPowerUp3 == xPosBed && yPosPowerUp3 == yPosBed) || (xPosPowerUp3 == 1 && yPosPowerUp3 == 1))
         {
             xPosPowerUp3 = (int)(Math.random()*(13)) +1;
             yPosPowerUp3 = (int)(Math.random()*(11)) +1;
@@ -1279,8 +1279,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         // Generate x and y positions for power up 4
         int xPosPowerUp4 = (int)(Math.random()*(13)) +1;
         int yPosPowerUp4 = (int)(Math.random()*(11)) +1;
-        // While the x and y positions are not valid (if it is under an indestructable block, on the door, on the spawn tile, on power up 1, on power up 2, or on power up 3), generate another set of x and y positions for power up 4
-        while(map[yPosPowerUp4][xPosPowerUp4].equals("1") || (xPosPowerUp1 == xPosPowerUp4 && yPosPowerUp1 == yPosPowerUp4) || (xPosPowerUp2 == xPosPowerUp4 && yPosPowerUp2 == yPosPowerUp4) || (xPosPowerUp3 == xPosPowerUp4 && yPosPowerUp3 == yPosPowerUp4) || (xPosPowerUp4 == xPosDoor && yPosPowerUp4 == yPosDoor) || (xPosPowerUp4 == 1 && yPosPowerUp4 == 1))
+        // While the x and y positions are not valid (if it is under an indestructable block, on the bed, on the spawn tile, on power up 1, on power up 2, or on power up 3), generate another set of x and y positions for power up 4
+        while(map[yPosPowerUp4][xPosPowerUp4].equals("1") || (xPosPowerUp1 == xPosPowerUp4 && yPosPowerUp1 == yPosPowerUp4) || (xPosPowerUp2 == xPosPowerUp4 && yPosPowerUp2 == yPosPowerUp4) || (xPosPowerUp3 == xPosPowerUp4 && yPosPowerUp3 == yPosPowerUp4) || (xPosPowerUp4 == xPosBed && yPosPowerUp4 == yPosBed) || (xPosPowerUp4 == 1 && yPosPowerUp4 == 1))
         {
             xPosPowerUp4 = (int)(Math.random()*(13)) +1;
             yPosPowerUp4 = (int)(Math.random()*(11)) +1;
@@ -1356,7 +1356,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 // If the user tries to enter an empty name
                 if(nameEntered.length() <= 0)
                 {
-                    // Display that it is invalid and call the method again so that the user can enter their name again 
+                    // Display that it is invalid and call the method again so that the user can enter their name again
                     JOptionPane.showMessageDialog(null, "No name given.", "Invalid Entry", JOptionPane.ERROR_MESSAGE);
                     enterHighscoreName();
                 }
@@ -1620,7 +1620,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             // Load the images for the menu pages
             backgroundImg = ImageIO.read(new File("Images/Background.png"));
             highscoreImg = ImageIO.read(new File("Images/highscore.png"));
-            // rulesImg = ImageIO.read(new File("Images/rulesImg.png"));
+            rulesImg = ImageIO.read(new File("Images/rules.png"));
             aboutImg = ImageIO.read(new File("Images/about.png"));
             backImg = ImageIO.read(new File("Images/back.png"));
             gameOverImg = ImageIO.read(new File("Images/gameOver.png"));
@@ -1648,8 +1648,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             powerUpSpeedImg = ImageIO.read(new File("Images/powerUpSpeed.png"));
             powerUpSlowImg = ImageIO.read(new File("Images/powerUpSlow.png"));
 
-            // Load the image of the door
-            doorImg = ImageIO.read(new File("Images/door.png"));
+            // Load the image of the bed
+            bedImg = ImageIO.read(new File("Images/bed.png"));
 
             // Load the image of the enemy
             enemyImg = ImageIO.read(new File("Images/laptop.png"));
