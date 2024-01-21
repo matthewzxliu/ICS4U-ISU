@@ -43,7 +43,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
     // IMAGES
     private static BufferedImage wallImg, unbreakableWallImg;
-    private static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, gameOverImg, winImg, bombImg, bombExplosionImg, bombAndExplosionImg, powerUpSpeedImg, powerUpSlowImg, doorImg, enemyImg;
+    private static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, gameOverImg, winImg, bombImg, powerUpSpeedImg, powerUpSlowImg, doorImg, enemyImg;
     private static BufferedImage[] characterSprites;
     private static BufferedImage playerImg;
     private static int spriteNum = 1;
@@ -102,6 +102,9 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 
     // INITIALIZE
+    // Description: This method intializes the program
+    // Parameters: N/A.
+    // Return: N/A.
     public Main() throws IOException
     {
         // Set the size and colour of the game window
@@ -123,6 +126,9 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 
     // PAINT COMPONENT
+    // Description: This method draws the graphics of the game
+    // Parameters: Graphics g
+    // Return: N/A.
     public void paintComponent(Graphics g)
     {
         // Clear screen
@@ -156,7 +162,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         // Game state 1, about page
         if(gameState == 1)
         {
-            // Clear screen
+            // Clear screen, draw about page, and draw back button
             super.paintComponent(g);
             g.drawImage(aboutImg, 0, 0, null);
             g.drawImage(backImg, 15, 15, null);
@@ -180,43 +186,52 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 // If player has claimed powerup
                 if(xPosPlayer >= powerUp1.getX()-10 && xPosPlayer <= powerUp1.getX()+10 && yPosPlayer >= powerUp1.getY()-10 && yPosPlayer <= powerUp1.getY()+10)
                 {
-                    // Apply the powerup
+                    // Play sound effect
                     try {
                         playMusic("collect");
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
+                    // Apply the power up
                     vel += powerUp1.getSpeedPowerUp();
                     powerUp1Claimed = true;
                 }
             }
+            // If player has not claimed power up
             if(powerUp2Claimed == false)
             {
+                // Draw the power up
                 powerUp2.draw(g);
+
+                // If player has claimed powerup
                 if(xPosPlayer >= powerUp2.getX()-10 && xPosPlayer <= powerUp2.getX()+10 && yPosPlayer >= powerUp2.getY()-10 && yPosPlayer <= powerUp2.getY()+10)
                 {
+                    // Play sound effect
                     try {
                         playMusic("collect");
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
+                    // Apply the power up
                     vel += powerUp2.getSpeedPowerUp();
                     powerUp2Claimed = true;
                 }
             }
+            // If player has not claimed power up
             if(powerUp3Claimed == false)
             {
+                // Draw the power up
                 powerUp3.draw(g);
+
+                // If player has claimed powerup
                 if(xPosPlayer >= powerUp3.getX()-10 && xPosPlayer <= powerUp3.getX()+10 && yPosPlayer >= powerUp3.getY()-10 && yPosPlayer <= powerUp3.getY()+10)
                 {
                     try {
                         playMusic("collect");
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
+                    // Apply the power up
                     for(int i = 0; i < enemies.size(); i++)
                     {
                         enemies.get(i).getSlowPowerUp();
@@ -224,17 +239,21 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                     powerUp3Claimed = true;
                 }
             }
+            // If player has not claimed power up
             if(powerUp4Claimed == false)
             {
+                // Draw the power up
                 powerUp4.draw(g);
+
+                // If player has claimed powerup
                 if(xPosPlayer >= powerUp4.getX()-10 && xPosPlayer <= powerUp4.getX()+10 && yPosPlayer >= powerUp4.getY()-10 && yPosPlayer <= powerUp4.getY()+10)
                 {
                     try {
                         playMusic("collect");
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
+                    // Apply the power up
                     for(int i = 0; i < enemies.size(); i++)
                     {
                         enemies.get(i).getSlowPowerUp();
@@ -242,38 +261,58 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                     powerUp4Claimed = true;
                 }
             }
+            // If power up is claimed and duration is more than 0
             if(powerUp1Claimed == true && powerUp1Duration >= 0)
             {
+                // Decrease duration of the power up
                 powerUp1Duration--;
+
+                // If the duration of the power up is done
                 if(powerUp1Duration <= 0)
                 {
+                    // Remove the power up
                     vel += powerUp1.removeSpeedPowerUp();
                 }
             }
+            // If power up is claimed and duration is more than 0
             if(powerUp2Claimed == true && powerUp2Duration >= 0)
             {
+                // Decrease duration of the power up
                 powerUp2Duration--;
+
+                // If the duration of the power up is done
                 if(powerUp2Duration <= 0)
                 {
+                    // Remove the power up
                     vel += powerUp2.removeSpeedPowerUp();
                 }
             }
+            // If power up is claimed and duration is more than 0
             if(powerUp3Claimed == true && powerUp3Duration >= 0)
             {
+                // Decrease duration of the power up
                 powerUp3Duration--;
+
+                // If the duration of the power up is done
                 if(powerUp3Duration <= 0)
                 {
+                    // Remove the power up
                     for(int i = 0; i < enemies.size(); i++)
                     {
                         enemies.get(i).removeSlowPowerUp();
                     }
                 }
             }
+            // If power up is claimed and duration is more than 0
             if(powerUp4Claimed == true && powerUp4Duration >= 0)
             {
+                // Decrease duration of the power up
                 powerUp4Duration--;
+
+                // If the duration of the power up is done
                 if(powerUp4Duration <= 0)
                 {
+                    // Remove the power up
                     for(int i = 0; i < enemies.size(); i++)
                     {
                         enemies.get(i).removeSlowPowerUp();
@@ -286,34 +325,36 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             {
                 for(int j = 0; j < 520; j += 40)
                 {
-                    // "x" is for the outer wall / boundary, "-" is for empty spaces player can walk on, "1" is for blocks on the map that player cannot go through
+                    // "-" is for the empty spaces that the player can walk on, nothing is drawn on those tiles
+                    // "x" is for the outer wall / boundary
                     if(map[j/40][i/40].equals("x"))
                     {
                         g.setColor(new Color(0, 0, 0));
                         g.fillRect(i, j, 40, 40);
                     }
+                    // "W" is for the blocks on the map that the player cannot go through, but can break
                     else if(map[j/40][i/40].equals("W"))
                     {
                         g.drawImage(wallImg, i, j, null);
                     }
+                    // "1" is for the blocks on the map that the player cannot go through and cannot break
                     else if(map[j/40][i/40].equals("1"))
                     {
                         g.drawImage(unbreakableWallImg, i, j, null);
                     }
-                    else if(map[j/40][i/40].equals("P"))
-                    {
-                        g.setColor(new Color(255, 0, 0));
-                        g.fillOval(i, j, 40, 40);
-                    }
                 }
             }
 
+            // Set colour and font of text
             g.setColor(new Color(255, 255, 255));
             g.setFont(font);
+            // Draw the timer on the top
             timeString = String.format("Time: %02d:%02d", timeElapsedMin, timeElapsedSec);
             g.drawString(timeString, 400, 27);
             g.drawString("Score: " + score, 80, 27);
+            // Draw the countdown timer on the bottom
             countDownString = String.format("Find the door within %d seconds for %d bonus points!", countDown, countDownPoints);
+            // If the countdown timer for bonus points has not run out, draw the countdown timer
             if(countDownPoints > 0)
             {
                 g.drawString(countDownString, 80, 500);
@@ -350,31 +391,34 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                     playerImg = characterSprites[7];
             }
 
-            // Display bombs that player places
+            // Display the bombs that the player places and start the timer for the bomb explosion
             for(int i = 0; i < bombArray.size(); i++)
             {
                 bombArray.get(i).draw(g);
                 timer++;
             }
-            // Bomb explosion
+            // Explode the bomb if the timer is up and if the array size is more than or equal to 1 (if there are bombs to explode)
             if(timer >= 60 && bombArray.size() >= 1)
             {
+                // Explode the bomb
                 explodeBomb();
 
-                currentFrame = fps;
-                endFrame = currentFrame + 10;
+                // Get x and y position of the bomb
                 xPosExploded = bombArray.get(0).getX();
                 yPosExploded = bombArray.get(0).getY();
 
+                // Find the current frame number and the frame number that the bomb should exploded on
+                currentFrame = fps;
+                endFrame = currentFrame + 10;
+
+                // Remove the bomb from the array and reset the explosion timer
                 bombArray.remove(0);
                 timer = 0;
 
-                try
-                {
+                // Play sound effect
+                try {
                     playMusic("explosion");
-                }
-                catch(Exception e)
-                {
+                } catch(Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1343,8 +1387,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             characterSprites[7] = ImageIO.read(new File("Images/boy_up_2.png"));
 
             bombImg = ImageIO.read(new File("Images/bomb.png"));
-            bombExplosionImg = ImageIO.read(new File("Images/bombExplosion.gif"));
-            bombAndExplosionImg = ImageIO.read(new File("Images/bombAndExplosion.gif"));
 
             powerUpSpeedImg = ImageIO.read(new File("Images/powerUpSpeed.png"));
             powerUpSlowImg = ImageIO.read(new File("Images/powerUpSlow.png"));
