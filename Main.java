@@ -23,85 +23,80 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     // GLOBAL VARIABLES
 
     // GRAPHICS VARIABLES
-    static JFrame frame;
-
-    // MOUSE INPUT
-    static int xPos, yPos;
+    private static JFrame frame;
 
     // CHARACTER VARIABLES
-    static String nameEntered;
-    static int xPosPlayer = 40, yPosPlayer = 40;
-    static boolean up, left, down, right;
-    static boolean blockUp, blockLeft, blockDown, blockRight;
-    static int vel = 3;
-    static String direction = "down";
+    private static String nameEntered;
+    private static int xPosPlayer = 40, yPosPlayer = 40;
+    private static boolean up, left, down, right;
+    private static boolean blockUp, blockLeft, blockDown, blockRight;
+    private static int vel = 3;
+    private static String direction = "down";
 
     // GAME STATE
-    static int gameState = 0;
+    private static int gameState = 0;
 
     // MAP
-    static String[][] map = new String[13][15];
-    static ArrayList<Integer> xBlocks = new ArrayList<>();
-    static ArrayList<Integer> yBlocks = new ArrayList<>();
+    private static String[][] map = new String[13][15];
+    private static ArrayList<Integer> xBlocks = new ArrayList<>();
+    private static ArrayList<Integer> yBlocks = new ArrayList<>();
 
     // IMAGES
-    static BufferedImage wallImg, unbreakableWallImg;
-    static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, gameOverImg, winImg, bombImg, bombExplosionImg, bombAndExplosionImg, powerUpSpeedImg, powerUpSlowImg, doorImg, enemyImg;
-    static BufferedImage[] characterSprites;
-    static BufferedImage playerImg;
-    static int spriteNum = 1;
-    static int spriteCounter = 0;
+    private static BufferedImage wallImg, unbreakableWallImg;
+    private static BufferedImage backgroundImg, highscoreImg, rulesImg, aboutImg, backImg, gameOverImg, winImg, bombImg, bombExplosionImg, bombAndExplosionImg, powerUpSpeedImg, powerUpSlowImg, doorImg, enemyImg;
+    private static BufferedImage[] characterSprites;
+    private static BufferedImage playerImg;
+    private static int spriteNum = 1;
+    private static int spriteCounter = 0;
 
     // BOMBS
-    static ArrayList<Bomb> bombArray = new ArrayList<Bomb>();
-    static int timer = 0;
-    static int currentFrame;
-    static int endFrame;
-    static int xPosExploded;
-    static int yPosExploded;
-    static int fps = 0;
+    private static ArrayList<Bomb> bombArray = new ArrayList<>();
+    private static int timer = 0;
+    private static int currentFrame;
+    private static int endFrame;
+    private static int xPosExploded;
+    private static int yPosExploded;
+    private static int fps = 0;
 
     // ENEMIES
-    static ArrayList<Enemy> enemies = new ArrayList<>();
+    private static ArrayList<Enemy> enemies = new ArrayList<>();
 
     // POWERUPS
-    static PowerUp powerUp1;
-    static PowerUp powerUp2;
-    static PowerUp powerUp3;
-    static PowerUp powerUp4;
-    static boolean powerUp1Claimed = false;
-    static boolean powerUp2Claimed = false;
-    static boolean powerUp3Claimed = false;
-    static boolean powerUp4Claimed = false;
-    static int powerUp1Duration = 300;
-    static int powerUp2Duration = 300;
-    static int powerUp3Duration = 300;
-    static int powerUp4Duration = 300;
+    private static PowerUp powerUp1;
+    private static PowerUp powerUp2;
+    private static PowerUp powerUp3;
+    private static PowerUp powerUp4;
+    private static boolean powerUp1Claimed = false;
+    private static boolean powerUp2Claimed = false;
+    private static boolean powerUp3Claimed = false;
+    private static boolean powerUp4Claimed = false;
+    private static int powerUp1Duration = 300;
+    private static int powerUp2Duration = 300;
+    private static int powerUp3Duration = 300;
+    private static int powerUp4Duration = 300;
 
     // DOOR
-    static int xPosDoor;
-    static int yPosDoor;
+    private static int xPosDoor;
+    private static int yPosDoor;
 
     // HIGHSCORE
-    static PrintWriter outFile;
-    static BufferedReader inFile;
-    static HashMap<String, Integer> highscoreMap = new HashMap<>();
-    static ArrayList<Score> allScores = new ArrayList<>();
-    static boolean enterName = false;
-    static Font font = new Font("SansSerif", Font.PLAIN, 18);
-    static boolean timeStart = false;
-    static long timeElapsedMsStart = 0;
-    static long timeElapsedMsEnd = 0;
-    static int timeElapsedSec = 0;
-    static int timeElapsedMin = 0;
-    static String timeString = "";
-    static int countDown = 30;
-    static int countDownPoints = 300;
-    static String countDownString = "";
-    static int score = 0;
+    private static HashMap<String, Integer> highscoreMap = new HashMap<>();
+    private static ArrayList<Score> allScores = new ArrayList<>();
+    private static boolean enterName = false;
+    private static Font font = new Font("SansSerif", Font.PLAIN, 18);
+    private static boolean timeStart = false;
+    private static long timeElapsedMsStart = 0;
+    private static long timeElapsedMsEnd = 0;
+    private static int timeElapsedSec = 0;
+    private static int timeElapsedMin = 0;
+    private static String timeString = "";
+    private static int countDown = 30;
+    private static int countDownPoints = 300;
+    private static String countDownString = "";
+    private static int score = 0;
 
     // MUSIC / AUDIO
-    static Clip clip;
+    private static Clip clip;
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -494,6 +489,9 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         {
             g.drawImage(gameOverImg, 0, 0, null);
             g.drawImage(backImg, 250, 290, null);
+            g.setColor(Color.white);
+            g.setFont(font);
+            g.drawString("Your Score: " + score, 235, 200);
             enterName = true;
         }
         else if(gameState == 7)
@@ -510,8 +508,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
     // MOUSE INPUT
     public void mousePressed(MouseEvent e) {
-        xPos = e.getX();
-        yPos = e.getY();
+        int xPos = e.getX();
+        int yPos = e.getY();
 
         if(gameState == 0)
         {
@@ -609,7 +607,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         }
         else if(gameState == 2)
         {
-            
+
         }
         else if(gameState == 3)
         {
@@ -824,6 +822,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     public static void checkCollision()
     {
         if(gameState == 2) {
+            // Player and Tile Collision
             int xTile = (xPosPlayer + 20) / 40;
             int yTile = (yPosPlayer + 20) / 40;
 
@@ -872,6 +871,20 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 Rectangle tile = new Rectangle((xTile) * 40, (yTile + 1) * 40, 40, 40);
                 if(player.intersects(tile)) {
                     blockDown = true;
+                }
+            }
+
+            // Player and Enemy Collision
+            for(Enemy enemy : enemies) {
+                Rectangle enemyBox = new Rectangle(enemy.getX() + 10, enemy.getY() + 10, 20, 20);
+                if(enemyBox.intersects(player)) {
+                    clip.stop();
+                    try {
+                        playMusic("death");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    gameState = 6;
                 }
             }
         }
@@ -951,7 +964,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                
+
                 enemies.remove(i);
 
                 if(timeElapsedSec <= 30)
@@ -1069,25 +1082,25 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
     public static void generateEnemies(int mapNumber) {
         if(mapNumber == 1) {
-            enemies.add(new Enemy(enemyImg, 160, 120, "left"));
-            enemies.add(new Enemy(enemyImg, 400, 40, "left"));
-            enemies.add(new Enemy(enemyImg, 280, 200, "left"));
-            enemies.add(new Enemy(enemyImg, 280, 280, "left"));
-            enemies.add(new Enemy(enemyImg, 400, 440, "left"));
+            enemies.add(new Enemy(160, 120, "left"));
+            enemies.add(new Enemy(400, 40, "left"));
+            enemies.add(new Enemy(280, 200, "left"));
+            enemies.add(new Enemy(280, 280, "left"));
+            enemies.add(new Enemy(400, 440, "left"));
         }
         if(mapNumber == 2) {
-            enemies.add(new Enemy(enemyImg, 320, 40, "left"));
-            enemies.add(new Enemy(enemyImg, 160, 120, "left"));
-            enemies.add(new Enemy(enemyImg, 280, 200, "left"));
-            enemies.add(new Enemy(enemyImg, 280, 280, "left"));
-            enemies.add(new Enemy(enemyImg, 400, 440, "left"));
+            enemies.add(new Enemy(320, 40, "left"));
+            enemies.add(new Enemy(160, 120, "left"));
+            enemies.add(new Enemy(280, 200, "left"));
+            enemies.add(new Enemy(280, 280, "left"));
+            enemies.add(new Enemy(400, 440, "left"));
         }
         if(mapNumber == 3) {
-            enemies.add(new Enemy(enemyImg, 440, 40, "left"));
-            enemies.add(new Enemy(enemyImg, 120, 120, "left"));
-            enemies.add(new Enemy(enemyImg, 280, 200, "left"));
-            enemies.add(new Enemy(enemyImg, 280, 320, "left"));
-            enemies.add(new Enemy(enemyImg, 400, 440, "left"));
+            enemies.add(new Enemy(440, 40, "left"));
+            enemies.add(new Enemy(120, 120, "left"));
+            enemies.add(new Enemy(280, 200, "left"));
+            enemies.add(new Enemy(280, 320, "left"));
+            enemies.add(new Enemy(400, 440, "left"));
         }
 
     }
@@ -1102,7 +1115,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         {
             try
             {
-                outFile = new PrintWriter(new FileWriter("highscore.txt", true));
+                PrintWriter outFile = new PrintWriter(new FileWriter("highscore.txt", true));
 
                 nameEntered = JOptionPane.showInputDialog("Enter your name for the highscore.");
 
@@ -1146,7 +1159,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     {
         try
         {
-            inFile = new BufferedReader(new FileReader("highscore.txt"));
+            BufferedReader inFile = new BufferedReader(new FileReader("highscore.txt"));
             String line = "";
             while((line = inFile.readLine()) != null)
             {

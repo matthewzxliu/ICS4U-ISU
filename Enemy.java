@@ -15,7 +15,7 @@ public class Enemy {
     public int getY() {
         return y;
     }
-    
+
     public double getSlowPowerUp()
     {
         return speed = 1;
@@ -26,7 +26,7 @@ public class Enemy {
         return speed = 2;
     }
 
-    public Enemy(BufferedImage enemyImg, int x, int y, String direction) {
+    public Enemy(int x, int y, String direction) {
         this.x = x;
         this.y = y;
         this.direction = direction;

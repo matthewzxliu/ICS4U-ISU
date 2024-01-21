@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.image.*;
 
 public class Bomb {
-    
+
     private BufferedImage bombImg;
     private int x;
     private int y;
