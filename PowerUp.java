@@ -12,7 +12,7 @@
 import java.awt.*;
 import java.awt.image.*;
 
-// POWERUP CLASS
+// POWERUP OBJECT CLASS
 public class PowerUp {
     
     // Variables

@@ -12,7 +12,7 @@
 import java.awt.*;
 import java.awt.image.*;
 
-// BOMB CLASS
+// BOMB OBJECT CLASS
 public class Bomb {
 
     // Variables
