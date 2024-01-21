@@ -523,6 +523,13 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
+                clip.stop();
+                try {
+                    playBackground("menuMusic");
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
             }
             else if(xPos >= 211 && xPos <= 388 && yPos >= 320 && yPos <= 370)
             {
@@ -532,6 +539,13 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 try {
                     playMusic("click");
                 } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                clip.stop();
+                try {
+                    playBackground("gameMusic");
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -545,6 +559,13 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
+                clip.stop();
+                try {
+                    playBackground("menuMusic");
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
             }
             else if(xPos >= 211 && xPos <= 327 && yPos >= 440 && yPos <= 490)
             {
@@ -552,6 +573,13 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 try {
                     playMusic("click");
                 } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                clip.stop();
+                try {
+                    playBackground("menuMusic");
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
@@ -570,8 +598,10 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
             {
                 gameState = 0;
+                clip.stop();
                 try {
                     playMusic("back");
+                    playBackground("title");
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -579,15 +609,17 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         }
         else if(gameState == 2)
         {
-            ;
+            
         }
         else if(gameState == 3)
         {
             if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
             {
                 gameState = 0;
+                clip.stop();
                 try {
                     playMusic("back");
+                    playBackground("title");
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -598,8 +630,10 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
             {
                 gameState = 0;
+                clip.stop();
                 try {
                     playMusic("back");
+                    playBackground("title");
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -617,6 +651,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 gameState = 0;
                 try {
                     playMusic("back");
+                    playBackground("title");
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -633,6 +668,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 gameState = 0;
                 try {
                     playMusic("back");
+                    playBackground("title");
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -687,6 +723,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         }
         else if((player.intersects(door) && (key == KeyEvent.VK_ENTER)))
         {
+            clip.stop();
             try {
                 playMusic("door");
                 playMusic("victory");
@@ -897,6 +934,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         }
         if(bomb.intersects(player) || bombUp.intersects(player) || bombDown.intersects(player) || bombLeft.intersects(player) || bombRight.intersects(player))
         {
+            clip.stop();
             try {
                 playMusic("death");
             } catch (IOException e) {
@@ -1126,6 +1164,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         }
     }
 
+
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
     public void reset() {
@@ -1216,8 +1255,32 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             Clip clip = AudioSystem.getClip();
             clip.open(AudioSystem.getAudioInputStream(file));
             clip.start();
+            FloatControl fc = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            fc.setValue(-5f);
         }
         catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    public static void playBackground(String song) throws IOException
+    {
+        File titleSong = new File("Music/" + song + ".wav");
+        try
+        {
+            clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(titleSong));
+            clip.loop(-1);
+            clip.start();
+            FloatControl fc = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            fc.setValue(-20f);
+        }
+        catch(Exception e)
         {
             e.printStackTrace();
         }
@@ -1230,7 +1293,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     // MAIN METHOD
     public static void main(String[] args) throws IOException {
         // INITIALIZE FRAME
-        frame = new JFrame("Bomberman");
+        frame = new JFrame("Assignment Assassin");
         Main myPanel = new Main();
         frame.add(myPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -1239,23 +1302,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         frame.setVisible(true);
 
         // Load music
-        // if(gameState == 0)
-        // {
-        //     File titleSong = new File("Music/title.wav");
-        //     try
-        //     {
-        //         clip = AudioSystem.getClip();
-        //         clip.open(AudioSystem.getAudioInputStream(titleSong));
-        //         clip.loop(-1);
-        //         clip.start();
-        //         FloatControl fc = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        //         fc.setValue(-20f);
-        //     }
-        //     catch(Exception e)
-        //     {
-        //         e.printStackTrace();
-        //     }
-        // }
+        playBackground("title");
 
         // LOADING IMAGES
         try
