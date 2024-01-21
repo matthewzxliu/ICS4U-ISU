@@ -1,13 +1,17 @@
 import java.awt.*;
 import java.awt.image.*;
 
+// powerup class
+
 public class PowerUp {
     
+    // variables
     private int playerVel = 0;
     private int xPosPowerUp;
     private int yPosPowerUp;
     private BufferedImage powerUpImg;
 
+    // getters
     public int getPlayerVel()
     {
         return playerVel;
@@ -23,6 +27,7 @@ public class PowerUp {
         return (int) Math.round(yPosPowerUp / 40.0) * 40;
     }
 
+    // constructor
     public PowerUp(BufferedImage powerUpImg, int xPosPowerUp, int yPosPowerUp)
     {
         this.powerUpImg = powerUpImg;
@@ -30,10 +35,14 @@ public class PowerUp {
         this.yPosPowerUp = yPosPowerUp;
     }
 
+    // Purpose: drawing the powerup
+    // Parameter: graphics object to allow drawing
+    // Return: n/a
     public void draw(Graphics g)
     {
         g.drawImage(powerUpImg, xPosPowerUp, yPosPowerUp, null);
     }
+
 
     public int getSpeedPowerUp()
     {

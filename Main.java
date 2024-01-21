@@ -5,7 +5,7 @@
  *
  * DATE: January 21st, 2024
  *
- * DESCRIPTION: This is the main class for our ISU game.
+ * DESCRIPTION: This is the main class for our ISU game a Bomberman Spinoff.
  */
 
 // IMPORT
@@ -21,9 +21,6 @@ import javax.sound.sampled.*;
 // MAIN CLASS
 public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 {
-
-    // GLOBAL VARIABLES
-
     // GRAPHICS VARIABLES
     private static JFrame frame;
 
@@ -453,9 +450,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             g.setColor(Color.black);
             g.setFont(font);
 
-            // top 5 scores
+            // gets the top 5 scores 
+            // sorts arraylist of score objects by score
             Collections.sort(allScores);
             for(int i = 0; i < 5; i++) {
+                // if their name is too long it gets cut off
                 if(allScores.get(i).getName().length() > 7) {
                     g.drawString((i+1) + ") " + allScores.get(i).getName().substring(0, 7) + ".. : " + allScores.get(i).getScore(), 125, 205 + 50 * i);
                 } else {
@@ -463,9 +462,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 }
             }
 
+            // if they didn't play a game and entered their name there won't be user info
             if(nameEntered != null) {
                 // Name and Highest Score
                 g.drawString("Player Information", 300, 250);
+                // name cutoff if too long
                 if(nameEntered.length() > 7) {
                     g.drawString("Name: " + nameEntered.substring(0, 7) + "...", 300, 275);
                 } else {
@@ -474,10 +475,13 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 g.drawString("Highest Score: "  + highscoreMap.get(nameEntered), 300, 300);
 
                 // Number of times played
+                // sorts by name alphabetically
                 Collections.sort(allScores, new CompareByName());
+                // searches for the position of their name using binary search
                 int index = Collections.binarySearch(allScores, new Score(nameEntered, 0), new CompareByName());
                 int lowest = -1;
                 int highest = -1;
+                // checks the lowest and highest index containing their name
                 for(int i = index; i >= 0; i--) {
                     if(allScores.get(i).getName().equals(nameEntered)){
                         lowest = i;
@@ -488,7 +492,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                         highest = i;
                     }
                 }
-
+                
+                // subtracts to find the number of times they played
                 int numberOfPlays = highest - lowest + 1;
                 g.drawString(String.format("Number of Plays: %d", numberOfPlays), 300, 325);
 
@@ -954,13 +959,15 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
     // COLLISION DETECTION
-    // Description: This method checks collision with boxes. It checks if the player is colliding with walls.
+    // Description: This method checks collision with boxes and enemies. It checks if the player is colliding with walls.
     // Parameters: N/A.
     // Return: N/A.
     public static void checkCollision()
     {
         if(gameState == 2) {
             // Player and Tile Collision
+            // head tile/feet/left/right tile is the location of those body parts on the player
+            // since they can be in different tiles
             int xTile = (xPosPlayer + 20) / 40;
             int yTile = (yPosPlayer + 20) / 40;
 
@@ -983,28 +990,28 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             blockLeft = false;
             blockRight = false;
 
-            // Checks left block of player
+            // Checks left block(s) of player
             if(!map[yFeetTile][xFeetTile-1].equals("-") || !map[yHeadTile][xHeadTile-1].equals("-")) {
                 Rectangle tile = new Rectangle((xTile-1) * 40, yTile * 40, 40, 40);
                 if(player.intersects(tile)) {
                     blockLeft = true;
                 }
             }
-            // Checks right block
+            // Checks right block(s)
             if(!map[yFeetTile][xFeetTile+1].equals("-") || !map[yHeadTile][xHeadTile+1].equals("-")) {
                 Rectangle tile = new Rectangle((xTile + 1) * 40, (yTile) * 40, 40, 40);
                 if(player.intersects(tile)) {
                     blockRight = true;
                 }
             }
-            // Checks up block of player
+            // Checks up block(s) of player
             if(!map[yLeftHandTile-1][xLeftHandTile].equals("-") || !map[yRightHandTile-1][xRightHandTile].equals("-")) {
                 Rectangle tile = new Rectangle((xTile) * 40, (yTile-1) * 40, 40, 40);
                 if(player.intersects(tile)) {
                     blockUp = true;
                 }
             }
-            // Checks down block
+            // Checks down block(s)
             if(!map[yLeftHandTile+1][xLeftHandTile].equals("-") || !map[yRightHandTile+1][xRightHandTile].equals("-")) {
                 Rectangle tile = new Rectangle((xTile) * 40, (yTile + 1) * 40, 40, 40);
                 if(player.intersects(tile)) {
@@ -1013,6 +1020,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             }
 
             // Player and Enemy Collision
+            // goes through all the enemies to see if they intersect with the player box
             for(Enemy enemy : enemies) {
                 Rectangle enemyBox = new Rectangle(enemy.getX() + 10, enemy.getY() + 10, 20, 20);
                 if(enemyBox.intersects(player)) {
@@ -1385,8 +1393,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 
     // READ HIGHSCORE
-    // Description: This method reads the highscores from "highscore.txt" and creates a score object. The score object is added to an arraylist for score objects.
-    //              The score is also added to a map.
+    // Description: This method reads the highscores from "highscore.txt" and creates a score object. The score object is added to an arraylist for score objects. And the hashmap if conditions are met (explained below)
     // Parameters: N/A.
     // Return: N/A.
     public static void readHighscore()
@@ -1399,8 +1406,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             String line = "";
             while((line = inFile.readLine()) != null)
             {
+                // creates a score object for each score in the textfile
                 Score score = new Score(line.substring(0, line.indexOf(",")), Integer.parseInt(line.substring(line.indexOf(",") + 1)));
+                // adds score to the arraylist
                 allScores.add(score);
+                // if the hashmap does not contain this player or they beat their score, the new score is added to the hashmap
                 if(highscoreMap.get(line.substring(0, line.indexOf(","))) == null || highscoreMap.get(line.substring(0, line.indexOf(","))) < Integer.parseInt(line.substring(line.indexOf(",") + 1))) {
                     highscoreMap.put(line.substring(0, line.indexOf(",")), Integer.parseInt(line.substring(line.indexOf(",") + 1)));
                 }
