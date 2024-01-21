@@ -12,6 +12,10 @@ Main.java
     - paintComponent()
         - gamestate 2: Matthew Liu
         - gamestate 3: Jeevesh Balendra
+    - explodeBomb()
+        - Break walls: Matthew Liu
+        - Kill player: Matthew Liu
+        - Kill Enemies: Jeevesh Balendra
     - Matthew Liu
         - Main()
         - mousePressed()
