@@ -103,7 +103,6 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
     // MUSIC / AUDIO
     static Clip clip;
 
-
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -678,6 +677,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             {
                 Bomb bomb = new Bomb(bombImg, xPosPlayer, yPosPlayer);
                 bombArray.add(bomb);
+                try {
+                    playMusic("placeBomb");
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
             }
         }
         else if((player.intersects(door) && (key == KeyEvent.VK_ENTER)))
