@@ -985,6 +985,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
             Rectangle player = new Rectangle(xPosPlayer, yPosPlayer, 40, 40);
 
+            // boolean showing whether to block certain tiles around the player
             blockDown = false;
             blockUp = false;
             blockLeft = false;
@@ -993,6 +994,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             // Checks left block(s) of player
             if(!map[yFeetTile][xFeetTile-1].equals("-") || !map[yHeadTile][xHeadTile-1].equals("-")) {
                 Rectangle tile = new Rectangle((xTile-1) * 40, yTile * 40, 40, 40);
+                // blocks left movement if intersection
                 if(player.intersects(tile)) {
                     blockLeft = true;
                 }
@@ -1000,12 +1002,14 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             // Checks right block(s)
             if(!map[yFeetTile][xFeetTile+1].equals("-") || !map[yHeadTile][xHeadTile+1].equals("-")) {
                 Rectangle tile = new Rectangle((xTile + 1) * 40, (yTile) * 40, 40, 40);
+                // blocks right movement if intersection
                 if(player.intersects(tile)) {
                     blockRight = true;
                 }
             }
             // Checks up block(s) of player
             if(!map[yLeftHandTile-1][xLeftHandTile].equals("-") || !map[yRightHandTile-1][xRightHandTile].equals("-")) {
+                // blocks up movement if intersection
                 Rectangle tile = new Rectangle((xTile) * 40, (yTile-1) * 40, 40, 40);
                 if(player.intersects(tile)) {
                     blockUp = true;
@@ -1013,6 +1017,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             }
             // Checks down block(s)
             if(!map[yLeftHandTile+1][xLeftHandTile].equals("-") || !map[yRightHandTile+1][xRightHandTile].equals("-")) {
+                // blocks down movement if intersection
                 Rectangle tile = new Rectangle((xTile) * 40, (yTile + 1) * 40, 40, 40);
                 if(player.intersects(tile)) {
                     blockDown = true;
