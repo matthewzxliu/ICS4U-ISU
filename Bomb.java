@@ -1,16 +1,26 @@
+/*
+ * INTRODUCTORY COMMENTS:
+ *
+ * NAME: Matthew Liu
+ *
+ * DATE: January 21st, 2024
+ *
+ * DESCRIPTION: This is the class for bomb objects.
+ */
+
+// IMPORT
 import java.awt.*;
 import java.awt.image.*;
 
-// bomb class
-
+// BOMB CLASS
 public class Bomb {
 
-    // variables
+    // Variables
     private BufferedImage bombImg;
     private int x;
     private int y;
 
-    // getters
+    // Getters
     public int getX()
     {
         return (int) Math.round(x / 40.0) * 40;
@@ -21,7 +31,10 @@ public class Bomb {
         return (int) Math.round(y / 40.0) * 40;
     }
 
-    // constructor
+    // Constructor
+    // Description: Takes in the image of the bomb, x coordinate of the player, and y coordinate of the player to make a bomb object
+    // Parameters: Image of the bomb, x coordinate of player, y coordinate of player
+    // Return: N/A.
     public Bomb(BufferedImage bombImg, int x, int y)
     {
         this.bombImg = bombImg;
@@ -29,14 +42,16 @@ public class Bomb {
         this.y = y;
     }
 
-    // Purpose: drawing the bombs
-    // Parameter: graphics object to allow drawing
-    // Return: n/a
+    // Draw
+    // Description: Draw the image of the bomb where it is placed
+    // Parameters: Graphics g object to allow drawing
+    // Return: N/A.
     public void draw(Graphics g)
     {
-        // gets location of bomb and draws it
+        // Round the x and y positions of the bomb to the nearest multiple of 40 (ensures that the bomb will be centered in each block because each block is 40x40)
         int roundedX = (int) Math.round(x / 40.0) * 40;
         int roundedY = (int) Math.round(y / 40.0) * 40;
+        // Draw the image of the bomb where it is placed
         g.drawImage(bombImg, roundedX, roundedY, null);
     }
 }
