@@ -1,9 +1,11 @@
 /*
- * INTRO COMMENTS:
+ * INTRODUCTORY COMMENTS:
  *
+ * NAME: Matthew Liu and Jeevesh Balendra
  *
+ * DATE: January 21st, 2024
  *
- *
+ * DESCRIPTION: This is the main class for our ISU game.
  */
 
 // IMPORT
@@ -546,7 +548,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         // Game State 6, game over
         else if(gameState == 6)
         {
-            // Clear screen, draw game over page, draw back button, display your score, and allow user to enter in their username
+            // Clear screen, draw game over page, draw back button, display your score, and allow user to enter in their username when the user presses back
             super.paintComponent(g);
             g.drawImage(gameOverImg, 0, 0, null);
             g.drawImage(backImg, 250, 290, null);
@@ -558,7 +560,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
         else if(gameState == 7)
         {
-            // Clear screen, draw win page, draw back button, display your score, and allow user to enter in their username
+            // Clear screen, draw win page, draw back button, display your score, and allow user to enter in their username when the user presses back
             super.paintComponent(g);
             g.drawImage(winImg, 0, 0, null);
             g.drawImage(backImg, 250, 290, null);
@@ -574,14 +576,21 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 
     // MOUSE INPUT
+    // Description: This method gets the x and y positions of where the user clicks and determines what happens when the user clicks in specific locations
+    // Parameters: MouseEvent e
+    // Return: N/A.
     public void mousePressed(MouseEvent e) {
+        // Get the x and y position of where the user clicks
         int xPos = e.getX();
         int yPos = e.getY();
 
+        // If the user is on the main menu
         if(gameState == 0)
         {
+            // If the user clicks on the about button
             if(xPos >= 211 && xPos <= 388 && yPos >= 260 && yPos <= 310)
             {
+                // Change the game state to 1 (about page), play a click sound effect, and play a different background song
                 gameState = 1;
                 try {
                     playMusic("click");
@@ -592,14 +601,18 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 try {
                     playBackground("menuMusic");
                 } catch (IOException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
+            
+            // If the user clicks on the play button
             else if(xPos >= 211 && xPos <= 388 && yPos >= 320 && yPos <= 370)
             {
+                // Reset the game and starts the timer
                 reset();
                 timeStart = true;
+
+                // Change the game state to 2 (play game), play a click sound effect, and play a different background song
                 gameState = 2;
                 try {
                     playMusic("click");
@@ -610,14 +623,18 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 try {
                     playBackground("gameMusic");
                 } catch (IOException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
+
+            // If the user clicks on the highscore button
             else if(xPos >= 211 && xPos <= 388 && yPos >= 380 && yPos <= 430)
             {
+                //
                 allScores.clear();
                 readHighscore();
+
+                // Change the game state to 3 (highscore page), play a click sound effect, and play a different background song
                 gameState = 3;
                 try {
                     playMusic("click");
@@ -628,12 +645,14 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 try {
                     playBackground("menuMusic");
                 } catch (IOException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
+
+            // If the user clicks on the rules button
             else if(xPos >= 211 && xPos <= 327 && yPos >= 440 && yPos <= 490)
             {
+                // Change the game state to 4 (rules page), play a click sound effect, and play a different background song
                 gameState = 4;
                 try {
                     playMusic("click");
@@ -644,12 +663,14 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 try {
                     playBackground("menuMusic");
                 } catch (IOException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
+
+            // If the user clicks on the exit button
             else if(xPos >= 336 && xPos <= 388 && yPos >= 440 && yPos <= 490)
             {
+                // Change the game state to 5 (exit game) and play a click sound effect
                 gameState = 5;
                 try {
                     playMusic("back");
@@ -658,10 +679,14 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 }
             }
         }
+
+        // If the user is on the about page
         else if(gameState == 1)
         {
+            // If the user clicks on the back button
             if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
             {
+                // Change the game state to 0 (main menu), play a click sound effect, and play a different background song
                 gameState = 0;
                 clip.stop();
                 try {
@@ -672,14 +697,14 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 }
             }
         }
-        else if(gameState == 2)
-        {
 
-        }
+        // If the user is on the highscore page
         else if(gameState == 3)
         {
+            // If the user clicks on the back button
             if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
             {
+                // Change the game state to 0 (main menu), play a click sound effect, and play a different background song
                 gameState = 0;
                 clip.stop();
                 try {
@@ -690,10 +715,14 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 }
             }
         }
+
+        // If the user is on the rules page
         else if(gameState == 4)
         {
+            // If the user clicks on the back button
             if(xPos >= 15 && xPos <= 115 && yPos >= 15 && yPos <= 61)
             {
+                // Change the game state to 0 (main menu), play a click sound effect, and play a different background song
                 gameState = 0;
                 clip.stop();
                 try {
@@ -704,15 +733,20 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 }
             }
         }
+
+        // If the user is on the game over screen
         else if(gameState == 6)
         {
+            // Allow the user to enter in their username
             if(enterName == true)
             {
                 enterHighscoreName();
             }
 
+            // If the user clicks on the back button
             if(xPos >= 250 && xPos <= 350 && yPos >= 290 && yPos <= 336)
             {
+                // Change the game state to 0 (main menu), play a click sound effect, and play a different background song
                 gameState = 0;
                 try {
                     playMusic("back");
@@ -722,14 +756,20 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 }
             }
         }
+
+        // If the user is on the victory screen
         else if(gameState == 7)
         {
+            // Allow the user to enter in their username
             if(enterName == true)
             {
                 enterHighscoreName();
             }
+
+            // If the user clicks on the back button
             if(xPos >= 250 && xPos <= 350 && yPos >= 290 && yPos <= 336)
             {
+                // Change the game state to 0 (main menu), play a click sound effect, and play a different background song
                 gameState = 0;
                 try {
                     playMusic("back");
@@ -746,12 +786,19 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 
     // KEYBOARD INPUT
+    // Description: This method gets the keys that the user presses and determines what happens when the user presses those keys
+    // Parameters: KeyEvent e
+    // Return: N/A.
     public void keyPressed(KeyEvent e)
     {
+        // Get the key that the user presses
         int key = e.getKeyCode();
+
+        // Create player and door rectangle for opening the door to win
         Rectangle player = new Rectangle(xPosPlayer, yPosPlayer, 40, 40);
         Rectangle door = new Rectangle(xPosDoor, yPosDoor, 40, 40);
 
+        // If the user presses A set left to true and right to false. If the user presses D set right to true and left to false. If the user presses W set up to true and down to false. If the user presses S set down to true and up to false.
         if(key == KeyEvent.VK_A)
         {
             left = true;
@@ -772,22 +819,30 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             down = true;
             up = false;
         }
+
+        // If the user presses space
         else if(key == KeyEvent.VK_SPACE)
         {
+            // If the game state is 2 (in game)
             if(gameState == 2)
             {
+                // Create a new bomb object and add the bomb object to an arraylist of bomb objects
                 Bomb bomb = new Bomb(bombImg, xPosPlayer, yPosPlayer);
                 bombArray.add(bomb);
+
+                // Play a sound effect
                 try {
                     playMusic("placeBomb");
                 } catch (IOException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
         }
+
+        // If the player is intersecting with the door and the user presses enter
         else if((player.intersects(door) && (key == KeyEvent.VK_ENTER)))
         {
+            // Play a sound effect and a victory tune
             clip.stop();
             try {
                 playMusic("door");
@@ -795,6 +850,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
+            
+            // Determine how many points the user gets from entering the door
+            // If the user enters the door within 30 seconds: 300 points
+            // If the user enters the door after 30 seconds, but within 1 minute: 200 points
+            // If the user enters the door after 1 minute, but within 1 minute and 30 seconds: 100 points
+            // If the user enters the door after 1 minute and 30 seconds: 50 points
             if(timeElapsedSec <= 30)
                 score += 300;
             else if(timeElapsedSec > 30 && timeElapsedMin <= 1)
@@ -804,6 +865,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             else if(timeElapsedSec > 30 && timeElapsedMin > 1)
                 score += 50;
 
+            // Set the gamestate to 7 (victory screen)
             gameState = 7;
         }
     }
@@ -813,10 +875,15 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 
     // KEYBOARD INPUT
+    // Description: This method gets the keys that the user releases and determines what happens when the user releases those keys
+    // Parameters: KeyEvent e
+    // Return: N/A.
     public void keyReleased(KeyEvent e)
     {
+        // Get the key that the user releases
         int key = e.getKeyCode();
 
+        // If the user releases A set left to false. If the user releases D set right to false. If the user releases W set up to false. If the user releases S set down to false   
         if(key == KeyEvent.VK_A)
             left = false;
         else if(key == KeyEvent.VK_D)
@@ -832,35 +899,44 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 
     // PLAYER MOVEMENT
+    // Description: This method moves the player based on the users inputs
+    // Parameters: N/A.
+    // Return: N/A.
     public static void move()
     {
+        // If the game stat is 2 (in game)
         if(gameState == 2)
         {
+            // If the user is trying to go left, right, up, or down, move the player if possible, and play the sprite animations
             if(left || right || up || down)
             {
+                // If the user is trying to move left and if the player is not blocked on the left, move left. Set direction to left for sprite animations.
                 if(left && xPosPlayer > 40 && !blockLeft)
                 {
                     xPosPlayer -= vel;
                     direction = "left";
                 }
+                // If the user is trying to move right and if the player is not blocked on the right, move right. Set direction to right for sprite animations.
                 else if(right && xPosPlayer < 520 && !blockRight)
                 {
                     xPosPlayer += vel;
                     direction = "right";
                 }
+                // If the user is trying to move up and if the player is not blocked on top, move up. Set direction to up for sprite animations.
                 if(up && yPosPlayer > 40 && !blockUp)
                 {
                     yPosPlayer -= vel;
                     direction = "up";
                 }
+                // If the user is trying to move down and if the player is not blocked below, move down. Set direction to down for sprite animations.
                 else if(down && yPosPlayer < 440 && !blockDown)
                 {
                     yPosPlayer += vel;
                     direction = "down";
                 }
 
+                // Increase the sprite counter. If the sprite counter is more than 8, change the current sprite to the other sprite. Reset the sprite counter to 0. Play a footstep sound effect.
                 spriteCounter++;
-
                 if(spriteCounter > 8)
                 {
                     if(spriteNum == 1)
@@ -872,6 +948,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                         spriteNum = 1;
                     }
                     spriteCounter = 0;
+                    
                     try {
                         playMusic("footstep");
                     } catch (IOException e1) {
@@ -885,7 +962,10 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    // Checks collision with boxes
+    // COLLISION DETECTION
+    // Description: This method checks collision with boxes. It checks if the player is colliding with walls.
+    // Parameters: N/A.
+    // Return: N/A.
     public static void checkCollision()
     {
         if(gameState == 2) {
@@ -961,59 +1041,94 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+    // BOMB EXPLOSION
+    // Description: This method allows the bomb to break blocks on top, below, left, and right. It also checks if the bomb hits the user or enemies.
+    // Parameters: N/A.
+    // Return: N/A.
     public static void explodeBomb()
     {
+        // Get the x and y positions of the bomb
         int bombX = bombArray.get(0).getX();
         int bombY = bombArray.get(0).getY();
+
+        // Create a rectangle object for the bomb's tile, the tile above the bomb, the tile below the bomb, the tile on the left of the bomb, and the tile on the right of the bomb
         Rectangle bomb = new Rectangle(bombX, bombY, 40, 40);
         Rectangle bombUp = new Rectangle(bombX, bombY - 40, 40, 40);
         Rectangle bombDown = new Rectangle(bombX, bombY + 40, 40, 40);
         Rectangle bombLeft = new Rectangle(bombX - 40, bombY, 40, 40);
         Rectangle bombRight = new Rectangle(bombX + 40, bombY, 40, 40);
+
+        // Create a rectangle object for the player
         Rectangle player = new Rectangle(((int)Math.round(xPosPlayer/40.0)*40), ((int)Math.round(yPosPlayer/40.0)*40), 40, 40);
 
-        // Up
+        // If the block above the bomb is a breakable wall
         if(map[(bombY/40) - 1][(bombX/40)].equals("W")) {
+            // Break the wall. Change the "W" in the 2d map array to a "-".
             map[(bombY/40) - 1][(bombX/40)] = "-";
+            
+            // Play a sound effect for the wall breaking
             try {
                 playMusic("break");
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            // Increase the score by 5 for breaking the wall
             score += 5;
         }
-        // Down
+
+        // If the block below the bomb is a breakable wall
         if(map[(bombY/40) + 1][(bombX/40)].equals("W")) {
+            // Break the wall. Change the "W" in the 2d map array to a "-".
             map[(bombY/40) + 1][(bombX/40)] = "-";
+            
+            // Play a sound effect for the wall breaking
             try {
                 playMusic("break");
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            // Increase the score by 5 for breaking the wall
             score += 5;
         }
-        // Left
+
+        // If the block on the left of the bomb is a breakable wall
         if(map[(bombY/40)][(bombX/40) - 1].equals("W")) {
+            // Break the wall. Change the "W" in the 2d map array to a "-".
             map[(bombY/40)][(bombX/40) - 1] = "-";
+            
+            // Play a sound effect for the wall breaking
             try {
                 playMusic("break");
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            // Increase the score by 5 for breaking the wall
             score += 5;
         }
-        // Right
+
+        // If the block on the right of the bomb is a breakable wall
         if(map[(bombY/40)][(bombX/40) + 1].equals("W")) {
+            // Break the wall. Change the "W" in the 2d map array to a "-".
             map[(bombY/40)][(bombX/40) + 1] = "-";
+            
+            // Play a sound effect for the wall breaking
             try {
                 playMusic("break");
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            // Increase the score by 5 for breaking the wall
             score += 5;
         }
+
+        // If the bomb's explosion (rectangle) intersects the player (rectangle) in any direction
         if(bomb.intersects(player) || bombUp.intersects(player) || bombDown.intersects(player) || bombLeft.intersects(player) || bombRight.intersects(player))
         {
+            // Stop the background music, play a death tune, and change the game state to 6 (game over)
             clip.stop();
             try {
                 playMusic("death");
@@ -1022,26 +1137,30 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             }
             gameState = 6;
         }
+
+        // For each of the enemies
         for(int i = 0; i < enemies.size(); i++) {
+            // Create a rectangle object for the enemy
             Rectangle enemy = new Rectangle(enemies.get(i).getX(), enemies.get(i).getY(), 40, 40);
 
+            // If the bomb's explosion (rectangle) intersects the enemy (rectangle) in any direction
             if(bomb.intersects(enemy) || bombUp.intersects(enemy) || bombDown.intersects(enemy) || bombLeft.intersects(enemy) || bombRight.intersects(enemy)) {
+                // play a sound effect for killing an enemy
                 try {
                     playMusic("enemyDie");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
+                // Remove the enemy from the arraylist of enemies
                 enemies.remove(i);
 
+                // If the enemy was killed within 30 seconds: 20 points
+                // If the enemy was killed after 30 seconds: 10 points
                 if(timeElapsedSec <= 30)
-                {
                     score += 20;
-                }
                 else
-                {
                     score += 10;
-                }
             }
         }
     }
@@ -1049,30 +1168,41 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+    // LOAD MAPS
+    // Description: This method reads "map.txt" and puts one of the maps from the text file into a 2d array so that it can be drawn when the game starts 
+    // Parameters: N/A.
+    // Return: N/A.
     public static void loadMaps() throws IOException
     {
-        // LOADING MAPS
+        // Try catch incase there is an error reading "map.txt"
         try
         {
-            // Read Maps
+            // Buffered reader to read the map
             BufferedReader br = new BufferedReader(new FileReader("map.txt"));
 
-            int mapNumber = (int)(Math.random()*(3-1+1)) + 1;
-
+            // Randomly choose one of three maps to read
+            int mapNumber = (int)(Math.random()*(3)) + 1;
+            // Finds how many lines need to be skipped to reach the desired map
             int end = 13 * (mapNumber - 1);
+            // Skips the lines that need to be skipped in order to reach the desired map
             for(int i = 0; i < end; i++)
             {
                 br.readLine();
             }
 
+            // Each map is 15x13 (15 columns, 13 rows)
+            // Go thorugh each row
             for(int i = 0; i < 13; i++)
             {
+                // Read the row
                 String line = br.readLine();
+                // Go through each column
                 for(int j = 0; j < 15; j++)
                 {
+                    // Put each letter/symbol into the 2d map array
                     map[i][j] = line.substring(0, 1);
 
+                    // If the letter is a "W", add the x and y coordinates of it into an arraylist (this keeps track of where breakable blocks will be)
                     if(map[i][j].equals("W")) {
                         xBlocks.add(j * 40);
                         yBlocks.add(i * 40);
@@ -1081,13 +1211,17 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                     line = line.substring(1);
                 }
             }
+
+            // Close the buffered reader
             br.close();
 
+            // Create the door
             int doorBlock = (int) (Math.random() * xBlocks.size());
             xPosDoor = xBlocks.get(doorBlock);
             yPosDoor = yBlocks.get(doorBlock);
             System.out.println("Door: " + xPosDoor + ", " + yPosDoor);
 
+            // Call a method to generate enemies based on the map number
             generateEnemies(mapNumber);
         }
         catch(IOException e)
@@ -1099,55 +1233,71 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+    // GENERATE POWER UPS
+    // Description: This method generates power ups. It generates a random x and y coordinate to spawn the power up on. When creating a power up object,
+    //              the sprite that should be drawn as well as the x and y coordinates of the power up are passed in
+    // Parameters: N/A.
+    // Return: N/A.
     public static void generatePowerUps()
     {
+        // Generate x and y positions for power up 1
         int xPosPowerUp1 = (int)(Math.random()*(13)) +1;
         int yPosPowerUp1 = (int)(Math.random()*(11)) +1;
+        // While the x and y positions are not valid (if it is under an indestructable block, on the door, or on the spawn tile), generate another set of x and y positions for power up 1
         while(map[yPosPowerUp1][xPosPowerUp1].equals("1") || (xPosPowerUp1 == xPosDoor && yPosPowerUp1 == yPosDoor) || (xPosPowerUp1 == 1 && yPosPowerUp1 == 1))
         {
             xPosPowerUp1 = (int)(Math.random()*(13)) +1;
             yPosPowerUp1 = (int)(Math.random()*(11)) +1;
         }
-        System.out.println("Power 1: " + xPosPowerUp1 + ", " + yPosPowerUp1);
+        // Create the power up 1 object
         powerUp1 = new PowerUp(powerUpSpeedImg, xPosPowerUp1*40, yPosPowerUp1*40);
 
+        // Generate x and y positions for power up 2
         int xPosPowerUp2 = (int)(Math.random()*(13)) +1;
         int yPosPowerUp2 = (int)(Math.random()*(11)) +1;
+        // While the x and y positions are not valid (if it is under an indestructable block, on the door, on the spawn tile, or on power up 1), generate another set of x and y positions for power up 2
         while(map[yPosPowerUp2][xPosPowerUp2].equals("1") || (xPosPowerUp1 == xPosPowerUp2 && yPosPowerUp1 == yPosPowerUp2) || (xPosPowerUp2 == xPosDoor && yPosPowerUp2 == yPosDoor) || (xPosPowerUp2 == 1 && yPosPowerUp2 == 1))
         {
             xPosPowerUp2 = (int)(Math.random()*(13)) +1;
             yPosPowerUp2 = (int)(Math.random()*(11)) +1;
         }
-        System.out.println("Power 2: " + xPosPowerUp2 + ", " + yPosPowerUp2);
+        // Create the power up 2 object
         powerUp2 = new PowerUp(powerUpSpeedImg, xPosPowerUp2*40, yPosPowerUp2*40);
 
+        // Generate x and y positions for power up 3
         int xPosPowerUp3 = (int)(Math.random()*(13)) +1;
         int yPosPowerUp3 = (int)(Math.random()*(11)) +1;
+        // While the x and y positions are not valid (if it is under an indestructable block, on the door, on the spawn tile, on power up 1, or on power up 2), generate another set of x and y positions for power up 3
         while(map[yPosPowerUp3][xPosPowerUp3].equals("1") || (xPosPowerUp1 == xPosPowerUp3 && yPosPowerUp1 == yPosPowerUp3) || (xPosPowerUp2 == xPosPowerUp3 && yPosPowerUp2 == yPosPowerUp3) || (xPosPowerUp3 == xPosDoor && yPosPowerUp3 == yPosDoor) || (xPosPowerUp3 == 1 && yPosPowerUp3 == 1))
         {
             xPosPowerUp3 = (int)(Math.random()*(13)) +1;
             yPosPowerUp3 = (int)(Math.random()*(11)) +1;
         }
-        System.out.println("Power 3: " + xPosPowerUp3 + ", " + yPosPowerUp3);
+        // Create the power up 3 object
         powerUp3 = new PowerUp(powerUpSlowImg, xPosPowerUp3*40, yPosPowerUp3*40);
 
+        // Generate x and y positions for power up 4
         int xPosPowerUp4 = (int)(Math.random()*(13)) +1;
         int yPosPowerUp4 = (int)(Math.random()*(11)) +1;
+        // While the x and y positions are not valid (if it is under an indestructable block, on the door, on the spawn tile, on power up 1, on power up 2, or on power up 3), generate another set of x and y positions for power up 4
         while(map[yPosPowerUp4][xPosPowerUp4].equals("1") || (xPosPowerUp1 == xPosPowerUp4 && yPosPowerUp1 == yPosPowerUp4) || (xPosPowerUp2 == xPosPowerUp4 && yPosPowerUp2 == yPosPowerUp4) || (xPosPowerUp3 == xPosPowerUp4 && yPosPowerUp3 == yPosPowerUp4) || (xPosPowerUp4 == xPosDoor && yPosPowerUp4 == yPosDoor) || (xPosPowerUp4 == 1 && yPosPowerUp4 == 1))
         {
             xPosPowerUp4 = (int)(Math.random()*(13)) +1;
             yPosPowerUp4 = (int)(Math.random()*(11)) +1;
         }
-        System.out.println("Power 4: " + xPosPowerUp4 + ", " + yPosPowerUp4);
+        // Create the power up 4 object
         powerUp4 = new PowerUp(powerUpSlowImg, xPosPowerUp4*40, yPosPowerUp4*40);
     }
 
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+    // GENERATE ENEMIES
+    // Description: This method generates 5 enemies based on the map number.
+    // Parameters: The map number (int) that was randomly selected in the loadMaps() method
+    // Return: N/A.
     public static void generateEnemies(int mapNumber) {
+        // If the map number is 1, create 5 enemy objects and add them to the enemies arraylist
         if(mapNumber == 1) {
             enemies.add(new Enemy(160, 120, "left"));
             enemies.add(new Enemy(400, 40, "left"));
@@ -1155,6 +1305,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             enemies.add(new Enemy(280, 280, "left"));
             enemies.add(new Enemy(400, 440, "left"));
         }
+        // If the map number is 2, create 5 enemy objects and add them to the enemies arraylist
         if(mapNumber == 2) {
             enemies.add(new Enemy(320, 40, "left"));
             enemies.add(new Enemy(160, 120, "left"));
@@ -1162,6 +1313,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             enemies.add(new Enemy(280, 280, "left"));
             enemies.add(new Enemy(400, 440, "left"));
         }
+        // If the map number is 3, create 5 enemy objects and add them to the enemies arraylist
         if(mapNumber == 3) {
             enemies.add(new Enemy(440, 40, "left"));
             enemies.add(new Enemy(120, 120, "left"));
@@ -1169,45 +1321,57 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             enemies.add(new Enemy(280, 320, "left"));
             enemies.add(new Enemy(400, 440, "left"));
         }
-
     }
 
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+    // ENTER USERNAME FOR HIGHSCORE
+    // Description: This method allows the user to enter in a username so that their score can be saved and viewed on the highscore page
+    // Parameters: N/A.
+    // Return: N/A.
     public static void enterHighscoreName()
     {
+        // If enterName is true
         if(enterName == true)
         {
+            // Try catch incase there is an error when writing to the "highscore.txt" file
             try
             {
+                // Create a new print writer
                 PrintWriter outFile = new PrintWriter(new FileWriter("highscore.txt", true));
 
+                // Show a JOptionPane that allows the user to enter their name for the highscore
                 nameEntered = JOptionPane.showInputDialog("Enter your name for the highscore.");
 
-                // If the user presses the X button, return back
+                // If the user presses the X button
                 if(nameEntered == null)
                 {
+                    // Close the print writer and return back - the highscore will not be saved
+                    outFile.close();
                     return;
                 }
 
                 // If the user tries to enter an empty name
                 if(nameEntered.length() <= 0)
                 {
-                    // Display that it is invalid and return
+                    // Display that it is invalid and call the method again so that the user can enter their name again 
                     JOptionPane.showMessageDialog(null, "No name given.", "Invalid Entry", JOptionPane.ERROR_MESSAGE);
                     enterHighscoreName();
                 }
 
-                // Check if the file entered is a valid file
+                // If the name entered is valid
                 else
                 {
-                    // If it is a valid file, display that it was sucessfully added
+                    // Display that the name entered was sucessfully added
                     JOptionPane.showMessageDialog(null, "Highscore added.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    // Add the new file to the arraylist of files names and the combo box so that the user can select it
                 }
+
+                // Write the name entered into the outfile along with the user's score
                 outFile.println(nameEntered + "," + score);
+
+                // Close the print writer
                 outFile.close();
             }
             catch(IOException e)
@@ -1215,6 +1379,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 System.out.println("Input / Output Error.");
             }
         }
+
+        // Set enterName to false
         enterName = false;
     }
 
@@ -1222,10 +1388,17 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+    // READ HIGHSCORE
+    // Description: This method reads the highscores from "highscore.txt" and creates a score object. The score object is added to an arraylist for score objects.
+    //              The score is also added to a map.
+    // Parameters: N/A.
+    // Return: N/A.
     public static void readHighscore()
     {
+        // Try catch incase there is an error when reading from the "highscore.txt" file
         try
         {
+            // Buffered reader to read the highscores
             BufferedReader inFile = new BufferedReader(new FileReader("highscore.txt"));
             String line = "";
             while((line = inFile.readLine()) != null)
@@ -1236,6 +1409,8 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                     highscoreMap.put(line.substring(0, line.indexOf(",")), Integer.parseInt(line.substring(line.indexOf(",") + 1)));
                 }
             }
+
+            // Close the buffered reader
             inFile.close();
         }
         catch(IOException e)
@@ -1247,7 +1422,14 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+    // RESET GAME
+    // Description: This method resets all the variables, clears all the arraylists, loads a new map, and generates new powerups when the user presses play
+    //              again after finishing a game.
+    // Parameters: N/A.
+    // Return: N/A.
     public void reset() {
+        // Reset all varables and clear all arraylists
         xPosPlayer = 40;
         yPosPlayer = 40;
         direction = "down";
@@ -1270,54 +1452,82 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         countDown = 30;
         countDownPoints = 300;
 
-        // Load new map
-        try {
+        // Try catch incase there is an input / output error when loading in a new map
+        try
+        {
+            // Call the loadMaps() method to read in a new map
             loadMaps();
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+        catch(IOException e)
+        {
+            System.out.println("Input / Output Error.");
         }
 
-        // Generate new power-ups
+        // Call the generatePowerUps() method to generate new power ups
         generatePowerUps();
     }
+
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
     // THREADING
+    // Description: This method calls the methods that must be constantly called. This method also keeps track of the in game time.
+    // Parameters: N/A.
+    // Return: N/A.
     public void run() {
+        // While true
         while(true) {
+            // Call the move(), checkCollsion(), and repaint() methods
             move();
             checkCollision();
             repaint();
+            // Set the frame rate to 60 frames per second
             try {
                 Thread.sleep(1000/60);
             } catch(Exception e) {}
+
+            // If the game state is 2 (in game)
             if(gameState == 2)
             {
+                // If the time start is true
                 if(timeStart == true)
                 {
+                    // Get the current time and save it to a variable
                     timeElapsedMsStart = System.currentTimeMillis();
+                    // Set the time start to false
                     timeStart = false;
                 }
+                // Constantly get the current time and save it to a variable
                 timeElapsedMsEnd = System.currentTimeMillis();
+                // If 1000 ms or more has passed
                 if(timeElapsedMsEnd - timeElapsedMsStart >= 1000)
                 {
+                    // Set time start to true to repeat the process
                     timeStart = true;
+                    // Increase the time in seconds by 1
                     timeElapsedSec++;
+                    // Decrease the count down timer by 1
                     countDown--;
                 }
+                // If the time in seconds reaches 60 seconds
                 if(timeElapsedSec >= 60)
                 {
+                    // Increase the time in minutes by 1
                     timeElapsedMin++;
+                    // Reset the time in seconds to 0
                     timeElapsedSec = 0;
                 }
+                // If the count down timer is 0
                 if(countDown <= 0)
                 {
+                    // If there are still count down points to be earned
                     if(countDownPoints > 0)
                     {
+                        // Reduce the count down points that can be earned by 100
                         countDownPoints -= 100;
                     }
+                    // Reset the count down timer to 30 seconds
                     countDown = 30;
                 }
             }
@@ -1328,14 +1538,22 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+    // PLAY MUSIC
+    // Description: This method plays music / sound effects.
+    // Parameters: The name of the song
+    // Return: N/A.
     public static void playMusic(String song) throws IOException
     {
+        // Create a new File object (songs are stored in a music folder and all of the songs are .wav's)
         File file = new File("Music/" + song + ".wav");
+        // Try catch in case there is an error when playing the song
         try
         {
+            // Play the song
             Clip clip = AudioSystem.getClip();
             clip.open(AudioSystem.getAudioInputStream(file));
             clip.start();
+            // Turn down the volume of the song
             FloatControl fc = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             fc.setValue(-5f);
         }
@@ -1349,15 +1567,23 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+    // PLAY BACKGROUND MUSIC
+    // Description: This method plays background music.
+    // Parameters: The name of the song
+    // Return: N/A.
     public static void playBackground(String song) throws IOException
     {
+        // Create a new File object (songs are stored in a music folder and all of the songs are .wav's)
         File titleSong = new File("Music/" + song + ".wav");
+        // Try catch in case there is an error when playing the song
         try
         {
+            // Play the song and loop the song infinitly
             clip = AudioSystem.getClip();
             clip.open(AudioSystem.getAudioInputStream(titleSong));
             clip.loop(-1);
             clip.start();
+            // Turn down the volume of the song
             FloatControl fc = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             fc.setValue(-20f);
         }
@@ -1372,8 +1598,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 
     // MAIN METHOD
+    // Description: This is the main method of the program. It helps intialize the graphics, loads music, and loads images.
+    // Parameters: String[] args
+    // Return: N/A.
     public static void main(String[] args) throws IOException {
-        // INITIALIZE FRAME
+        // Initialize graphics
         frame = new JFrame("Assignment Assassin");
         Main myPanel = new Main();
         frame.add(myPanel);
@@ -1382,12 +1611,13 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         frame.pack();
         frame.setVisible(true);
 
-        // Load music
+        // Loads music by calling the playBackground() method and passing in the song to be played
         playBackground("title");
 
-        // LOADING IMAGES
+        // Try catch in case there is an error when reading in the images from the "Images" folder
         try
         {
+            // Load the images for the menu pages
             backgroundImg = ImageIO.read(new File("Images/Background.png"));
             highscoreImg = ImageIO.read(new File("Images/highscore.png"));
             // rulesImg = ImageIO.read(new File("Images/rulesImg.png"));
@@ -1396,10 +1626,12 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             gameOverImg = ImageIO.read(new File("Images/gameOver.png"));
             winImg = ImageIO.read(new File("Images/win.png"));
 
+            // Load the images for the unbreakable walls and the breakable walls
             wallImg = ImageIO.read(new File("Images/wall.png"));
             unbreakableWallImg = ImageIO.read(new File("Images/unbreakable.png"));
 
-            characterSprites = new BufferedImage[10];
+            // Load the player sprites into a BufferedImage Array
+            characterSprites = new BufferedImage[8];
             characterSprites[0] = ImageIO.read(new File("Images/boy_down_1.png"));
             characterSprites[1] = ImageIO.read(new File("Images/boy_down_2.png"));
             characterSprites[2] = ImageIO.read(new File("Images/boy_left_1.png"));
@@ -1409,13 +1641,17 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             characterSprites[6] = ImageIO.read(new File("Images/boy_up_1.png"));
             characterSprites[7] = ImageIO.read(new File("Images/boy_up_2.png"));
 
+            // Load the image of the bomb
             bombImg = ImageIO.read(new File("Images/bomb.png"));
 
+            // Load the images of the power ups
             powerUpSpeedImg = ImageIO.read(new File("Images/powerUpSpeed.png"));
             powerUpSlowImg = ImageIO.read(new File("Images/powerUpSlow.png"));
 
+            // Load the image of the door
             doorImg = ImageIO.read(new File("Images/door.png"));
 
+            // Load the image of the enemy
             enemyImg = ImageIO.read(new File("Images/laptop.png"));
 
         }
@@ -1429,7 +1665,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-    // USELESS
+    // USELESS - UNUSED METHODS
     public void mouseClicked(MouseEvent e) {}
     public void mouseReleased(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {}

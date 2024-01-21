@@ -47,3 +47,9 @@ what,5
 dam,435
 80,80
 bruh,575
+null,5
+null,5
+asdaf,0
+asdf,0
+asdf,5
+garwrg,5
