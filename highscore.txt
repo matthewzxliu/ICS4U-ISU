@@ -46,3 +46,4 @@ bomb,65
 what,5
 dam,435
 80,80
+bruh,575
