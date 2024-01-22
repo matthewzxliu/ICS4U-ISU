@@ -1137,26 +1137,31 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             gameState = 6;
         }
 
-        // For each of the enemies
-        for(int i = 0; i < enemies.size(); i++) {
+        // Create an iterator for enemies
+        Iterator<Enemy> iterator = enemies.iterator();
+
+        // Iterate over enemies using the iterator
+        while (iterator.hasNext()) {
+            Enemy currentEnemy = iterator.next();
+
             // Create a rectangle object for the enemy
-            Rectangle enemy = new Rectangle(enemies.get(i).getX(), enemies.get(i).getY(), 40, 40);
+            Rectangle enemy = new Rectangle(currentEnemy.getX(), currentEnemy.getY(), 40, 40);
 
             // If the bomb's explosion (rectangle) intersects the enemy (rectangle) in any direction
-            if(bomb.intersects(enemy) || bombUp.intersects(enemy) || bombDown.intersects(enemy) || bombLeft.intersects(enemy) || bombRight.intersects(enemy)) {
-                // play a sound effect for killing an enemy
+            if (bomb.intersects(enemy) || bombUp.intersects(enemy) || bombDown.intersects(enemy) || bombLeft.intersects(enemy) || bombRight.intersects(enemy)) {
+                // Play a sound effect for killing an enemy
                 try {
                     playMusic("enemyDie");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                // Remove the enemy from the arraylist of enemies
-                enemies.remove(i);
+                // Remove the enemy using the iterator's remove method
+                iterator.remove();
 
                 // If the enemy was killed within 30 seconds: 20 points
                 // If the enemy was killed after 30 seconds: 10 points
-                if(timeElapsedSec <= 30)
+                if (timeElapsedSec <= 30)
                     score += 20;
                 else
                     score += 10;
