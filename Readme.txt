@@ -54,7 +54,6 @@ Any additional functionalities added from your original plan
     - Comparator class
 
 Known bugs / errors in your game
-    - A few times while testing, the speed up powerup (coffee) did not not wear off. Hard to recreate.
     - When you have two coffee power ups, the character may sometimes get stuck in the walls. Can be avoided by holding down a direction at all times.
 
 Any other important info for me to play/mark your game
