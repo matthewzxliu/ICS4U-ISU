@@ -22,6 +22,7 @@ Main.java
         - Kill Enemies: Jeevesh Balendra
     - Matthew Liu
         - Main()
+        - spriteAnimation()
         - mousePressed()
         - keyPressed()
         - keyReleased()
