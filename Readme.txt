@@ -28,7 +28,6 @@ Main.java
         - move()
         - loadMaps()
         - generatePowerUps()
-        - enterHighscoreName()
         - run()
         - playMusic()
         - playBackground()
@@ -37,6 +36,7 @@ Main.java
         - checkCollision()
         - generateEnemies()
         - timesPlayed()
+        - enterHighscoreName()
         - readHighscore()
         - reset()
 
@@ -50,11 +50,12 @@ Any functionalities missing from your original plan for the game
     - N/A.
 
 Any additional functionalities added from your original plan
-    - N/A.
+    - Score.java class
+    - Comparator class
 
 Known bugs / errors in your game
-    - Once while testing the speed up powerup (coffee) didn't not wear off. Hard to recreate.
-    - When you have two coffee power ups, the character may sometimes clip in the walls.
+    - A few times while testing, the speed up powerup (coffee) did not not wear off. Hard to recreate.
+    - When you have two coffee power ups, the character may sometimes get stuck in the walls. Can be avoided by holding down a direction at all times.
 
 Any other important info for me to play/mark your game
     - N/A.
