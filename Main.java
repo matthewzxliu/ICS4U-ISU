@@ -450,11 +450,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             g.setColor(Color.black);
             g.setFont(font);
 
-            // gets the top 5 scores 
-            // sorts arraylist of score objects by score
+            // Gets the top 5 scores 
+            // Sorts arraylist of score objects by score
             Collections.sort(allScores);
             for(int i = 0; i < 5; i++) {
-                // if their name is too long it gets cut off
+                // If their name is too long it gets cut off
                 if(allScores.get(i).getName().length() > 7) {
                     g.drawString((i+1) + ") " + allScores.get(i).getName().substring(0, 7) + ".. : " + allScores.get(i).getScore(), 125, 205 + 50 * i);
                 } else {
@@ -462,11 +462,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 }
             }
 
-            // if they didn't play a game and entered their name there won't be user info
+            // If they didn't play a game and entered their name there won't be user info
             if(nameEntered != null) {
                 // Name and Highest Score
                 g.drawString("Player Information", 300, 250);
-                // name cutoff if too long
+                // Name cutoff if too long
                 if(nameEntered.length() > 7) {
                     g.drawString("Name: " + nameEntered.substring(0, 7) + "...", 300, 275);
                 } else {
@@ -475,13 +475,13 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 g.drawString("Highest Score: "  + highscoreMap.get(nameEntered), 300, 300);
 
                 // Number of times played
-                // sorts by name alphabetically
+                // Sorts by name alphabetically
                 Collections.sort(allScores, new CompareByName());
-                // searches for the position of their name using binary search
+                // Searches for the position of their name using binary search
                 int index = Collections.binarySearch(allScores, new Score(nameEntered, 0), new CompareByName());
                 int lowest = -1;
                 int highest = -1;
-                // checks the lowest and highest index containing their name
+                // Checks the lowest and highest index containing their name
                 for(int i = index; i >= 0; i--) {
                     if(allScores.get(i).getName().equals(nameEntered)){
                         lowest = i;
@@ -493,7 +493,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                     }
                 }
                 
-                // subtracts to find the number of times they played
+                // Subtracts to find the number of times they played
                 int numberOfPlays = highest - lowest + 1;
                 g.drawString(String.format("Number of Plays: %d", numberOfPlays), 300, 325);
 
@@ -1411,11 +1411,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             String line = "";
             while((line = inFile.readLine()) != null)
             {
-                // creates a score object for each score in the textfile
+                // Creates a score object for each score in the textfile
                 Score score = new Score(line.substring(0, line.indexOf(",")), Integer.parseInt(line.substring(line.indexOf(",") + 1)));
-                // adds score to the arraylist
+                // Adds score to the arraylist
                 allScores.add(score);
-                // if the hashmap does not contain this player or they beat their score, the new score is added to the hashmap
+                // If the hashmap does not contain this player or they beat their score, the new score is added to the hashmap
                 if(highscoreMap.get(line.substring(0, line.indexOf(","))) == null || highscoreMap.get(line.substring(0, line.indexOf(","))) < Integer.parseInt(line.substring(line.indexOf(",") + 1))) {
                     highscoreMap.put(line.substring(0, line.indexOf(",")), Integer.parseInt(line.substring(line.indexOf(",") + 1)));
                 }
@@ -1444,6 +1444,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         xPosPlayer = 40;
         yPosPlayer = 40;
         direction = "down";
+        vel = 3;
         enemies.clear();
         xBlocks.clear();
         yBlocks.clear();
