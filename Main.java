@@ -337,36 +337,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 g.drawString(countDownString, 80, 500);
             }
 
-            // Sprite animation, if player is going down/left/right/up, set the player image to one of two sprites
-            playerImg = null;
-            if(direction.equals("down"))
-            {
-                if(spriteNum == 1)
-                    playerImg = characterSprites[0];
-                else
-                    playerImg = characterSprites[1];
-            }
-            else if(direction.equals("left"))
-            {
-                if(spriteNum == 1)
-                    playerImg = characterSprites[2];
-                else
-                    playerImg = characterSprites[3];
-            }
-            else if(direction.equals("right"))
-            {
-                if(spriteNum == 1)
-                    playerImg = characterSprites[4];
-                else
-                    playerImg = characterSprites[5];
-            }
-            else if(direction.equals("up"))
-            {
-                if(spriteNum == 1)
-                    playerImg = characterSprites[6];
-                else
-                    playerImg = characterSprites[7];
-            }
+            spriteAnimation();
 
             // Display the bombs that the player places and start the timer for the bomb explosion
             for(int i = 0; i < bombArray.size(); i++)
@@ -743,6 +714,48 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                     e1.printStackTrace();
                 }
             }
+        }
+    }
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    // SPRITE ANIMATION
+    // Description: This method animates the sprites when the user presses on the movement keys
+    // Parameters: N/A.
+    // Return: N/A.
+    public static void spriteAnimation()
+    {
+        // Sprite animation, if player is going down/left/right/up, set the player image to one of two sprites
+        playerImg = null;
+        if(direction.equals("down"))
+        {
+            if(spriteNum == 1)
+                playerImg = characterSprites[0];
+            else
+                playerImg = characterSprites[1];
+        }
+        else if(direction.equals("left"))
+        {
+            if(spriteNum == 1)
+                playerImg = characterSprites[2];
+            else
+                playerImg = characterSprites[3];
+        }
+        else if(direction.equals("right"))
+        {
+            if(spriteNum == 1)
+                playerImg = characterSprites[4];
+            else
+                playerImg = characterSprites[5];
+        }
+        else if(direction.equals("up"))
+        {
+            if(spriteNum == 1)
+                playerImg = characterSprites[6];
+            else
+                playerImg = characterSprites[7];
         }
     }
 
@@ -1219,6 +1232,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
     // GENERATE POWER UPS
     // Description: This method generates power ups. It generates a random x and y coordinate to spawn the power up on. When creating a power up object,
     //              the sprite that should be drawn as well as the x and y coordinates of the power up are passed in
@@ -1283,6 +1297,7 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
     // GENERATE ENEMIES
     // Description: This method generates 5 enemies based on the map number.
     // Parameters: The map number (int) that was randomly selected in the loadMaps() method
@@ -1316,20 +1331,20 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
 
     // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    // Times played
+    // TIMES PLAYED
     // Description: This method sorts the array of score objects by their usernames
-    // it does binary search to find the number of times they played
+    //              it does binary search to find the number of times they played
     // Parameters: N/A.
-    // Return: integer of the number of times they played.
+    // Return: Integer of the number of times they played.
     public static int timesPlayed() {
         // Number of times played
-        // sorts by name alphabetically
+        // Sorts by name alphabetically
         Collections.sort(allScores, new CompareByName());
-        // searches for the position of their name using binary search
+        // Searches for the position of their name using binary search
         int index = Collections.binarySearch(allScores, new Score(nameEntered, 0), new CompareByName());
         int lowest = -1;
         int highest = -1;
-        // checks the lowest and highest index containing their name
+        // Checks the lowest and highest index containing their name
         for(int i = index; i >= 0; i--) {
             if(allScores.get(i).getName().equals(nameEntered)){
                 lowest = i;
@@ -1341,10 +1356,11 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
             }
         }
                 
-        // subtracts to find the number of times they played
+        // Subtracts to find the number of times they played
         int numberOfPlays = highest - lowest + 1;
         return numberOfPlays;
     }
+
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
