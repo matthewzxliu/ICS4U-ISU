@@ -41,3 +41,5 @@ asdf,0
 asdf,5
 garwrg,5
 null,300
+bob,0
+L,0

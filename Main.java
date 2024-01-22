@@ -474,27 +474,9 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
                 }
                 g.drawString("Highest Score: "  + highscoreMap.get(nameEntered), 300, 300);
 
-                // Number of times played
-                // Sorts by name alphabetically
-                Collections.sort(allScores, new CompareByName());
-                // Searches for the position of their name using binary search
-                int index = Collections.binarySearch(allScores, new Score(nameEntered, 0), new CompareByName());
-                int lowest = -1;
-                int highest = -1;
-                // Checks the lowest and highest index containing their name
-                for(int i = index; i >= 0; i--) {
-                    if(allScores.get(i).getName().equals(nameEntered)){
-                        lowest = i;
-                    }
-                }
-                for(int i = index; i < allScores.size(); i++) {
-                    if(allScores.get(i).getName().equals(nameEntered)){
-                        highest = i;
-                    }
-                }
+                // Calls method that does binary search to find the number of times they played
+                int numberOfPlays = timesPlayed();
                 
-                // Subtracts to find the number of times they played
-                int numberOfPlays = highest - lowest + 1;
                 g.drawString(String.format("Number of Plays: %d", numberOfPlays), 300, 325);
 
                 // Tell them how to see their own info
@@ -1332,6 +1314,37 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         }
     }
 
+    // --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    // Times played
+    // Description: This method sorts the array of score objects by their usernames
+    // it does binary search to find the number of times they played
+    // Parameters: N/A.
+    // Return: integer of the number of times they played.
+    public static int timesPlayed() {
+        // Number of times played
+        // sorts by name alphabetically
+        Collections.sort(allScores, new CompareByName());
+        // searches for the position of their name using binary search
+        int index = Collections.binarySearch(allScores, new Score(nameEntered, 0), new CompareByName());
+        int lowest = -1;
+        int highest = -1;
+        // checks the lowest and highest index containing their name
+        for(int i = index; i >= 0; i--) {
+            if(allScores.get(i).getName().equals(nameEntered)){
+                lowest = i;
+            }
+        }
+        for(int i = index; i < allScores.size(); i++) {
+            if(allScores.get(i).getName().equals(nameEntered)){
+                highest = i;
+            }
+        }
+                
+        // subtracts to find the number of times they played
+        int numberOfPlays = highest - lowest + 1;
+        return numberOfPlays;
+    }
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------
 
