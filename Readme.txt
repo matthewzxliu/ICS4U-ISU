@@ -36,6 +36,7 @@ Main.java
     - Jeevesh Balendra
         - checkCollision()
         - generateEnemies()
+        - timesPlayed()
         - readHighscore()
         - reset()
 
