@@ -1329,11 +1329,15 @@ public class Main extends JPanel implements MouseListener, KeyListener, Runnable
         }
     }
 
-    // --------------------------------------------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
 
     // TIMES PLAYED
     // Description: This method sorts the array of score objects by their usernames
+<<<<<<< Updated upstream
     //              it does binary search to find the number of times they played
+=======
+    // it does binary search and uses loops to find the number of times they played
+>>>>>>> Stashed changes
     // Parameters: N/A.
     // Return: Integer of the number of times they played.
     public static int timesPlayed() {
