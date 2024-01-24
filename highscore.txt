@@ -44,3 +44,8 @@ null,300
 bob,0
 L,0
 L,15
+L,10
+takeLbuddy,175
+I went to sleep!,275
+hamza,35
+Matthew,300
